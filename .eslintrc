@@ -1,0 +1,16 @@
+{
+  "extends": "strelka/react",
+  "globals": { "DEBUG": true },
+  "rules": {
+    "react/display-name": 0,
+    "react/jsx-sort-props": 0,
+    "react/no-deprecated": 0,
+    "react/react-in-jsx-scope": 0
+  },
+  "settings": {
+    "react": {
+      "version": "16.5.2"
+    }
+  },
+  parser: "babel-eslint"
+}
