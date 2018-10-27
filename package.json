@@ -7,6 +7,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-inline-import": "^3.0.0",
     "defaults.css": "^1.2.0",
@@ -23,11 +24,15 @@
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^4.0.0",
     "eslint_d": "^7.1.1",
+    "fast-memoize": "^2.5.1",
+    "fontfaceobserver": "^2.0.13",
     "next": "^7.0.1",
     "pss": "^2.3.1",
+    "random-words": "^1.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-emotion": "^9.2.10",
+    "react-html-attributes": "^1.4.3",
     "recompose": "^0.30.0"
   }
 }

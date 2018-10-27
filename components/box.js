@@ -1,6 +1,7 @@
-import styled from 'react-emotion'
 import { system } from 'pss'
+import styled from 'react-emotion'
+import { Base } from './base'
 
-const Box = styled.div(system)
+const Box = styled(Base)(system)
 
 export default Box

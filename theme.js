@@ -26,10 +26,18 @@ const theme = createTheme({
       fg: '#182AEE'
     }
   },
+  textStyleFlag: {
+    caps: {
+      textTransform: 'uppercase'
+    }
+  },
   textStyle: {
     sporting: {
       fontWeight: 'normal',
-      fontFamily: 'Sporting-Grotesque'
+      fontFamily: 'Sporting-Grotesque',
+      fontSize: 40,
+      lineHeight: 1,
+      letterSpacing: 1.25
     },
     sportingBold: {
       fontWeight: 'bold',

@@ -18,9 +18,8 @@ injectGlobal`
     font-style: 'normal';
     font-weight: 'normal';
     src:
-      url(/static/fonts/sporting-grotesque.woff),
-      url(/static/fonts/sporting-grotesque.woff2);
-
+      url(/static/fonts/sporting-grotesque-regular.woff),
+      url(/static/fonts/sporting-grotesque-regular.woff2);
   }
 
   @font-face {
