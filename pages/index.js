@@ -11,11 +11,11 @@ const Svg = styled.svg(system)
 
 class Index extends React.Component {
   static defaultProps = {
-    loops: [ ...Array(5) ].map(() => ({
-      text: randomWords(10).join('\u00A0').split('')
+    loops: [ ...Array(8) ].map((_, i) => ({
+      text: randomWords(20 - i * 2).join('\u00A0').split('')
     })),
     shift: 40,
-    velocity: 0.15
+    velocity: 0.1
   }
 
   state = {
