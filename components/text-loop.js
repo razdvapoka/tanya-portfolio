@@ -1,13 +1,12 @@
 import React from 'react'
 import styled from 'react-emotion'
 import { Text } from '../components'
-import textLoopTimeline from '../utils/text-loop-timeline'
+import textTextLoopTimeline from '../utils/text-loop-timeline'
 import { KEY_SPACE } from 'keycode-js'
+import { rectPath } from '../utils/path-creators'
 
 const PATH_CLASS_NAME = 'path'
 const CHAR_CLASS_NAME = 'char'
-
-const repeat = (count, item) => [ ...Array(count) ].map(i => item)
 
 const G = styled.g()
 const Char = styled.g({ opacity: 0 })
@@ -20,22 +19,14 @@ const Letter = ({ children, groupIndex }) => (
   </Char>
 )
 
-const PathLoop = ({ width, height, shift, loops }) => {
-  const singlePath = `
-    ${shift},${shift}
-    ${width - shift},${shift}
-    ${width - shift},${height - shift}
-    ${shift},${height - shift}
-  `
-  return (
-    <path
-      className={PATH_CLASS_NAME}
-      fill='none'
-      stroke='black'
-      d={`M ${repeat(loops, singlePath)} Z`}
-    />
-  )
-}
+const PathLoop = ({ pathCreator, ...rest }) => (
+  <path
+    className={PATH_CLASS_NAME}
+    fill='none'
+    stroke='none'
+    d={pathCreator(rest)}
+  />
+)
 
 const LetterGroup = ({ text }) => (
   <G>
@@ -52,20 +43,31 @@ const prePt = cn => `.${cn}`
 const pathSelector = index => `${prePt(className(index))} ${prePt(PATH_CLASS_NAME)}`
 const charSelector = index => `${prePt(className(index))} ${prePt(CHAR_CLASS_NAME)}`
 
-class Loop extends React.Component {
+class TextLoop extends React.Component {
+  static defaultProps = {
+    pathCreator: rectPath
+  }
+
   state = {
     timeline: null
   }
 
   render () {
-    const { index, shift, height, width, text } = this.props
+    const {
+      index,
+      shift,
+      height,
+      width,
+      text,
+      pathCreator
+    } = this.props
     return (
       <G className={className(index)}>
         <PathLoop
           shift={shift}
           width={width}
           height={height}
-          loops={2}
+          pathCreator={pathCreator}
         />
         <LetterGroup text={text} />
       </G>
@@ -89,7 +91,7 @@ class Loop extends React.Component {
 
   componentDidMount () {
     const { index, velocity } = this.props
-    const timeline = textLoopTimeline(
+    const timeline = textTextLoopTimeline(
       pathSelector(index),
       charSelector(index),
       velocity,
@@ -110,4 +112,4 @@ class Loop extends React.Component {
   }
 }
 
-export default Loop
+export default TextLoop
