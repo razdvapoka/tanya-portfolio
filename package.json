@@ -26,6 +26,7 @@
     "eslint_d": "^7.1.1",
     "fast-memoize": "^2.5.1",
     "fontfaceobserver": "^2.0.13",
+    "keycode-js": "^1.0.3",
     "next": "^7.0.1",
     "pss": "^2.3.1",
     "random-words": "^1.1.0",
