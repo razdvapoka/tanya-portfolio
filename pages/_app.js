@@ -2,7 +2,7 @@ import App, { Container } from 'next/app'
 import Head from 'next/head'
 import { hydrate, injectGlobal } from 'react-emotion'
 import { ThemeProvider } from 'emotion-theming'
-import theme from '../theme'
+import { THEME } from '../constants'
 
 injectGlobal`
   html, body, #__next {
@@ -10,7 +10,11 @@ injectGlobal`
   }
 
   html {
-    background-color: ${theme.color.white};
+    background-color: ${THEME.color.white};
+  }
+
+  :root {
+    ${THEME.textStyle.root}
   }
 
   @font-face {
@@ -23,9 +27,9 @@ injectGlobal`
   }
 
   @font-face {
-    font-family: 'Sporting-Grotesque';
+    font-family: 'Sporting-Grotesque-Bold';
     font-style: 'normal';
-    font-weight: 'bold';
+    font-weight: 'normal';
     src:
       url(/static/fonts/sporting-grotesque-bold.woff),
       url(/static/fonts/sporting-grotesque-bold.woff2);
@@ -61,10 +65,10 @@ export default class MyApp extends App {
   render () {
     const { Component, pageProps } = this.props
     return (
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={THEME}>
         <Container>
           <Head>
-            <title>{`Tanya's magic portfolio`}</title>
+            <title>Tanya</title>
             <link rel='icon' href='/static/favicon.ico' />
           </Head>
           <Component {...pageProps} />
