@@ -1,6 +1,6 @@
-import repeat from './repeat'
+import { repeat } from './repeat'
 
-export const randomPath = ({ width, height, shift }) => {
+export const randomPath = ({ width, height }) => {
   const points = [ ...Array(20) ].map(_ => `${Math.random() * width},${Math.random() * height}`)
   return `M ${points.join(' ')} Z`
 }

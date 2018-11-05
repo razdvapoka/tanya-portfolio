@@ -4,12 +4,23 @@ import ReactDOM from 'react-dom'
 import styled from 'react-emotion'
 import { system } from 'pss'
 import { Box, FlexBox, Text } from '../components'
-import randomWords from 'random-words'
 import TextLoop from '../components/text-loop'
-import { THEME, remToPx } from '../constants'
+import { THEME, remToPx, WORD_SETS } from '../constants'
+import { debounce, randomPath } from '../utils'
 
 const Svg = styled.svg(system)
 const Img = styled.img(system)
+
+const Placeholder = ({ width, height, ...rest }) => (
+  <Svg wd ht='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
+    <path
+      d={randomPath({ width, height })}
+      fill='none'
+      stroke='black'
+      strokeWidth={2}
+    />
+  </Svg>
+)
 
 const Tanya = ({ children }) => (
   <FlexBox align='center' pab l={1 / 2} t={1 / 2} transform='translate(-50%, -50%)' mgt={2}>
@@ -23,43 +34,67 @@ const Tanya = ({ children }) => (
 
 class Index extends React.Component {
   static defaultProps = {
-    loops: [ ...Array(3) ].map((_, i) => ({
-      text: randomWords({ exactly: 6 - i, maxLength: 5 }).join('\u00A0').split('')
-    })),
-    shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2,
+    loops: WORD_SETS,
     velocity: 0.2
   }
 
   state = {
     isMounted: false,
+    isResizing: false,
     width: null,
-    height: null
+    height: null,
+    shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2
+  }
+
+  stopResizing = () => {
+    this.setState(() => ({
+      isResizing: false
+    }))
   }
 
   render () {
-    const { loops, shift, velocity } = this.props
-    const { width, height, isMounted } = this.state
+    const { loops, velocity } = this.props
+    const { width, height, shift, isMounted, isResizing } = this.state
     return (
       <Box ht wd prl>
         <Tanya>Tanya!</Tanya>
-        {isMounted && (
+        {isMounted && !isResizing && (
           <Svg wd ht='auto' viewBox={`0 0 ${width} ${height}`}>
-            {loops.map((group, i) => (
+            {loops.map((loop, i) => (
               <TextLoop
                 key={i}
                 index={i}
                 shift={(i + 1) * shift}
                 width={width}
                 height={height}
-                text={group.text}
+                text={loop}
                 velocity={velocity}
               />
             ))}
           </Svg>
         )}
+        {isMounted && isResizing && (
+          <Placeholder width={width} height={height} />
+        )}
       </Box>
     )
   }
+
+  startResizing = () => {
+    this.setState(() => ({
+      isResizing: true
+    }))
+  }
+
+  handleResize = debounce(() => {
+    const node = ReactDOM.findDOMNode(this)
+    const { width, height } = node.getBoundingClientRect()
+    this.setState({
+      width,
+      height,
+      shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2
+    }, this.stopResizing)
+  }, 200)
 
   componentDidMount () {
     const node = ReactDOM.findDOMNode(this)
@@ -69,6 +104,13 @@ class Index extends React.Component {
       width,
       height
     })
+    window.addEventListener('resize', this.startResizing)
+    window.addEventListener('resize', this.handleResize)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.startResizing)
   }
 }
 

@@ -53,4 +53,6 @@ const textLoopTimeline = (pathSelector, charSelector, velocity, spacing = 5) => 
   return timeline
 }
 
-export default textLoopTimeline
+export {
+  textLoopTimeline
+}
