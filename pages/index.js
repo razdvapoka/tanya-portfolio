@@ -81,20 +81,17 @@ class Index extends React.Component {
   }
 
   startResizing = () => {
-    this.setState(() => ({
-      isResizing: true
-    }))
-  }
-
-  handleResize = debounce(() => {
     const node = ReactDOM.findDOMNode(this)
     const { width, height } = node.getBoundingClientRect()
     this.setState({
       width,
       height,
-      shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2
-    }, this.stopResizing)
-  }, 200)
+      shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2,
+      isResizing: true
+    })
+  }
+
+  finishResizing = debounce(this.stopResizing, 200)
 
   componentDidMount () {
     const node = ReactDOM.findDOMNode(this)
@@ -105,11 +102,11 @@ class Index extends React.Component {
       height
     })
     window.addEventListener('resize', this.startResizing)
-    window.addEventListener('resize', this.handleResize)
+    window.addEventListener('resize', this.finishResizing)
   }
 
   componentWillUnmount () {
-    window.removeEventListener('resize', this.handleResize)
+    window.removeEventListener('resize', this.finishResizing)
     window.removeEventListener('resize', this.startResizing)
   }
 }
