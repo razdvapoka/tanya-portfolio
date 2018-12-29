@@ -5,7 +5,7 @@ import styled from 'react-emotion'
 import { system } from 'pss'
 import { Box, FlexBox, Text } from '../components'
 import TextLoop from '../components/text-loop'
-import { THEME, remToPx, WORD_SETS } from '../constants'
+import { THEME, remToPx, remToInt, WORD_SETS } from '../constants'
 import { debounce, randomPath } from '../utils'
 
 const Svg = styled.svg(system)
@@ -43,7 +43,7 @@ class Index extends React.Component {
     isResizing: false,
     width: null,
     height: null,
-    shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2
+    shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.1
   }
 
   stopResizing = () => {
@@ -55,8 +55,9 @@ class Index extends React.Component {
   render () {
     const { loops, velocity } = this.props
     const { width, height, shift, isMounted, isResizing } = this.state
+    const fontSize = remToInt(THEME.textStyle.sporting.fontSize)
     return (
-      <Box ht wd prl>
+      <Box ht wd prl minHt={`${7 * fontSize * 1.2}rem`} maxWd='100vw'>
         <Tanya>Tanya!</Tanya>
         {isMounted && !isResizing && (
           <Svg wd ht='auto' viewBox={`0 0 ${width} ${height}`}>

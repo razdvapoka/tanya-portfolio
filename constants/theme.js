@@ -3,12 +3,13 @@ import { createTheme } from 'pss'
 export const CANONIC_SCREEN_WIDTH = 1440
 export const ROOT_FONT_SIZE = 18
 
-export const pxToRem = (px) => `${(px / ROOT_FONT_SIZE)}rem`
-export const remToPx = (rem) => {
+export const pxToRem = px => `${(px / ROOT_FONT_SIZE)}rem`
+export const remToInt = rem => parseInt(rem.replace('rem', ''))
+export const remToPx = rem => {
   if (typeof window !== 'undefined') {
     const windowWidth = window.innerWidth
     return (
-      parseInt(rem.replace('rem', '')) *
+      remToInt(rem) *
       (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
       windowWidth
     )
