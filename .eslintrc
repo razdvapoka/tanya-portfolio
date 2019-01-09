@@ -5,8 +5,15 @@
     "react/display-name": 0,
     "react/jsx-sort-props": 0,
     "react/no-deprecated": 0,
-    "react/react-in-jsx-scope": 0
+    "react/react-in-jsx-scope": 0,
+    "emotion/jsx-import": "error",
+    "emotion/no-vanilla": "error",
+    "emotion/import-from-emotion": "error",
+    "emotion/styled-import": "error"
   },
+  "plugins": [
+    "emotion"
+  ],
   "settings": {
     "react": {
       "version": "16.5.2"

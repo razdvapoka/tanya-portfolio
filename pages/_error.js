@@ -1,5 +1,5 @@
 import React from 'react'
-import FlexBox from '../components/flexbox'
+import { FlexBox } from 'pss-components'
 
 export default class Error extends React.Component {
   static getInitialProps ({ res, err }) {

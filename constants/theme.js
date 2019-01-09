@@ -1,24 +1,15 @@
-import { createTheme } from 'pss'
-
 export const CANONIC_SCREEN_WIDTH = 1440
 export const ROOT_FONT_SIZE = 18
 
 export const pxToRem = px => `${(px / ROOT_FONT_SIZE)}rem`
 export const remToInt = rem => parseInt(rem.replace('rem', ''))
-export const remToPx = rem => {
-  if (typeof window !== 'undefined') {
-    const windowWidth = window.innerWidth
-    return (
-      remToInt(rem) *
-      (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
-      windowWidth
-    )
-  } else {
-    return 0
-  }
-}
+export const remToPx = rem => typeof window !== 'undefined' ? (
+  remToInt(rem) *
+  (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
+  window.innerWidth
+) : 0
 
-export const THEME = createTheme({
+export const THEME = {
   media: {
     M: '(max-width: 600px)'
   },
@@ -75,4 +66,4 @@ export const THEME = createTheme({
       fontFamily: 'Gaia-Serif'
     }
   }
-})
+}

@@ -1,10 +1,11 @@
 import App, { Container } from 'next/app'
 import Head from 'next/head'
-import { hydrate, injectGlobal } from 'react-emotion'
 import { ThemeProvider } from 'emotion-theming'
 import { THEME } from '../constants'
+import { Global, css } from '@emotion/core'
+import defaults from 'defaults.css'
 
-injectGlobal`
+const globalStyles = css`
   html, body, #__next {
     height: 100%;
   }
@@ -45,12 +46,6 @@ injectGlobal`
   }
 `
 
-// Adds server generated styles to emotion cache.
-// '__NEXT_DATA__.ids' is set in '_document.js'
-if (typeof window !== 'undefined') {
-  hydrate(window.__NEXT_DATA__.ids)
-}
-
 export default class MyApp extends App {
   static async getInitialProps ({ Component, router, ctx }) {
     let pageProps = {}
@@ -70,7 +65,9 @@ export default class MyApp extends App {
           <Head>
             <title>Tanya</title>
             <link rel='icon' href='/static/favicon.ico' />
+            <style dangerouslySetInnerHTML={{ __html: defaults }} />
           </Head>
+          <Global styles={globalStyles} />
           <Component {...pageProps} />
         </Container>
       </ThemeProvider>

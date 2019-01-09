@@ -1,6 +1,6 @@
 import React from 'react'
-import styled from 'react-emotion'
-import { Text } from '../components'
+import styled from '@emotion/styled'
+import { Text } from 'pss-components'
 import { KEY_SPACE } from 'keycode-js'
 import { WHITESPACE } from '../constants'
 import {
@@ -12,12 +12,12 @@ import {
 const PATH_CLASS_NAME = 'path'
 const CHAR_CLASS_NAME = 'char'
 
-const G = styled.g()
-const Char = styled.g({ opacity: 0 })
+const Group = styled('g')()
+const Char = styled(Group)({ opacity: 0 })
 
-const Letter = ({ children, groupIndex, ...rest }) => (
-  <Char className={CHAR_CLASS_NAME} {...rest}>
-    <Text component='text' textStyle='sporting'>
+const Letter = ({ children, groupIndex, innerRef, ...rest }) => (
+  <Char className={CHAR_CLASS_NAME} ref={innerRef} {...rest}>
+    <Text as='text' variant='sporting'>
       {children}
     </Text>
   </Char>
@@ -33,14 +33,14 @@ const PathLoop = ({ pathCreator, innerRef, ...rest }) => (
   />
 )
 
-const LetterGroup = ({ letters, ...rest }) => (
-  <G {...rest}>
+const LetterGrouproup = ({ letters, innerRef, ...rest }) => (
+  <Group ref={innerRef} {...rest}>
     {letters.map((letter, letterIndex) => (
       <Letter key={letterIndex}>
         {letter}
       </Letter>
     ))}
-  </G>
+  </Group>
 )
 
 const className = index => `group-${index}`
@@ -72,7 +72,7 @@ class TextLoop extends React.Component {
     const separator = repeat(whitespaceCount, WHITESPACE).join('')
     const letters = text.join(separator).split('')
     return (
-      <G className={className(index)}>
+      <Group className={className(index)}>
         <PathLoop
           shift={shift}
           width={width}
@@ -80,17 +80,19 @@ class TextLoop extends React.Component {
           pathCreator={pathCreator}
           innerRef={this.setPathRef}
         />
-        <LetterGroup letters={letters} innerRef={this.setLetterGroupRef} />
+        <LetterGrouproup letters={letters} innerRef={this.setLetterGrouproupRef} />
         {!readyToAnimate && (
           <Letter innerRef={this.setWhitespaceRef}>
             {WHITESPACE}
           </Letter>
         )}
-      </G>
+      </Group>
     )
   }
 
   setWhitespaceRef = (ref) => {
+    const { text } = this.props
+    console.log('SET REF:', text, ref)
     this.whitespace = ref
   }
 
@@ -98,8 +100,8 @@ class TextLoop extends React.Component {
     this.path = ref
   }
 
-  setLetterGroupRef = (ref) => {
-    this.letterGroup = ref
+  setLetterGrouproupRef = (ref) => {
+    this.letterGrouproup = ref
   }
 
   toggleAnimation = () => {
@@ -119,15 +121,18 @@ class TextLoop extends React.Component {
 
   componentDidMount () {
     const { text } = this.props
+    console.log('MOUNT', text)
     const pathNode = this.path
     const whitespaceNode = this.whitespace
-    const chars = Array.from(this.letterGroup.querySelectorAll('g'))
+    const chars = Array.from(this.letterGrouproup.querySelectorAll('g'))
     const totalCharWidth = chars.reduce(
       (w, n) => w + n.getBoundingClientRect().width,
       0
     )
     const pathLength = pathNode.getTotalLength() / 2
+    console.log(whitespaceNode.getBoundingClientRect())
     const whitespaceWidth = whitespaceNode.getBoundingClientRect().width
+    console.log('PL', pathLength, totalCharWidth, text.length, whitespaceWidth)
     const whitespaceCount = Math.max(
       Math.floor((pathLength - totalCharWidth) / text.length / whitespaceWidth),
       1

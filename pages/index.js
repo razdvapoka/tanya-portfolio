@@ -1,10 +1,10 @@
 import React from 'react'
 import withFonts from '../hoc/with-fonts'
 import ReactDOM from 'react-dom'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import { system } from 'pss'
-import { Box, FlexBox, Text } from '../components'
-import TextLoop from '../components/text-loop'
+import { Box, FlexBox, Text } from 'pss-components'
+import { TextLoop } from '../components'
 import { THEME, remToPx, remToInt, WORD_SETS } from '../constants'
 import { debounce, randomPath } from '../utils'
 
@@ -12,7 +12,7 @@ const Svg = styled.svg(system)
 const Img = styled.img(system)
 
 const Placeholder = ({ width, height, ...rest }) => (
-  <Svg wd ht='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
+  <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
     <path
       d={randomPath({ width, height })}
       fill='none'
@@ -22,10 +22,16 @@ const Placeholder = ({ width, height, ...rest }) => (
   </Svg>
 )
 
-const Tanya = ({ children }) => (
-  <FlexBox align='center' pab l={1 / 2} t={1 / 2} transform='translate(-50%, -50%)' mgt={2}>
+const CentralPiece = ({ children }) => (
+  <FlexBox
+    align='center'
+    position='absolute'
+    left={1 / 2} top={1 / 2}
+    transform='translate(-50%, -50%)'
+    mgt={2}
+  >
     <Img src='/static/peace-sign.svg' mgb={3} />
-    <Text textStyle='sporting' mgx={2}>
+    <Text variant='sporting' mgx={2}>
       {children}
     </Text>
     <Img src='/static/peace-sign.svg' mgb={3} />
@@ -57,10 +63,20 @@ class Index extends React.Component {
     const { width, height, shift, isMounted, isResizing } = this.state
     const fontSize = remToInt(THEME.textStyle.sporting.fontSize)
     return (
-      <Box ht wd prl minHt={`${7 * fontSize * 1.2}rem`} maxWd='100vw'>
-        <Tanya>Tanya!</Tanya>
+      <Box
+        height
+        width
+        postion='relative'
+        minHeight={`${7 * fontSize * 1.2}rem`}
+        maxWidth='100vw'
+      >
+        <CentralPiece>Tanya!</CentralPiece>
         {isMounted && !isResizing && (
-          <Svg wd ht='auto' viewBox={`0 0 ${width} ${height}`}>
+          <Svg
+            width='100%'
+            height='auto'
+            viewBox={`0 0 ${width} ${height}`}
+          >
             {loops.map((loop, i) => (
               <TextLoop
                 key={i}
