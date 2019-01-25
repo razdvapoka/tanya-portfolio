@@ -1,15 +1,12 @@
-import React from 'react'
-import withFonts from '../hoc/with-fonts'
-import ReactDOM from 'react-dom'
-import styled from '@emotion/styled'
-import { system } from 'pss'
 import { Box, FlexBox, Text } from 'pss-components'
-import { TextLoop } from '../components'
-import { THEME, remToPx, remToInt, WORD_SETS } from '../constants'
-import { debounce, randomPath } from '../utils'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-const Svg = styled.svg(system)
-const Img = styled.img(system)
+import { Header, TextLoop, Section, Svg, PeaceSign } from '../components'
+import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
+import { debounce, randomPath } from '../utils'
+import sections from '../data/section'
+import withFonts from '../hoc/with-fonts'
 
 const Placeholder = ({ width, height, ...rest }) => (
   <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
@@ -20,22 +17,6 @@ const Placeholder = ({ width, height, ...rest }) => (
       strokeWidth={2}
     />
   </Svg>
-)
-
-const CentralPiece = ({ children }) => (
-  <FlexBox
-    align='center'
-    position='absolute'
-    left={1 / 2} top={1 / 2}
-    transform='translate(-50%, -50%)'
-    mgt={2}
-  >
-    <Img src='/static/peace-sign.svg' mgb={3} />
-    <Text variant='sporting' mgx={2}>
-      {children}
-    </Text>
-    <Img src='/static/peace-sign.svg' mgb={3} />
-  </FlexBox>
 )
 
 class Index extends React.Component {
@@ -49,7 +30,7 @@ class Index extends React.Component {
     isResizing: false,
     width: null,
     height: null,
-    shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.1
+    shift: 0
   }
 
   stopResizing = () => {
@@ -58,52 +39,94 @@ class Index extends React.Component {
     }))
   }
 
+  setIntroRef = (ref) => {
+    this.introRef = ref
+  }
+
   render () {
     const { loops, velocity } = this.props
     const { width, height, shift, isMounted, isResizing } = this.state
-    const fontSize = remToInt(THEME.textStyle.sporting.fontSize)
+    const areLoopsVisible = isMounted && !isResizing
     return (
-      <Box
-        height
-        width
-        postion='relative'
-        minHeight={`${7 * fontSize * 1.2}rem`}
-        maxWidth='100vw'
-      >
-        <CentralPiece>Tanya!</CentralPiece>
-        {isMounted && !isResizing && (
-          <Svg
-            width='100%'
-            height='auto'
-            viewBox={`0 0 ${width} ${height}`}
+      <Box postion='relative'>
+        <FlexBox
+          height='100vh'
+          flexDirection='column'
+          pdx={4}
+        >
+          <FlexBox.Item>
+            <Header />
+          </FlexBox.Item>
+          <FlexBox.Item
+            flex={1}
+            ref={this.setIntroRef}
+            position='relative'
           >
-            {loops.map((loop, i) => (
-              <TextLoop
-                key={i}
-                index={i}
-                shift={(i + 1) * shift}
-                width={width}
-                height={height}
-                text={loop}
-                velocity={velocity}
-              />
-            ))}
-          </Svg>
-        )}
-        {isMounted && isResizing && (
-          <Placeholder width={width} height={height} />
-        )}
+            <FlexBox
+              position='absolute'
+              left={1 / 2}
+              top={1 / 2}
+              transform='translate(-50%, -50%)'
+              justifyContent='center'
+              alignItems='center'
+            >
+              <PeaceSign height={pxToRem(70)} />
+              <Text mgx={13} variant='intro'>
+                Tanya
+              </Text>
+              <PeaceSign height={pxToRem(70)} />
+            </FlexBox>
+            {areLoopsVisible && (
+              <Svg viewBox={`0 0 ${width} ${height}`}>
+                {loops.map((loop, i) => (
+                  <TextLoop
+                    key={i}
+                    index={i}
+                    shift={(i + 1) * shift}
+                    width={width}
+                    height={height}
+                    text={loop}
+                    velocity={velocity}
+                  />
+                ))}
+              </Svg>
+            )}
+            {isMounted && isResizing && (
+              <Placeholder width={width} height={height} />
+            )}
+          </FlexBox.Item>
+          <FlexBox.Item>
+            <Box height='marqueeHeight' />
+          </FlexBox.Item>
+        </FlexBox>
+        <main>
+          {sections
+            .items
+            .sort((i1, i2) => i1.fields.order > i2.fields.order)
+            .map(({ sys: { id }, fields }) => (
+              <Section key={id} {...fields} />
+            ))
+          }
+        </main>
       </Box>
     )
   }
 
-  startResizing = () => {
-    const node = ReactDOM.findDOMNode(this)
-    const { width, height } = node.getBoundingClientRect()
-    this.setState({
+  getSizeDependentState = () => {
+    const introNode = ReactDOM.findDOMNode(this.introRef)
+    const { width, height } = introNode.getBoundingClientRect()
+    const rowHeight = remToPx(THEME.textStyle.intro.fontSize) * 1.2
+    const shift = rowHeight + (height - 7 * rowHeight) / 6
+    return {
       width,
       height,
-      shift: remToPx(THEME.textStyle.sporting.fontSize) * 1.2,
+      shift
+    }
+  }
+
+  startResizing = () => {
+    this.setState({
+      ...this.getSizeDependentState(),
       isResizing: true
     })
   }
@@ -111,13 +134,12 @@ class Index extends React.Component {
   finishResizing = debounce(this.stopResizing, 200)
 
   componentDidMount () {
-    const node = ReactDOM.findDOMNode(this)
-    const { width, height } = node.getBoundingClientRect()
+    console.log(this.getSizeDependentState())
     this.setState({
-      isMounted: true,
-      width,
-      height
+      ...this.getSizeDependentState(),
+      isMounted: true
     })
+
     window.addEventListener('resize', this.startResizing)
     window.addEventListener('resize', this.finishResizing)
   }
@@ -132,4 +154,4 @@ const SafeIndex = ({ fontsLoaded }) => fontsLoaded && (
   <Index />
 )
 
-export default withFonts([ { family: 'Sporting-Grotesque' } ])(SafeIndex)
+export default withFonts([ { family: 'Adieu' } ])(SafeIndex)

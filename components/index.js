@@ -1,1 +1,5 @@
 export { default as TextLoop } from './text-loop'
+export { default as Section } from './section'
+export { default as Svg } from './svg'
+export { default as PeaceSign } from './peace-sign'
+export { default as Header } from './header'

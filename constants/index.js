@@ -1,9 +1,9 @@
 export * from './theme'
 export const WHITESPACE = '\u00A0'
 export const WORD_SETS = [ [
-  'designer', 'research', 'web', 'play', 'experimental'
+  'designer', 'educator', 'experiment', 'experience'
 ], [
-  'interactions', 'graphics', 'digital', 'web'
+  'interactions', 'graphics', 'fun!', 'web'
 ], [
-  'theory', 'user', 'experience'
+  'human', 'play', 'digital'
 ] ]

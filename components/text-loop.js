@@ -17,7 +17,7 @@ const Char = styled(Group)({ opacity: 0 })
 
 const Letter = ({ children, groupIndex, innerRef, ...rest }) => (
   <Char className={CHAR_CLASS_NAME} ref={innerRef} {...rest}>
-    <Text as='text' variant='sporting'>
+    <Text as='text' variant='intro'>
       {children}
     </Text>
   </Char>
@@ -27,13 +27,12 @@ const PathLoop = ({ pathCreator, innerRef, ...rest }) => (
   <path
     className={PATH_CLASS_NAME}
     fill='none'
-    stroke='none'
     ref={innerRef}
     d={pathCreator(rest)}
   />
 )
 
-const LetterGrouproup = ({ letters, innerRef, ...rest }) => (
+const LetterGroup = ({ letters, innerRef, ...rest }) => (
   <Group ref={innerRef} {...rest}>
     {letters.map((letter, letterIndex) => (
       <Letter key={letterIndex}>
@@ -80,7 +79,7 @@ class TextLoop extends React.Component {
           pathCreator={pathCreator}
           innerRef={this.setPathRef}
         />
-        <LetterGrouproup letters={letters} innerRef={this.setLetterGrouproupRef} />
+        <LetterGroup letters={letters} innerRef={this.setLetterGroupRef} />
         {!readyToAnimate && (
           <Letter innerRef={this.setWhitespaceRef}>
             {WHITESPACE}
@@ -91,8 +90,6 @@ class TextLoop extends React.Component {
   }
 
   setWhitespaceRef = (ref) => {
-    const { text } = this.props
-    console.log('SET REF:', text, ref)
     this.whitespace = ref
   }
 
@@ -100,7 +97,7 @@ class TextLoop extends React.Component {
     this.path = ref
   }
 
-  setLetterGrouproupRef = (ref) => {
+  setLetterGroupRef = (ref) => {
     this.letterGrouproup = ref
   }
 
@@ -116,12 +113,12 @@ class TextLoop extends React.Component {
   handleKeyPress = (e) => {
     if (e.which === KEY_SPACE) {
       this.toggleAnimation()
+      e.preventDefault()
     }
   }
 
   componentDidMount () {
     const { text } = this.props
-    console.log('MOUNT', text)
     const pathNode = this.path
     const whitespaceNode = this.whitespace
     const chars = Array.from(this.letterGrouproup.querySelectorAll('g'))
@@ -130,9 +127,7 @@ class TextLoop extends React.Component {
       0
     )
     const pathLength = pathNode.getTotalLength() / 2
-    console.log(whitespaceNode.getBoundingClientRect())
     const whitespaceWidth = whitespaceNode.getBoundingClientRect().width
-    console.log('PL', pathLength, totalCharWidth, text.length, whitespaceWidth)
     const whitespaceCount = Math.max(
       Math.floor((pathLength - totalCharWidth) / text.length / whitespaceWidth),
       1
