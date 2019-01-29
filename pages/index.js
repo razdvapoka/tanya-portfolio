@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 import { Header, TextLoop, Section, Svg, PeaceSign } from '../components'
 import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
 import { debounce, randomPath } from '../utils'
-import sections from '../data/section'
+import main from '../data/main'
 import withFonts from '../hoc/with-fonts'
 
 const Placeholder = ({ width, height, ...rest }) => (
@@ -100,13 +100,9 @@ class Index extends React.Component {
           </FlexBox.Item>
         </FlexBox>
         <main>
-          {sections
-            .items
-            .sort((i1, i2) => i1.fields.order > i2.fields.order)
-            .map(({ sys: { id }, fields }) => (
-              <Section key={id} {...fields} />
-            ))
-          }
+          {main.fields.items.map(({ sys: { id }, fields }) => (
+            <Section key={id} {...fields} />
+          ))}
         </main>
       </Box>
     )
@@ -134,7 +130,6 @@ class Index extends React.Component {
   finishResizing = debounce(this.stopResizing, 200)
 
   componentDidMount () {
-    console.log(this.getSizeDependentState())
     this.setState({
       ...this.getSizeDependentState(),
       isMounted: true

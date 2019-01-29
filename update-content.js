@@ -11,24 +11,28 @@ const client = createClient({
   accessToken: TOKEN
 })
 
-const types = [
-  'section'
+const sections = [
+  'main'
 ]
 
 export const getcontent = async () => {
   console.log('> Starting import...')
-  for (const type of types) {
-    console.log('> Getting content for', type)
-    const entries = await client.getEntries({
-      content_type: type,
-      include: 3
-    })
-    fs.writeFileSync(
-      path.join(__dirname, 'data', `${type}.json`),
-      JSON.stringify(entries)
-    )
-    console.log('> Content gotten and written for', type)
-  }
+  sections.forEach(async section => {
+    try {
+      const entries = await client.getEntries({
+        content_type: 'sections',
+        'fields.title': section,
+        include: 4
+      })
+      fs.writeFileSync(
+        path.join(__dirname, 'data', `${section}.json`),
+        JSON.stringify(entries.items[0])
+      )
+      console.log('> Content gotten and written for section', section)
+    } catch (err) {
+      console.error('> Failed to get content for section', section, err)
+    }
+  })
   return true
 }
 

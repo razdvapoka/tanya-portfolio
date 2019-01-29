@@ -3,14 +3,11 @@ export const ROOT_FONT_SIZE = 18
 
 export const pxToRem = px => `${(px / ROOT_FONT_SIZE)}rem`
 export const remToInt = rem => parseFloat(rem.replace('rem', ''))
-export const remToPx = rem => {
-  console.log(rem, remToInt(rem), ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH, window.innerWidth)
-  return typeof window !== 'undefined' ? (
-    remToInt(rem) *
-    (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
-    window.innerWidth
-  ) : 0
-}
+export const remToPx = rem => typeof window !== 'undefined' ? (
+  remToInt(rem) *
+  (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
+  window.innerWidth
+) : 0
 const sequence = (length, step, initial = 0) =>
   [ ...Array(length) ].map((_, i) => initial + i * step)
 

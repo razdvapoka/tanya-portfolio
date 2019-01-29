@@ -1,14 +1,19 @@
-import { pxToRem } from '../constants'
+import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
 import Markdown from 'react-markdown'
 import React from 'react'
-import {
-  Box,
-  FlexGrid,
-  Text,
-  Image
-} from 'pss-components'
 import styled from '@emotion/styled'
-import LazyLoad from 'react-lazyload'
+
+import { pxToRem } from '../constants'
+import Gallery from './gallery'
+import Slider from './slider'
+
+const getSectionContentComp = (sectionType) => {
+  switch (sectionType) {
+    case 'gallery': return Gallery
+    case 'slider': return Slider
+    default: return Box
+  }
+}
 
 const SectionText = styled(Text)`
   & a {
@@ -23,7 +28,7 @@ const SectionHeader = ({
   title,
   description
 }) => (
-  <FlexGrid space={4}>
+  <FlexGrid space={4} zIndex={1}>
     <FlexGrid.Item col={6}>
       <FlexGrid.Content>
         <Text variant='header'>
@@ -45,40 +50,19 @@ const SectionHeader = ({
   </FlexGrid>
 )
 
-const Gallery = ({ items }) => (
-  <FlexGrid spacex={4} spacey={24}>
-    {items.map(item => (
-      <FlexGrid.Item col={6} key={item.sys.id}>
-        <FlexGrid.Content>
-          <LazyLoad
-            placeholder={<Box height={pxToRem(385)} />}
-            offset={100}
-            once
-          >
-            <Image
-              width='100%'
-              height={pxToRem(385)}
-              src={item.fields.image.fields.file.url}
-              bg='grey'
-            />
-          </LazyLoad>
-          <Box opacity={0.6} mgt={1}>
-            <Text variant='caption'>
-              {item.fields.caption}
-            </Text>
-          </Box>
-        </FlexGrid.Content>
-      </FlexGrid.Item>
-    ))}
+const SectionBottom = ({ content }) => (
+  <FlexGrid mgt={15} spacex={4} zIndex={1}>
+    <FlexGrid.Item col={6} offset={6}>
+      <FlexGrid.Content opacity={0.6}>
+        {content && (
+          <SectionText as={Markdown} variant='body'>
+            {content}
+          </SectionText>
+        )}
+      </FlexGrid.Content>
+    </FlexGrid.Item>
   </FlexGrid>
 )
-
-const getContentComp = (sectionType) => {
-  switch (sectionType) {
-    case 'gallery': return Gallery
-    default: return Box
-  }
-}
 
 const Section = ({
   title,
@@ -88,9 +72,9 @@ const Section = ({
   type,
   bottom
 }) => {
-  const Content = getContentComp(type)
+  const SectionContent = getSectionContentComp(type)
   return (
-    <Box
+    <FlexBox
       pdt={7}
       pdb={29}
       pdx={4}
@@ -98,24 +82,17 @@ const Section = ({
       minHeight={pxToRem(1190)}
       position='relative'
       tm={palette}
+      flexDirection='column'
+      justifyContent='space-between'
+      alignItems='stretch'
     >
       <SectionHeader
         title={title}
         description={description}
       />
-      <Content items={items} />
-      {bottom && (
-        <FlexGrid mgt={15} spacex={4}>
-          <FlexGrid.Item col={6} offset={6}>
-            <FlexGrid.Content opacity={0.6}>
-              <SectionText as={Markdown} variant='body'>
-                {bottom}
-              </SectionText>
-            </FlexGrid.Content>
-          </FlexGrid.Item>
-        </FlexGrid>
-      )}
-    </Box>
+      <SectionContent items={items} />
+      <SectionBottom content={bottom} />
+    </FlexBox>
   )
 }
 
