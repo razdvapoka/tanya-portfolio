@@ -6,6 +6,7 @@
     "react/jsx-sort-props": 0,
     "react/no-deprecated": 0,
     "react/react-in-jsx-scope": 0,
+    "react/jsx-handler-names": 0,
     "emotion/jsx-import": "error",
     "emotion/no-vanilla": "error",
     "emotion/import-from-emotion": "error",
