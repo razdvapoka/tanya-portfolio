@@ -8,15 +8,54 @@ import React from 'react'
 import { pxToRem } from '../constants'
 import anime from 'animejs'
 import styled from '@emotion/styled'
+import handleInViewport from 'react-in-viewport'
 
 const VELOCITY = 0.05
 const InlineFlexBox = styled(FlexBox)({
   display: 'inline-flex'
 })
 
+const SliderContent = handleInViewport(({
+  setSlidesRef,
+  items,
+  innerRef
+}) => (
+  <Box
+    ov='hidden'
+    pdy={10}
+    ref={innerRef}
+  >
+    <InlineFlexBox
+      alignItems='center'
+      flexWrap={false}
+      ref={setSlidesRef}
+    >
+      {items.map(item => {
+        const image = item.fields.image.fields.file
+        return (
+          <Box
+            key={item.sys.id}
+            pdr={ps('&:last-child', 12)}
+            mgx={12}
+          >
+            <Image
+              src={image.url}
+              minWidth={pxToRem(image.details.image.width / 2)}
+            />
+          </Box>
+        )
+      })}
+    </InlineFlexBox>
+  </Box>
+))
+
 class Slider extends React.Component {
   state = {
     animationTimeline: null
+  }
+
+  setSlidesRef = (ref) => {
+    this.slides = ref
   }
 
   render () {
@@ -28,32 +67,12 @@ class Slider extends React.Component {
         justifyContent='center'
         onClick={this.toggleAnimation}
       >
-        <Box
-          ov='hidden'
-          pdy={10}
-        >
-          <InlineFlexBox
-            alignItems='center'
-            flexWrap={false}
-            ref={ref => { this.slides = ref }}
-          >
-            {items.map(item => {
-              const image = item.fields.image.fields.file
-              return (
-                <Box
-                  key={item.sys.id}
-                  pdr={ps('&:last-child', 12)}
-                  mgx={12}
-                >
-                  <Image
-                    src={image.url}
-                    minWidth={pxToRem(image.details.image.width / 2)}
-                  />
-                </Box>
-              )
-            })}
-          </InlineFlexBox>
-        </Box>
+        <SliderContent
+          items={items}
+          onLeaveViewport={this.onLeaveViewport}
+          onEnterViewport={this.onEnterViewport}
+          setSlidesRef={this.setSlidesRef}
+        />
       </FlexBox>
     )
   }
@@ -64,7 +83,7 @@ class Slider extends React.Component {
     const timeline = anime.timeline({
       duration: distance / VELOCITY,
       easing: 'linear',
-      autoplay: true,
+      autoplay: false,
       direction: 'alternate',
       loop: true
     })
@@ -85,6 +104,17 @@ class Slider extends React.Component {
     } else {
       animationTimeline.pause()
     }
+  }
+
+  onEnterViewport = () => {
+    const { animationTimeline } = this.state
+    animationTimeline.reverse()
+    animationTimeline.play()
+  }
+
+  onLeaveViewport = () => {
+    const { animationTimeline } = this.state
+    animationTimeline.pause()
   }
 
   componentDidMount () {

@@ -1,12 +1,12 @@
 import { Box, FlexBox, Text } from 'pss-components'
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import { Header, TextLoop, Section, Svg, PeaceSign } from '../components'
 import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
 import { debounce, randomPath } from '../utils'
 import main from '../data/main'
 import withFonts from '../hoc/with-fonts'
+import handleInViewport from 'react-in-viewport'
 
 const Placeholder = ({ width, height, ...rest }) => (
   <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
@@ -19,10 +19,35 @@ const Placeholder = ({ width, height, ...rest }) => (
   </Svg>
 )
 
+const Intro = handleInViewport(({
+  width,
+  height,
+  loops,
+  velocity,
+  shift,
+  innerRef,
+  inViewport
+}) => (
+  <Svg viewBox={`0 0 ${width} ${height}`} ref={innerRef}>
+    {loops.map((loop, i) => (
+      <TextLoop
+        key={i}
+        index={i}
+        shift={(i + 1) * shift}
+        width={width}
+        height={height}
+        text={loop}
+        velocity={velocity}
+        inViewport={inViewport}
+      />
+    ))}
+  </Svg>
+))
+
 class Index extends React.Component {
   static defaultProps = {
     loops: WORD_SETS,
-    velocity: 0.2
+    velocity: 0.1
   }
 
   state = {
@@ -46,7 +71,7 @@ class Index extends React.Component {
   render () {
     const { loops, velocity } = this.props
     const { width, height, shift, isMounted, isResizing } = this.state
-    const areLoopsVisible = isMounted && !isResizing
+    const isIntroVisible = isMounted && !isResizing
     return (
       <Box postion='relative'>
         <FlexBox
@@ -76,20 +101,14 @@ class Index extends React.Component {
               </Text>
               <PeaceSign height={pxToRem(70)} />
             </FlexBox>
-            {areLoopsVisible && (
-              <Svg viewBox={`0 0 ${width} ${height}`}>
-                {loops.map((loop, i) => (
-                  <TextLoop
-                    key={i}
-                    index={i}
-                    shift={(i + 1) * shift}
-                    width={width}
-                    height={height}
-                    text={loop}
-                    velocity={velocity}
-                  />
-                ))}
-              </Svg>
+            {isIntroVisible && (
+              <Intro
+                width={width}
+                height={height}
+                loops={loops}
+                velocity={velocity}
+                shift={shift}
+              />
             )}
             {isMounted && isResizing && (
               <Placeholder width={width} height={height} />

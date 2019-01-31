@@ -138,9 +138,26 @@ class TextLoop extends React.Component {
     })
   }
 
-  componentDidUpdate (_, { readyToAnimate: wasReadyToAnimate }) {
+  playAnimation = () => {
+    const { timeline } = this.state
+    if (timeline) {
+      timeline.play()
+    }
+  }
+
+  pauseAnimation = () => {
+    const { timeline } = this.state
+    if (timeline) {
+      timeline.pause()
+    }
+  }
+
+  componentDidUpdate (
+    { inViewport: wasInViewport },
+    { readyToAnimate: wasReadyToAnimate }
+  ) {
     const { readyToAnimate } = this.state
-    const { index, velocity } = this.props
+    const { index, velocity, inViewport } = this.props
     if (readyToAnimate && !wasReadyToAnimate) {
       const timeline = textLoopTimeline(
         pathSelector(index),
@@ -148,10 +165,16 @@ class TextLoop extends React.Component {
         velocity,
         0
       )
-      timeline.play()
       this.setState({ timeline })
       window.addEventListener('keypress', this.handleKeyPress)
       window.addEventListener('resize', this.handleResize)
+    }
+
+    if (!wasInViewport && inViewport) {
+      this.playAnimation()
+    }
+    if (wasInViewport && !inViewport) {
+      this.pauseAnimation()
     }
   }
 
