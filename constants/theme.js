@@ -1,5 +1,6 @@
 export const CANONIC_SCREEN_WIDTH = 1440
 export const ROOT_FONT_SIZE = 18
+export const SPACE_STEP = 6
 
 export const pxToRem = px => `${(px / ROOT_FONT_SIZE)}rem`
 export const remToInt = rem => parseFloat(rem.replace('rem', ''))
@@ -16,7 +17,7 @@ export const THEME = {
     M: '(max-width: 600px)'
   },
   space: {
-    all: sequence(30, 6).map(pxToRem)
+    all: sequence(30, SPACE_STEP).map(pxToRem)
   },
   size: {
     site: '1440px',

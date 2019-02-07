@@ -7,3 +7,5 @@ export const WORD_SETS = [ [
 ], [
   'human', 'play', 'digital'
 ] ]
+export const SLIDER_VELOCITY = 0.05
+export const SLIDER_LAST_ITEM_PADDING = 12
