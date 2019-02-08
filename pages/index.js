@@ -1,12 +1,14 @@
+import hoistNonReactStatic from 'hoist-non-react-statics'
+import fetch from 'isomorphic-unfetch'
 import { Box, FlexBox, Text } from 'pss-components'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Header, TextLoop, Section, Svg, PeaceSign } from '../components'
 import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
 import { debounce, randomPath } from '../utils'
-import main from '../data/main'
 import withFonts from '../hoc/with-fonts'
 import handleInViewport from 'react-in-viewport'
+import config from 'config'
 
 const Placeholder = ({ width, height, ...rest }) => (
   <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
@@ -44,14 +46,20 @@ const Intro = handleInViewport(({
   </Svg>
 ))
 
-class Index extends React.Component {
+class IndexContent extends React.Component {
   static defaultProps = {
     loops: WORD_SETS,
     velocity: 0.1
   }
 
+  static async getInitialProps () {
+    const res = await fetch(config.siteUrl + '/api/section/main')
+    const main = await res.json()
+    return { main }
+  }
+
   state = {
-    isMounted: false,
+    canRenderIntro: false,
     isResizing: false,
     width: null,
     height: null,
@@ -69,9 +77,9 @@ class Index extends React.Component {
   }
 
   render () {
-    const { loops, velocity } = this.props
-    const { width, height, shift, isMounted, isResizing } = this.state
-    const isIntroVisible = isMounted && !isResizing
+    const { loops, velocity, main } = this.props
+    const { width, height, shift, canRenderIntro, isResizing } = this.state
+    const isIntroVisible = canRenderIntro && !isResizing
     return (
       <Box postion='relative'>
         <FlexBox
@@ -110,7 +118,7 @@ class Index extends React.Component {
                 shift={shift}
               />
             )}
-            {isMounted && isResizing && (
+            {canRenderIntro && isResizing && (
               <Placeholder width={width} height={height} />
             )}
           </FlexBox.Item>
@@ -148,12 +156,17 @@ class Index extends React.Component {
 
   finishResizing = debounce(this.stopResizing, 200)
 
-  componentDidMount () {
-    this.setState({
-      ...this.getSizeDependentState(),
-      isMounted: true
-    })
+  componentDidUpdate ({ fontsLoaded: fontsLoadedPrev }) {
+    const { fontsLoaded } = this.props
+    if (!fontsLoadedPrev && fontsLoaded) {
+      this.setState({
+        ...this.getSizeDependentState(),
+        canRenderIntro: true
+      })
+    }
+  }
 
+  componentDidMount () {
     window.addEventListener('resize', this.startResizing)
     window.addEventListener('resize', this.finishResizing)
   }
@@ -164,8 +177,7 @@ class Index extends React.Component {
   }
 }
 
-const SafeIndex = ({ fontsLoaded }) => fontsLoaded && (
-  <Index />
-)
+const Index = withFonts([ { family: 'Adieu' } ])(IndexContent)
+hoistNonReactStatic(Index, IndexContent)
 
-export default withFonts([ { family: 'Adieu' } ])(SafeIndex)
+export default Index

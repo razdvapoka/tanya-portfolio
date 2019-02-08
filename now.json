@@ -2,6 +2,9 @@
   "name": "tanya-ermolaeva",
   "alias": "tanya-ermolaeva.now.sh",
   "public": true,
-  "version": 1
+  "version": 2,
+  "builds": [
+    { "src": "next.config.js", "use": "@now/next" }
+  ]
 }
 
