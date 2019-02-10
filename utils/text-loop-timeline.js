@@ -42,9 +42,8 @@ const textLoopTimeline = (pathSelector, charSelector, velocity, spacing = 5) => 
       translateY: path('y'),
       rotate: path('angle'),
       begin: showCharHandler(char),
-      complete: hideCharHandler(char),
-      offset
-    })
+      complete: hideCharHandler(char)
+    }, offset)
   })
 
   const start = (distance / 2 - getWidth(last(chars))) / velocity
