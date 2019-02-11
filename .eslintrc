@@ -1,6 +1,6 @@
 {
   "extends": "strelka/react",
-  "globals": { "DEBUG": true },
+  "globals": { "DEBUG": true, "CONFIG": true },
   "rules": {
     "react/display-name": 0,
     "react/jsx-sort-props": 0,

@@ -8,7 +8,6 @@ import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
 import { debounce, randomPath } from '../utils'
 import withFonts from '../hoc/with-fonts'
 import handleInViewport from 'react-in-viewport'
-import config from 'config'
 
 const Placeholder = ({ width, height, ...rest }) => (
   <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
@@ -53,7 +52,7 @@ class IndexContent extends React.Component {
   }
 
   static async getInitialProps () {
-    const res = await fetch(config.siteUrl + '/api/section/main')
+    const res = await fetch(CONFIG.siteUrl + '/api/section/main')
     const main = await res.json()
     return { main }
   }
@@ -128,7 +127,7 @@ class IndexContent extends React.Component {
         </FlexBox>
         <main>
           {main.fields.items.map(({ sys: { id }, fields }) => (
-            <Section key={id} {...fields} />
+            <Section key={id} sections={main.fields.items} {...fields} />
           ))}
         </main>
       </Box>
