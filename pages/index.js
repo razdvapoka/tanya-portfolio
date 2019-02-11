@@ -8,6 +8,8 @@ import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
 import { debounce, randomPath } from '../utils'
 import withFonts from '../hoc/with-fonts'
 import handleInViewport from 'react-in-viewport'
+import getConfig from 'next/config'
+const { publicRuntimeConfig } = getConfig()
 
 const Placeholder = ({ width, height, ...rest }) => (
   <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
@@ -52,7 +54,7 @@ class IndexContent extends React.Component {
   }
 
   static async getInitialProps () {
-    const res = await fetch(CONFIG.siteUrl + '/api/section/main')
+    const res = await fetch(publicRuntimeConfig.siteUrl + '/api/section/main')
     const main = await res.json()
     return { main }
   }
