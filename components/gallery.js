@@ -6,19 +6,28 @@ import { pxToRem } from '../constants'
 const Gallery = ({ items }) => (
   <FlexGrid spacex={4} spacey={24}>
     {items.map(item => (
-      <FlexGrid.Item col={6} key={item.sys.id} id={item.fields.hash}>
+      <FlexGrid.Item
+        col={6}
+        key={item.sys.id}
+        id={item.fields.hash}
+      >
         <FlexGrid.Content>
           <LazyLoad
             placeholder={<Box height={pxToRem(385)} />}
             offset={100}
             once
           >
-            <Image
-              width
-              height={pxToRem(385)}
-              src={item.fields.image.fields.file.url}
-              bg='grey'
-            />
+            <Box
+              className='highlighter'
+              outline={`${pxToRem(5)} solid transparent`}
+            >
+              <Image
+                width
+                height={pxToRem(385)}
+                src={item.fields.image.fields.file.url}
+                bg='grey'
+              />
+            </Box>
           </LazyLoad>
           <Box opacity={0.6} mgt={1}>
             <Text variant='caption'>

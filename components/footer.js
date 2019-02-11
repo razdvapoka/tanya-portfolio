@@ -15,7 +15,8 @@ const List = styled(FlexBox)({
 const ScrollToHashLink = withRouter(({
   router,
   hash,
-  children
+  children,
+  highlight
 }) => {
   const handleClick = useMemo(() => () => {
     const scrollTarget = document.querySelector(`#${hash}`)
@@ -26,8 +27,19 @@ const ScrollToHashLink = withRouter(({
       scrollTop: top + window.scrollY,
       easing: 'linear',
       duration,
-      complete: () => router.push(`/#${hash}`)
+      complete: () => {
+        router.push(`/#${hash}`)
+      }
     })
+    if (highlight) {
+      anime({
+        targets: `#${hash} .highlighter`,
+        keyframes: [
+          { outlineColor: '#FF0000', delay: duration, duration: 500, easing: 'linear' },
+          { outlineColor: 'rgba(0,0,0,0)', duration: 500, easing: 'linear' }
+        ]
+      })
+    }
   }, [ hash ])
   return (
     <Text
@@ -55,7 +67,7 @@ const Footer = ({ sections }) => {
               {selectedSection.fields.items.map((item, itemIndex) => {
                 return (
                   <li key={itemIndex}>
-                    <ScrollToHashLink hash={item.fields.hash}>
+                    <ScrollToHashLink hash={item.fields.hash} highlight>
                       {item.fields.title}
                     </ScrollToHashLink>
                   </li>
