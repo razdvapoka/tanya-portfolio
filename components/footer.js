@@ -1,8 +1,9 @@
 import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
-import Link from 'next/link'
 import React, { useMemo } from 'react'
 import styled from '@emotion/styled'
 import { withRouter } from 'next/router'
+import anime from 'animejs'
+import { SCROLL_VELOCITY } from '../constants'
 
 const List = styled(FlexBox)({
   margin: 0,
@@ -11,7 +12,34 @@ const List = styled(FlexBox)({
   listStyleType: 'none'
 }).withComponent('ul')
 
-const Footer = ({ sections, router }) => {
+const ScrollToHashLink = withRouter(({
+  router,
+  hash,
+  children
+}) => {
+  const handleClick = useMemo(() => () => {
+    const scrollTarget = document.querySelector(`#${hash}`)
+    const { top } = scrollTarget.getBoundingClientRect()
+    const duration = Math.abs(top, window.scrollY) / SCROLL_VELOCITY
+    anime({
+      targets: window.document.scrollingElement,
+      scrollTop: top + window.scrollY,
+      easing: 'linear',
+      duration,
+      complete: () => router.push(`/#${hash}`)
+    })
+  }, [ hash ])
+  return (
+    <Text
+      variant='body'
+      onClick={handleClick}
+    >
+      {children}
+    </Text>
+  )
+})
+
+const Footer = ({ sections }) => {
   const selectedSection = useMemo(
     () => sections.filter(
       section => section.fields.isFooterFeatured
@@ -25,16 +53,11 @@ const Footer = ({ sections, router }) => {
           <FlexGrid.Content>
             <List flexDirection='column'>
               {selectedSection.fields.items.map((item, itemIndex) => {
-                const href = `/#${item.fields.hash}`
                 return (
                   <li key={itemIndex}>
-                    <Link href={href}>
-                      <a>
-                        <Text variant='body'>
-                          {item.fields.title}
-                        </Text>
-                      </a>
-                    </Link>
+                    <ScrollToHashLink hash={item.fields.hash}>
+                      {item.fields.title}
+                    </ScrollToHashLink>
                   </li>
                 )
               })}
@@ -51,13 +74,9 @@ const Footer = ({ sections, router }) => {
               <List height='100%' flexDirection='column' justifyContent='space-between'>
                 {sections.filter(_ => _.fields.isFooterListed).map((section, sectionIndex) => (
                   <li key={sectionIndex}>
-                    <Link href={`/#${section.fields.hash}`}>
-                      <a>
-                        <Text variant='body' as='span'>
-                          {section.fields.title}
-                        </Text>
-                      </a>
-                    </Link>
+                    <ScrollToHashLink hash={section.fields.hash}>
+                      {section.fields.title}
+                    </ScrollToHashLink>
                   </li>
                 ))}
               </List>
@@ -69,4 +88,4 @@ const Footer = ({ sections, router }) => {
   ) : null
 }
 
-export default withRouter(Footer)
+export default Footer
