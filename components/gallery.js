@@ -6,7 +6,7 @@ import { pxToRem } from '../constants'
 const Gallery = ({ items }) => (
   <FlexGrid spacex={4} spacey={24}>
     {items.map(item => (
-      <FlexGrid.Item col={6} key={item.sys.id}>
+      <FlexGrid.Item col={6} key={item.sys.id} id={item.fields.hash}>
         <FlexGrid.Content>
           <LazyLoad
             placeholder={<Box height={pxToRem(385)} />}

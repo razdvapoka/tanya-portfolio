@@ -1,17 +1,25 @@
-import { Box, FlexGrid } from 'pss-components'
+import { Box, FlexBox, FlexGrid } from 'pss-components'
 import Markdown from 'react-markdown'
 import React from 'react'
-import StyledText from '../styled-text'
-import SectionHeader from './header'
-import { pxToRem } from '../../constants'
-import Gallery from '../gallery'
-import Slider from '../slider'
 
-const getSectionContentComp = (sectionType) => {
+import { pxToRem } from '../../constants'
+import Footer from '../footer'
+import Gallery from '../gallery'
+import SectionHeader from './header'
+import Slider from '../slider'
+import StyledText from '../styled-text'
+
+const getSectionProps = (sectionType) => {
   switch (sectionType) {
-    case 'gallery': return Gallery
-    case 'slider': return Slider
-    default: return Box
+    case 'gallery': return { component: Gallery }
+    case 'slider': return { component: Slider }
+    case 'footer': return {
+      component: Footer,
+      minHeight: pxToRem(790),
+      pdb: 14,
+      as: 'footer'
+    }
+    default: return { component: Box }
   }
 }
 
@@ -30,16 +38,23 @@ const SectionBottom = ({ content }) => (
 )
 
 const Section = ({
+  hash,
   title,
   description,
   items,
   palette,
   type,
-  bottom
+  bottom,
+  sections
 }) => {
-  const SectionContent = getSectionContentComp(type)
+  const {
+    component: SectionContent,
+    ...rest
+  } = getSectionProps(type)
   return (
-    <Box
+    <FlexBox
+      id={hash}
+      flexDirection='column'
       pdt={7}
       pdb={29}
       pdx={4}
@@ -47,14 +62,15 @@ const Section = ({
       minHeight={pxToRem(1190)}
       position='relative'
       tm={palette}
+      {...rest}
     >
       <SectionHeader
         title={title}
         description={description}
       />
-      <SectionContent items={items} />
-      <SectionBottom content={bottom} />
-    </Box>
+      <SectionContent items={items} sections={sections} />
+      {bottom && <SectionBottom content={bottom} />}
+    </FlexBox>
   )
 }
 
