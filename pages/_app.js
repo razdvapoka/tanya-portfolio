@@ -19,12 +19,12 @@ const globalStyles = css`
   }
 
   @font-face {
-    font-family: 'Adieu';
+    font-family: 'Suisse';
     font-style: 'normal';
     font-weight: 'normal';
     src:
-      url(/static/fonts/adieu-regular.woff),
-      url(/static/fonts/adieu-regular.woff2);
+      url(/static/fonts/suisse-intl-book.woff),
+      url(/static/fonts/suisse-intl-book.woff2);
   }
 `
 

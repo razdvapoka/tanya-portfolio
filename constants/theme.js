@@ -65,7 +65,7 @@ export const THEME = {
     },
     header: {
       fontWeight: 'normal',
-      fontFamily: 'Adieu',
+      fontFamily: 'Suisse',
       fontSize: pxToRem(60),
       lineHeight: 1,
       letterSpacing: -0.6,
@@ -73,10 +73,8 @@ export const THEME = {
     },
     intro: {
       fontWeight: 'normal',
-      fontFamily: 'Adieu',
+      fontFamily: 'Suisse',
       fontSize: pxToRem(100),
-      lineHeight: 1,
-      letterSpacing: -1,
       textTransform: 'uppercase'
     },
     body: {

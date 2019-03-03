@@ -98,7 +98,7 @@ class TextLoop extends React.Component {
   }
 
   setLetterGroupRef = (ref) => {
-    this.letterGrouproup = ref
+    this.letterGroup = ref
   }
 
   toggleAnimation = () => {
@@ -121,7 +121,7 @@ class TextLoop extends React.Component {
     const { text } = this.props
     const pathNode = this.path
     const whitespaceNode = this.whitespace
-    const chars = Array.from(this.letterGrouproup.querySelectorAll('g'))
+    const chars = Array.from(this.letterGroup.querySelectorAll('g'))
     const totalCharWidth = chars.reduce(
       (w, n) => w + n.getBoundingClientRect().width,
       0

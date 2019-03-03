@@ -1,51 +1,16 @@
-import hoistNonReactStatic from 'hoist-non-react-statics'
-import fetch from 'isomorphic-unfetch'
 import { Box, FlexBox, Text } from 'pss-components'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Header, TextLoop, Section, Svg, PeaceSign } from '../components'
-import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
-import { debounce, randomPath } from '../utils'
-import withFonts from '../hoc/with-fonts'
-import handleInViewport from 'react-in-viewport'
+import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
+import hoistNonReactStatic from 'hoist-non-react-statics'
+
+import { Header, Intro, PeaceSign, Section } from '../components'
+import { THEME, WORD_SETS, pxToRem, remToPx } from '../constants'
+import { debounce } from '../utils'
+import withFonts from '../hoc/with-fonts'
+
 const { publicRuntimeConfig } = getConfig()
-
-const Placeholder = ({ width, height, ...rest }) => (
-  <Svg width='100%' height='auto' viewBox={`0 0 ${width} ${height}`} {...rest}>
-    <path
-      d={randomPath({ width, height })}
-      fill='none'
-      stroke='black'
-      strokeWidth={2}
-    />
-  </Svg>
-)
-
-const Intro = handleInViewport(({
-  width,
-  height,
-  loops,
-  velocity,
-  shift,
-  innerRef,
-  inViewport
-}) => (
-  <Svg viewBox={`0 0 ${width} ${height}`} ref={innerRef}>
-    {loops.map((loop, i) => (
-      <TextLoop
-        key={i}
-        index={i}
-        shift={(i + 1) * shift}
-        width={width}
-        height={height}
-        text={loop}
-        velocity={velocity}
-        inViewport={inViewport}
-      />
-    ))}
-  </Svg>
-))
 
 class IndexContent extends React.Component {
   static defaultProps = {
@@ -83,18 +48,12 @@ class IndexContent extends React.Component {
     const isIntroVisible = canRenderIntro && !isResizing
     return (
       <Box postion='relative'>
-        <FlexBox
-          height='100vh'
-          flexDirection='column'
-          pdx={4}
-        >
-          <FlexBox.Item>
-            <Header />
-          </FlexBox.Item>
-          <FlexBox.Item
-            flex={1}
+        <Box pdx={4}>
+          <Header />
+          <Box
             ref={this.setIntroRef}
             position='relative'
+            height={pxToRem(670)}
           >
             <FlexBox
               position='absolute'
@@ -119,14 +78,9 @@ class IndexContent extends React.Component {
                 shift={shift}
               />
             )}
-            {canRenderIntro && isResizing && (
-              <Placeholder width={width} height={height} />
-            )}
-          </FlexBox.Item>
-          <FlexBox.Item>
-            <Box height='marqueeHeight' />
-          </FlexBox.Item>
-        </FlexBox>
+          </Box>
+          <Box height='marqueeHeight' />
+        </Box>
         <main>
           {main.fields.items.map(({ sys: { id }, fields }) => (
             <Section key={id} sections={main.fields.items} {...fields} />
@@ -139,12 +93,11 @@ class IndexContent extends React.Component {
   getSizeDependentState = () => {
     const introNode = ReactDOM.findDOMNode(this.introRef)
     const { width, height } = introNode.getBoundingClientRect()
-    const rowHeight = remToPx(THEME.textStyle.intro.fontSize) * 1.2
-    const shift = rowHeight + (height - 7 * rowHeight) / 6
+    const rowHeight = remToPx(THEME.textStyle.intro.fontSize)
     return {
       width,
-      height,
-      shift
+      height: height + remToPx(pxToRem(60)),
+      shift: rowHeight
     }
   }
 
@@ -178,7 +131,7 @@ class IndexContent extends React.Component {
   }
 }
 
-const Index = withFonts([ { family: 'Adieu' } ])(IndexContent)
+const Index = withFonts([ { family: 'Suisse' } ])(IndexContent)
 hoistNonReactStatic(Index, IndexContent)
 
 export default Index
