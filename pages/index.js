@@ -47,13 +47,14 @@ class IndexContent extends React.Component {
     const { width, height, shift, canRenderIntro, isResizing } = this.state
     const isIntroVisible = canRenderIntro && !isResizing
     return (
-      <Box postion='relative'>
+      <Box postion='relative' mgt={1}>
         <Box pdx={4}>
           <Header />
           <Box
             ref={this.setIntroRef}
             position='relative'
             height={pxToRem(670)}
+            mgt={2}
           >
             <FlexBox
               position='absolute'

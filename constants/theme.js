@@ -28,7 +28,9 @@ export const THEME = {
     black: '#1e1e1e',
     white: '#ffffff',
     blue: '#182AEE',
-    grey: '#898989'
+    grey: '#898989',
+    red: '#FF0000',
+    green: '#55E1A4'
   },
   palette: {
     default: {
@@ -66,9 +68,8 @@ export const THEME = {
     header: {
       fontWeight: 'normal',
       fontFamily: 'Suisse',
-      fontSize: pxToRem(60),
-      lineHeight: 1,
-      letterSpacing: -0.6,
+      fontSize: pxToRem(100),
+      lineHeight: 84 / 100,
       textTransform: 'uppercase'
     },
     intro: {
