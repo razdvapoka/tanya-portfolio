@@ -13,7 +13,11 @@ const Intro = handleInViewport(({
   innerRef,
   inViewport
 }) => (
-  <Svg viewBox={`0 0 ${width} ${height}`} ref={innerRef} mgt={`-${pxToRem(30)}`}>
+  <Svg
+    viewBox={`0 0 ${width} ${height}`}
+    ref={innerRef}
+    mgt={`-${pxToRem(30)}`}
+  >
     {loops.map((loop, i) => (
       <TextLoop
         key={i}

@@ -1,11 +1,13 @@
 import { repeat } from './repeat'
 
-export const randomPath = ({ width, height }) => {
-  const points = [ ...Array(20) ].map(_ => `${Math.random() * width},${Math.random() * height}`)
+export const randomPath = ({ width, height, pointCount = 20 }) => {
+  const points =
+    [ ...Array(pointCount) ]
+      .map(_ => `${Math.random() * width},${Math.random() * height}`)
   return `M ${points.join(' ')} Z`
 }
 
-export const rectPath = ({ width, height, shift }) => {
+export const doubleRectPath = ({ width, height, shift }) => {
   const singlePath = `
       ${shift},${shift}
       ${width - shift},${shift}

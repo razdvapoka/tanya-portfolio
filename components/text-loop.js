@@ -6,7 +6,7 @@ import { WHITESPACE } from '../constants'
 import {
   textLoopTimeline,
   repeat,
-  rectPath
+  doubleRectPath
 } from '../utils'
 
 const PATH_CLASS_NAME = 'path'
@@ -49,7 +49,7 @@ const charSelector = index => `${prePt(className(index))} ${prePt(CHAR_CLASS_NAM
 
 class TextLoop extends React.Component {
   static defaultProps = {
-    pathCreator: rectPath
+    pathCreator: doubleRectPath
   }
 
   state = {
