@@ -1,5 +1,7 @@
 import anime from 'animejs'
 
+import { CANONIC_SCREEN_WIDTH } from '../constants'
+
 const getSize = node => {
   const { width, height } = node.getBoundingClientRect()
   return { width, height }
@@ -10,12 +12,13 @@ const hideCharHandler = (char) => () => { char.style.opacity = 0 }
 const showCharHandler = (char) => () => { char.style.opacity = 1 }
 const sumArr = (arr) => arr.reduce((sum, next) => sum + next, 0)
 
-const textLoopTimeline = (pathSelector, charSelector, velocity, spacing = 5) => {
-  const path = anime.path(pathSelector)
+const textLoopTimeline = (pathNode, chars, velocity) => {
+  const path = anime.path(pathNode)
   const distance = path().totalLength
   const duration = distance / velocity
-  const chars = Array.from(document.querySelectorAll(charSelector))
-  const delays = chars.map(char => (getWidth(char) + spacing) / velocity)
+  const delays = chars.map(char =>
+    CANONIC_SCREEN_WIDTH / window.innerWidth * getWidth(char) / velocity
+  )
   const milestone = (distance - getWidth(last(chars))) / velocity
 
   const timeline = anime.timeline({

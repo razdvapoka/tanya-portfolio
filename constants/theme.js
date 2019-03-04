@@ -76,6 +76,7 @@ export const THEME = {
       fontWeight: 'normal',
       fontFamily: 'Suisse',
       fontSize: pxToRem(100),
+      lineHeight: 1,
       textTransform: 'uppercase'
     },
     body: {

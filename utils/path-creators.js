@@ -7,12 +7,13 @@ export const randomPath = ({ width, height, pointCount = 20 }) => {
   return `M ${points.join(' ')} Z`
 }
 
-export const doubleRectPath = ({ width, height, shift }) => {
+export const doubleRectPath = ({ width, height, shift, padding }) => {
+  const paddedShift = shift + padding
   const singlePath = `
-      ${shift},${shift}
-      ${width - shift},${shift}
-      ${width - shift},${height - shift}
-      ${shift},${height - shift}
+      ${paddedShift},${paddedShift}
+      ${width - paddedShift},${paddedShift}
+      ${width - paddedShift},${height - paddedShift}
+      ${paddedShift},${height - paddedShift}
     `
   return `M ${repeat(2, singlePath)} Z`
 }
