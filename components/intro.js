@@ -159,11 +159,11 @@ const Intro = ({
   shift,
   innerRef,
   inViewport,
-  padding,
-  isResizing
+  padding
 }) => {
   const [ whitespaceWidth, setWhitespaceWidth ] = useState(null)
   const [ letterBox, setLetterBox ] = useState(null)
+  const canRenderLoop = whitespaceWidth != null && letterBox != null
   return (
     <Box>
       <Whitespace setWhitespaceWidth={setWhitespaceWidth} />
@@ -175,22 +175,20 @@ const Intro = ({
         viewBox={`0 0 ${width} ${height}`}
         ref={innerRef}
       >
-        {loops.map((loop, loopIndex) =>
-          whitespaceWidth != null &&
-          letterBox != null && (
-            <Loop
-              key={loopIndex}
-              index={loopIndex}
-              loop={loop}
-              whitespaceWidth={whitespaceWidth}
-              width={width}
-              height={height}
-              shift={shift}
-              padding={padding}
-              letterBox={letterBox}
-              velocity={velocity}
-            />
-          )
+        {loops.map((loop, loopIndex) => canRenderLoop && (
+          <Loop
+            key={loopIndex}
+            index={loopIndex}
+            loop={loop}
+            whitespaceWidth={whitespaceWidth}
+            width={width}
+            height={height}
+            shift={shift}
+            padding={padding}
+            letterBox={letterBox}
+            velocity={velocity}
+          />
+        )
         )}
       </Svg>
     </Box>

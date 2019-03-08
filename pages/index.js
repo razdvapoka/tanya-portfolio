@@ -3,15 +3,25 @@ import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import hoistNonReactStatic from 'hoist-non-react-statics'
-
-import { Header, Intro, Section } from '../components'
-import { WORD_SETS, pxToRem } from '../constants'
-import { debounce } from '../utils'
 import withFonts from '../hoc/with-fonts'
+
+import {
+  INTRO_HEIGHT,
+  INTRO_SHIFT,
+  INTRO_WIDTH,
+  WORD_SETS,
+  pxToRem
+} from '../constants'
+
+import {
+  Header,
+  Intro,
+  Section
+} from '../components'
 
 const { publicRuntimeConfig } = getConfig()
 
-class IndexContent extends React.Component {
+class Index extends React.Component {
   static defaultProps = {
     loops: WORD_SETS,
     velocity: 0.1
@@ -23,45 +33,30 @@ class IndexContent extends React.Component {
     return { main }
   }
 
-  state = {
-    canRenderIntro: false,
-    isResizing: false,
-    width: null,
-    height: null,
-    shift: 0
-  }
-
-  stopResizing = () => {
-    this.setState({ isResizing: false })
-  }
-
-  setIntroRef = (ref) => {
-    this.introRef = ref
-  }
-
   render () {
-    const { loops, velocity, main } = this.props
-    const { canRenderIntro, isResizing } = this.state
-    const isIntroVisible = canRenderIntro
+    const {
+      loops,
+      velocity,
+      main,
+      fontsLoaded
+    } = this.props
     return (
       <Box postion='relative' mgt={1}>
         <Box pdx={4}>
           <Header />
           <Box
-            ref={this.setIntroRef}
             position='relative'
             height={pxToRem(670)}
             mgt={2}
           >
-            {isIntroVisible && (
+            {fontsLoaded && (
               <Intro
-                width={1386}
-                height={671}
+                width={INTRO_WIDTH}
+                height={INTRO_HEIGHT}
                 loops={loops}
                 velocity={velocity}
-                shift={100}
+                shift={INTRO_SHIFT}
                 padding={0}
-                isResizing={isResizing}
               />
             )}
           </Box>
@@ -75,32 +70,9 @@ class IndexContent extends React.Component {
       </Box>
     )
   }
-
-  startResizing = () => {
-    this.setState({ isResizing: true })
-  }
-
-  finishResizing = debounce(this.stopResizing, 200)
-
-  componentDidUpdate ({ fontsLoaded: fontsLoadedPrev }) {
-    const { fontsLoaded } = this.props
-    if (!fontsLoadedPrev && fontsLoaded) {
-      this.setState({ canRenderIntro: true })
-    }
-  }
-
-  componentDidMount () {
-    window.addEventListener('resize', this.startResizing)
-    window.addEventListener('resize', this.finishResizing)
-  }
-
-  componentWillUnmount () {
-    window.removeEventListener('resize', this.finishResizing)
-    window.removeEventListener('resize', this.startResizing)
-  }
 }
 
-const Index = withFonts([ { family: 'Suisse' } ])(IndexContent)
-hoistNonReactStatic(Index, IndexContent)
+const IndexWithFonts = withFonts([ { family: 'Suisse' } ])(Index)
+hoistNonReactStatic(IndexWithFonts, Index)
 
-export default Index
+export default IndexWithFonts

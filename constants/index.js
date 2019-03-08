@@ -10,3 +10,6 @@ export const WORD_SETS = [ [
 export const SLIDER_VELOCITY = 0.05
 export const SLIDER_LAST_ITEM_PADDING = 12
 export const SCROLL_VELOCITY = 5
+export const INTRO_WIDTH = 1386
+export const INTRO_HEIGHT = 671
+export const INTRO_SHIFT = 100
