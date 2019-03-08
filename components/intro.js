@@ -188,8 +188,7 @@ const Intro = ({
             letterBox={letterBox}
             velocity={velocity}
           />
-        )
-        )}
+        ))}
       </Svg>
     </Box>
   )

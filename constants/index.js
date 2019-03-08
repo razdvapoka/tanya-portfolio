@@ -1,11 +1,11 @@
 export * from './theme'
 export const WHITESPACE = '\u00A0'
 export const WORD_SETS = [ [
-  'designer', 'educator', 'experiment', 'experience'
+  'design', 'education', 'criticism', 'experiments', 'play', 'research'
 ], [
-  'interactions', 'graphics', 'fun!', 'web'
+  'interactions', 'graphics', 'motion', 'type'
 ], [
-  'human', 'play', 'digital'
+  'experiences', 'visual', 'systems'
 ] ]
 export const SLIDER_VELOCITY = 0.05
 export const SLIDER_LAST_ITEM_PADDING = 12
