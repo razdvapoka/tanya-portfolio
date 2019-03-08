@@ -7,72 +7,42 @@ import ReactDOM from 'react-dom'
 import handleInViewport from 'react-in-viewport'
 import styled from '@emotion/styled'
 
-import { CANONIC_SCREEN_WIDTH, THEME, WHITESPACE } from '../constants'
-import { Svg, LoopPath } from './'
+import { INTRO_SPACING, THEME, WHITESPACE, pxToRem } from '../constants'
+import { Svg } from './'
 import { doubleRectPath } from '../utils/path-creators'
-import { repeat, textLoopTimeline } from '../utils'
+import { textLoopTimeline } from '../utils'
 
-const Letter = styled(Text)({
+const letterStyle = {
   position: 'absolute',
   opacity: 0,
   transformOrigin: 'bottom left'
-})
-
-const LetterBox = ({ children }) => (
-  <Letter
-    as='div'
-    variant='intro'
-  >
-    {children}
-  </Letter>
-)
-
-class Whitespace extends React.Component {
-  render () {
-    return (
-      <LetterBox>
-        {WHITESPACE}
-      </LetterBox>
-    )
-  }
-
-  componentDidMount () {
-    const { setWhitespaceWidth } = this.props
-    const width = ReactDOM.findDOMNode(this).getBoundingClientRect().width
-    setWhitespaceWidth(width)
-  }
 }
+
+const Letter = styled(Text)(letterStyle)
+const Spacer = styled(Box)(letterStyle)
 
 class Letters extends React.Component {
   render () {
     const {
       words,
-      whitespaceCount,
       letterBox
     } = this.props
-    const separator = repeat(whitespaceCount, WHITESPACE).join('')
-    const letters = words.join(separator).split('')
+    const letters = words.join(WHITESPACE).split('')
     return ReactDOM.createPortal((
       <Box>
-        {letters.map((letter, letterIndex) => (
-          <LetterBox key={letterIndex}>
+        {letters.map((letter, letterIndex) => letter === WHITESPACE ? (
+          <Spacer key={letterIndex} width={pxToRem(INTRO_SPACING)} />
+        ) : (
+          <Letter key={letterIndex} as='div' variant='intro'>
             {letter}
-          </LetterBox>
+          </Letter>
         ))}
       </Box>
     ), letterBox)
   }
-
-  componentDidMount () {
-    const { setLettersWidth } = this.props
-    const letters = Array.from(ReactDOM.findDOMNode(this).children)
-    const width = letters.reduce((w, n) => w + n.getBoundingClientRect().width, 0)
-    setLettersWidth(width)
-  }
 }
 
 const Loop = ({
-  whitespaceWidth,
   loop,
   index,
   width,
@@ -82,24 +52,11 @@ const Loop = ({
   letterBox,
   velocity
 }) => {
-  const [ whitespaceCount, setWhitespaceCount ] = useState(0)
-  const [ lettersWidth, setLettersWidth ] = useState(null)
   const [ path, setPath ] = useState(null)
   const [ timeline, setTimeline ] = useState(null)
 
-  const handlePathMount = (mountedPath) => {
-    const pathLength = mountedPath.getTotalLength() / 2
-    const count = Math.max(Math.floor(
-      (window.innerWidth / CANONIC_SCREEN_WIDTH * pathLength - lettersWidth) /
-      loop.length /
-      whitespaceWidth
-    ), 1)
-    setWhitespaceCount(count)
-    setPath(mountedPath)
-  }
-
   useEffect(() => {
-    if (whitespaceCount > 0) {
+    if (path) {
       const loopLetters = Array.from(letterBox.children[index].children)
       const newTimeline = textLoopTimeline(
         path,
@@ -131,20 +88,13 @@ const Loop = ({
 
   return (
     <React.Fragment>
-      {lettersWidth && (
-        <LoopPath
-          shift={(index + 1) * shift}
-          width={width}
-          height={height}
-          padding={padding}
-          pathCreator={doubleRectPath}
-          setPath={handlePathMount}
-        />
-      )}
+      <path
+        ref={setPath}
+        fill='none'
+        d={doubleRectPath({ width, height, shift: (index + 1) * shift, padding })}
+      />
       <Letters
         words={loop}
-        whitespaceCount={whitespaceCount}
-        setLettersWidth={setLettersWidth}
         letterBox={letterBox}
       />
     </React.Fragment>
@@ -161,12 +111,9 @@ const Intro = ({
   inViewport,
   padding
 }) => {
-  const [ whitespaceWidth, setWhitespaceWidth ] = useState(null)
   const [ letterBox, setLetterBox ] = useState(null)
-  const canRenderLoop = whitespaceWidth != null && letterBox != null
   return (
     <Box>
-      <Whitespace setWhitespaceWidth={setWhitespaceWidth} />
       <Box
         ref={setLetterBox}
         transform={`translateY(-${THEME.textStyle.intro.fontSize})`}
@@ -175,12 +122,11 @@ const Intro = ({
         viewBox={`0 0 ${width} ${height}`}
         ref={innerRef}
       >
-        {loops.map((loop, loopIndex) => canRenderLoop && (
+        {loops.map((loop, loopIndex) => letterBox && (
           <Loop
             key={loopIndex}
             index={loopIndex}
             loop={loop}
-            whitespaceWidth={whitespaceWidth}
             width={width}
             height={height}
             shift={shift}
