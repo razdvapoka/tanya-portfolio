@@ -1,4 +1,3 @@
-export { default as LoopPath } from './loop-path'
 export { default as Section } from './section'
 export { default as Svg } from './svg'
 export { default as PeaceSign } from './peace-sign'
