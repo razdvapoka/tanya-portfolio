@@ -50,10 +50,21 @@ const Loop = ({
   shift,
   padding,
   letterBox,
-  velocity
+  velocity,
+  inViewport
 }) => {
   const [ path, setPath ] = useState(null)
   const [ timeline, setTimeline ] = useState(null)
+
+  useEffect(() => {
+    if (timeline) {
+      if (inViewport) {
+        timeline.play()
+      } else {
+        timeline.pause()
+      }
+    }
+  }, [ inViewport ])
 
   useEffect(() => {
     if (path) {
@@ -133,6 +144,7 @@ const Intro = ({
             padding={padding}
             letterBox={letterBox}
             velocity={velocity}
+            inViewport={inViewport}
           />
         ))}
       </Svg>
