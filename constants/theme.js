@@ -9,15 +9,25 @@ export const remToPx = rem => typeof window !== 'undefined' ? (
   (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
   window.innerWidth
 ) : 0
+
 const sequence = (length, step, initial = 0) =>
   [ ...Array(length) ].map((_, i) => initial + i * step)
+
+const COLOR_BLACK = '#000'
+const COLOR_WHITE = '#fff'
+const COLOR_BLUE = '#182aee'
+const COLOR_GREY = '#898989'
+const COLOR_LIGHT_GREY = '#c0c0c0'
+const COLOR_RED = '#ff0000'
+const COLOR_GREEN = '#55e1a4'
+const COLOR_YELLOW = '#ffff00'
 
 export const THEME = {
   media: {
     M: '(max-width: 600px)'
   },
   space: {
-    all: sequence(30, SPACE_STEP).map(pxToRem)
+    all: sequence(100, SPACE_STEP).map(pxToRem)
   },
   size: {
     site: '1440px',
@@ -25,33 +35,49 @@ export const THEME = {
     marqueeHeight: pxToRem(64)
   },
   color: {
-    black: '#1e1e1e',
-    white: '#ffffff',
-    blue: '#182AEE',
-    grey: '#898989',
-    red: '#FF0000',
-    green: '#55E1A4'
+    black: COLOR_BLACK,
+    white: COLOR_WHITE,
+    blue: COLOR_BLUE,
+    grey: COLOR_GREY,
+    lightGrey: COLOR_LIGHT_GREY,
+    red: COLOR_RED,
+    green: COLOR_GREEN
   },
   palette: {
     default: {
-      bg: '#182AEE',
-      fg: '#ffffff'
+      bg: COLOR_BLACK,
+      fg: COLOR_WHITE,
+      secondary: COLOR_LIGHT_GREY
     },
     inverted: {
-      bg: '#ffffff',
-      fg: '#182AEE'
+      bg: COLOR_WHITE,
+      fg: COLOR_BLACK,
+      secondary: COLOR_LIGHT_GREY
     },
     dark: {
-      bg: '#000',
-      fg: '#fff'
+      bg: COLOR_BLACK,
+      fg: COLOR_WHITE,
+      secondary: COLOR_LIGHT_GREY
     },
     light: {
-      bg: '#fff',
-      fg: '#000'
+      bg: COLOR_WHITE,
+      fg: COLOR_BLACK,
+      secondary: COLOR_LIGHT_GREY
     },
     yellow: {
-      bg: '#FFFF00',
-      fg: '#000'
+      bg: COLOR_YELLOW,
+      fg: COLOR_BLACK,
+      secondary: COLOR_LIGHT_GREY
+    },
+    green: {
+      bg: COLOR_GREEN,
+      fg: COLOR_BLACK,
+      secondary: COLOR_BLACK
+    },
+    blue: {
+      bg: COLOR_BLUE,
+      fg: COLOR_BLACK,
+      secondary: COLOR_BLACK
     }
   },
   textStyleFlag: {
@@ -62,7 +88,7 @@ export const THEME = {
   textStyle: {
     root: {
       fontWeight: 'normal',
-      fontFamily: 'Helvetica',
+      fontFamily: 'Helvetica Neue, Helvetica',
       fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH * 100}vw`
     },
     header: {
@@ -70,7 +96,8 @@ export const THEME = {
       fontFamily: 'Suisse',
       fontSize: pxToRem(100),
       lineHeight: 84 / 100,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      letterSpacing: pxToRem(1.67)
     },
     intro: {
       fontWeight: 'normal',
@@ -81,10 +108,9 @@ export const THEME = {
     },
     body: {
       fontWeight: 'normal',
-      fontFamily: 'Helvetica Neue, Helvetica',
-      fontSize: pxToRem(32),
-      lineHeight: 38 / 32,
-      letterSpacing: 0.53
+      fontFamily: 'Suisse',
+      fontSize: pxToRem(20),
+      lineHeight: 28 / 20
     },
     caption: {
       fontWeight: 'normal',

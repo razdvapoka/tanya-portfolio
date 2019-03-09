@@ -1,103 +1,119 @@
-import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
-import React, { useMemo } from 'react'
-import styled from '@emotion/styled'
+import { FlexBox, FlexGrid, Text } from 'pss-components'
 import { withRouter } from 'next/router'
+import React, { useMemo } from 'react'
 import anime from 'animejs'
-import { SCROLL_VELOCITY } from '../constants'
+import styled from '@emotion/styled'
 
-const List = styled(FlexBox)({
-  margin: 0,
-  padding: 0,
-  textIndent: 0,
-  listStyleType: 'none'
-}).withComponent('ul')
+import { SCROLL_VELOCITY, pxToRem } from '../constants'
+
+const handleLinkClick = (hash, router) => () => {
+  const scrollTarget = document.querySelector(`#${hash}`)
+  const { top } = scrollTarget.getBoundingClientRect()
+  const duration = Math.abs(top, window.scrollY) / SCROLL_VELOCITY
+  anime({
+    targets: window.document.scrollingElement,
+    scrollTop: top + window.scrollY,
+    easing: 'linear',
+    duration,
+    complete: () => {
+      router.push(`/#${hash}`)
+    }
+  })
+}
+
+const LinkText = styled(Text)({
+  cursor: 'pointer',
+  display: 'inline'
+})
 
 const ScrollToHashLink = withRouter(({
   router,
   hash,
   children,
-  highlight
+  ...rest
 }) => {
-  const handleClick = useMemo(() => () => {
-    const scrollTarget = document.querySelector(`#${hash}`)
-    const { top } = scrollTarget.getBoundingClientRect()
-    const duration = Math.abs(top, window.scrollY) / SCROLL_VELOCITY
-    anime({
-      targets: window.document.scrollingElement,
-      scrollTop: top + window.scrollY,
-      easing: 'linear',
-      duration,
-      complete: () => {
-        router.push(`/#${hash}`)
-      }
-    })
-    if (highlight) {
-      anime({
-        targets: `#${hash} .highlighter`,
-        keyframes: [
-          { outlineColor: '#FF0000', delay: duration, duration: 500, easing: 'linear' },
-          { outlineColor: 'rgba(0,0,0,0)', duration: 500, easing: 'linear' }
-        ]
-      })
-    }
-  }, [ hash ])
+  const handleClick = useMemo(
+    () => handleLinkClick(hash, router),
+    [ hash ]
+  )
   return (
-    <Text
-      variant='body'
+    <LinkText
       onClick={handleClick}
+      {...rest}
     >
       {children}
-    </Text>
+    </LinkText>
   )
 })
 
+const HugeLink = ({ href, children, ...rest }) => (
+  <a href={href} target='_blank' rel='noopener noreferrer'>
+    <FlexBox
+      alignItems='center'
+      justifyContent='center'
+      width height={pxToRem(170)}
+      radius={pxToRem(85)}
+      pdt={3}
+      {...rest}
+    >
+      <Text variant='intro' fg='black'>
+        {children}
+      </Text>
+    </FlexBox>
+  </a>
+)
+
+const FooterBox = styled(FlexBox)({
+  flex: 1
+})
+
 const Footer = ({ sections }) => {
-  const selectedSection = useMemo(
+  const listedSections = useMemo(
     () => sections.filter(
-      section => section.fields.isFooterFeatured
+      section => section.fields.isListedInFooter
     ),
     [ sections ]
-  )[0]
-  return selectedSection ? (
-    <Box mgt='auto'>
-      <FlexGrid space={4} zIndex={1}>
-        <FlexGrid.Item col={6}>
-          <FlexGrid.Content>
-            <List flexDirection='column'>
-              {selectedSection.fields.items.map((item, itemIndex) => {
-                return (
-                  <li key={itemIndex}>
-                    <ScrollToHashLink hash={item.fields.hash} highlight>
-                      {item.fields.title}
-                    </ScrollToHashLink>
-                  </li>
-                )
-              })}
-            </List>
-          </FlexGrid.Content>
-        </FlexGrid.Item>
-        <FlexGrid.Item col={6}>
-          <FlexGrid.Content height>
-            <FlexBox
-              flexDirection='column'
-              justifyContent='space-between'
-              height
-            >
-              <List height='100%' flexDirection='column' justifyContent='space-between'>
-                {sections.filter(_ => _.fields.isFooterListed).map((section, sectionIndex) => (
-                  <li key={sectionIndex}>
-                    <ScrollToHashLink hash={section.fields.hash}>
-                      {section.fields.title}
-                    </ScrollToHashLink>
-                  </li>
-                ))}
-              </List>
-            </FlexBox>
-          </FlexGrid.Content>
+  )
+  return (
+    <FooterBox flexDirection='column'>
+      <FlexGrid space={4}>
+        <FlexGrid.Item col={12} mgt={5}>
+          <HugeLink href='mailto:hello@ermolaeva.co' tm='red'>
+            hello@ermolaeva.co
+          </HugeLink>
         </FlexGrid.Item>
       </FlexGrid>
-    </Box>
-  ) : null
+      <FlexGrid space={4}>
+        <FlexGrid.Item col={7} mgt={3}>
+          <HugeLink href='https://instagram.com/ermlvaa/' tm='green'>
+            instagram
+          </HugeLink>
+        </FlexGrid.Item>
+        <FlexGrid.Item col={5} mgt={3}>
+          <HugeLink href='https://www.are.na/tanya-ermolaeva' tm='blue'>
+            are.na
+          </HugeLink>
+        </FlexGrid.Item>
+      </FlexGrid>
+      <FlexBox mgt='auto' flexWrap>
+        {listedSections.map((section, sectionIndex) => (
+          <FlexBox.Item
+            key={sectionIndex}
+            flex={1 / 2}
+            mgt={4}
+          >
+            <ScrollToHashLink
+              hash={section.fields.hash}
+              variant='header'
+              cursor='pointer'
+            >
+              {section.fields.title}
+            </ScrollToHashLink>
+          </FlexBox.Item>
+        ))}
+      </FlexBox>
+    </FooterBox>
+  )
 }
 
 export default Footer

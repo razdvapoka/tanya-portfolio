@@ -5,7 +5,8 @@ import StyledText from '../styled-text'
 
 const SectionHeader = ({
   title,
-  description
+  description,
+  headerColumns
 }) => (
   <FlexGrid space={4} zIndex={1}>
     <FlexGrid.Item col={6}>
@@ -15,17 +16,20 @@ const SectionHeader = ({
         </Text>
       </FlexGrid.Content>
     </FlexGrid.Item>
-    <FlexGrid.Item col={6}>
-      <FlexGrid.Content opacity={0.6}>
-        <StyledText
-          as={Markdown}
-          variant='body'
-          linkTarget='_blank'
-        >
-          {description}
-        </StyledText>
-      </FlexGrid.Content>
-    </FlexGrid.Item>
+    {headerColumns.map((col, colIndex) => (
+      <FlexGrid.Item key={colIndex} col={6 / headerColumns.length}>
+        <FlexGrid.Content>
+          <StyledText
+            as={Markdown}
+            variant='body'
+            linkTarget='_blank'
+            fg='secondary'
+          >
+            {col.fields.content}
+          </StyledText>
+        </FlexGrid.Content>
+      </FlexGrid.Item>
+    ))}
   </FlexGrid>
 )
 

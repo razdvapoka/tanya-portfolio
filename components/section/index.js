@@ -1,46 +1,34 @@
-import { Box, FlexBox, FlexGrid } from 'pss-components'
-import Markdown from 'react-markdown'
+import { Box, FlexBox } from 'pss-components'
 import React from 'react'
 
+import { PaletteProvider } from '..'
 import { pxToRem } from '../../constants'
 import Footer from '../footer'
 import Gallery from '../gallery'
 import SectionHeader from './header'
 import Slider from '../slider'
-import StyledText from '../styled-text'
 
 const getSectionProps = (sectionType) => {
   switch (sectionType) {
-    case 'gallery': return { component: Gallery }
+    case 'gallery': return {
+      component: Gallery,
+      pdb: 40
+    }
     case 'slider': return { component: Slider }
     case 'footer': return {
       component: Footer,
-      minHeight: pxToRem(790),
-      pdb: 14,
-      as: 'footer'
+      minHeight: pxToRem(1260),
+      as: 'footer',
+      pdb: 6
     }
     default: return { component: Box }
   }
 }
 
-const SectionBottom = ({ content }) => (
-  <FlexGrid mgt={15} spacex={4} zIndex={1}>
-    <FlexGrid.Item col={6} offset={6}>
-      <FlexGrid.Content opacity={0.6}>
-        {content && (
-          <StyledText as={Markdown} variant='body'>
-            {content}
-          </StyledText>
-        )}
-      </FlexGrid.Content>
-    </FlexGrid.Item>
-  </FlexGrid>
-)
-
 const Section = ({
   hash,
   title,
-  description,
+  headerColumns,
   items,
   palette,
   type,
@@ -52,25 +40,28 @@ const Section = ({
     ...rest
   } = getSectionProps(type)
   return (
-    <FlexBox
-      id={hash}
-      flexDirection='column'
-      pdt={7}
-      pdb={29}
-      pdx={4}
-      as='section'
-      minHeight={pxToRem(1190)}
-      position='relative'
-      tm={palette}
-      {...rest}
-    >
-      <SectionHeader
-        title={title}
-        description={description}
-      />
-      <SectionContent items={items} sections={sections} />
-      {bottom && <SectionBottom content={bottom} />}
-    </FlexBox>
+    <PaletteProvider name={palette}>
+      <FlexBox
+        id={hash}
+        flexDirection='column'
+        pdy={12}
+        pdx={6}
+        as='section'
+        minHeight={pxToRem(1190)}
+        position='relative'
+        tm
+        {...rest}
+      >
+        <SectionHeader
+          title={title}
+          headerColumns={headerColumns}
+        />
+        <SectionContent
+          items={items}
+          sections={sections}
+        />
+      </FlexBox>
+    </PaletteProvider>
   )
 }
 
