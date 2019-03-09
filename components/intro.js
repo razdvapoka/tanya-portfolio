@@ -112,6 +112,10 @@ const Loop = ({
   )
 }
 
+const IntroBox = styled(Box)({
+  overflow: 'hidden'
+})
+
 const Intro = ({
   width,
   height,
@@ -124,7 +128,7 @@ const Intro = ({
 }) => {
   const [ letterBox, setLetterBox ] = useState(null)
   return (
-    <Box>
+    <IntroBox>
       <Box
         ref={setLetterBox}
         transform={`translateY(-${THEME.textStyle.intro.fontSize})`}
@@ -148,7 +152,7 @@ const Intro = ({
           />
         ))}
       </Svg>
-    </Box>
+    </IntroBox>
   )
 }
 
