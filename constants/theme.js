@@ -57,12 +57,14 @@ export const THEME = {
     dark: {
       bg: COLOR_BLACK,
       fg: COLOR_WHITE,
-      secondary: COLOR_LIGHT_GREY
+      secondary: COLOR_LIGHT_GREY,
+      button: COLOR_GREEN
     },
     light: {
       bg: COLOR_WHITE,
       fg: COLOR_BLACK,
-      secondary: COLOR_LIGHT_GREY
+      secondary: COLOR_LIGHT_GREY,
+      button: COLOR_RED
     },
     yellow: {
       bg: COLOR_YELLOW,
@@ -72,7 +74,8 @@ export const THEME = {
     green: {
       bg: COLOR_GREEN,
       fg: COLOR_BLACK,
-      secondary: COLOR_BLACK
+      secondary: COLOR_BLACK,
+      button: COLOR_YELLOW
     },
     blue: {
       bg: COLOR_BLUE,
@@ -123,6 +126,12 @@ export const THEME = {
       fontFamily: 'Helvetica Neue, Helvetica',
       fontSize: pxToRem(20),
       lineHeight: 14 / 20
+    },
+    sliderButton: {
+      fontWeight: 'normal',
+      fontFamily: 'Suisse',
+      fontSize: pxToRem(30),
+      lineHeight: 1
     }
   }
 }

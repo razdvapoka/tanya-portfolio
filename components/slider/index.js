@@ -9,6 +9,7 @@ import React from 'react'
 import anime from 'animejs'
 import { FlexBox } from 'pss-components'
 import SliderContent from './content'
+import SliderButton from './button'
 
 class Slider extends React.Component {
   state = {
@@ -160,10 +161,18 @@ class Slider extends React.Component {
           onLeaveViewport={this.onLeaveViewport}
           onEnterViewport={this.onEnterViewport}
           setSlidesRef={this.setSlidesRef}
-          nextSlide={this.nextSlide}
-          prevSlide={this.prevSlide}
-          hasNextSlide={hasNextSlide}
-          hasPrevSlide={hasPrevSlide}
+        />
+        <SliderButton
+          left
+          onClick={this.prevSlide}
+          disabled={!hasPrevSlide}
+          cursorText='Previous'
+        />
+        <SliderButton
+          right
+          onClick={this.nextSlide}
+          disabled={!hasNextSlide}
+          cursorText='Next'
         />
       </FlexBox>
     )

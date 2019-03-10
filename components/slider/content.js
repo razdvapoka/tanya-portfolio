@@ -1,23 +1,10 @@
-import {
-  Box,
-  Image
-} from 'pss-components'
+import { Box, Image } from 'pss-components'
 import { ps } from 'pss'
 import React from 'react'
 import handleInViewport from 'react-in-viewport'
-import styled from '@emotion/styled'
+
 import { SLIDER_LAST_ITEM_PADDING, pxToRem } from '../../constants'
 import InlineFlexBox from '../inline-flexbox'
-
-const SliderButton = styled(Box)(({ disabled }) => ({
-  pointerEvents: disabled ? 'none' : 'auto',
-  border: 0,
-  outline: 0,
-  position: 'absolute',
-  top: 0,
-  width: '25%',
-  height: '100%'
-})).withComponent('button')
 
 const SliderContent = handleInViewport(({
   setSlidesRef,
@@ -31,8 +18,8 @@ const SliderContent = handleInViewport(({
   <Box
     ov='hidden'
     pdy={10}
-    ref={innerRef}
     position='relative'
+    ref={innerRef}
   >
     <InlineFlexBox
       alignItems='center'
@@ -55,18 +42,6 @@ const SliderContent = handleInViewport(({
         )
       })}
     </InlineFlexBox>
-    <SliderButton
-      left
-      onClick={prevSlide}
-      disabled={!hasPrevSlide}
-      cursor='url(/static/images/cursor-arrow-left.png) 60 50, auto'
-    />
-    <SliderButton
-      right
-      onClick={nextSlide}
-      disabled={!hasNextSlide}
-      cursor='url(/static/images/cursor-arrow-right.png) 60 50, auto'
-    />
   </Box>
 ))
 
