@@ -1,50 +1,9 @@
 import { FlexBox, FlexGrid, Text } from 'pss-components'
-import { withRouter } from 'next/router'
 import React, { useMemo } from 'react'
-import anime from 'animejs'
 import styled from '@emotion/styled'
 
-import { SCROLL_VELOCITY, pxToRem } from '../constants'
-
-const handleLinkClick = (hash, router) => () => {
-  const scrollTarget = document.querySelector(`#${hash}`)
-  const { top } = scrollTarget.getBoundingClientRect()
-  const duration = Math.abs(top, window.scrollY) / SCROLL_VELOCITY
-  anime({
-    targets: window.document.scrollingElement,
-    scrollTop: top + window.scrollY,
-    easing: 'linear',
-    duration,
-    complete: () => {
-      router.push(`/#${hash}`)
-    }
-  })
-}
-
-const LinkText = styled(Text)({
-  cursor: 'pointer',
-  display: 'inline'
-})
-
-const ScrollToHashLink = withRouter(({
-  router,
-  hash,
-  children,
-  ...rest
-}) => {
-  const handleClick = useMemo(
-    () => handleLinkClick(hash, router),
-    [ hash ]
-  )
-  return (
-    <LinkText
-      onClick={handleClick}
-      {...rest}
-    >
-      {children}
-    </LinkText>
-  )
-})
+import { pxToRem } from '../constants'
+import HashLink from './hashlink'
 
 const HugeLink = ({ href, children, ...rest }) => (
   <a href={href} target='_blank' rel='noopener noreferrer'>
@@ -102,13 +61,13 @@ const Footer = ({ sections }) => {
             flex={1 / 2}
             mgt={4}
           >
-            <ScrollToHashLink
+            <HashLink
               hash={section.fields.hash}
               variant='header'
               cursor='pointer'
             >
               {section.fields.title}
-            </ScrollToHashLink>
+            </HashLink>
           </FlexBox.Item>
         ))}
       </FlexBox>

@@ -43,7 +43,9 @@ class Index extends React.Component {
     return (
       <Box postion='relative' mgt={1}>
         <Box pdx={4}>
-          <Header />
+          <Header
+            worksHash={main.fields.items[0].fields.hash}
+          />
           <Box
             position='relative'
             height={pxToRem(670)}
