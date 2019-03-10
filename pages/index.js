@@ -15,6 +15,7 @@ import {
 
 import {
   Header,
+  SecondaryHeader,
   Intro,
   Section
 } from '../components'
@@ -33,6 +34,16 @@ class Index extends React.Component {
     return { main }
   }
 
+  state = {
+    isIntroVisible: null
+  }
+
+  setIsIntroVisible = (isIntroVisible) => {
+    if (this.state.isIntroVisible != null || isIntroVisible) {
+      this.setState({ isIntroVisible })
+    }
+  }
+
   render () {
     const {
       loops,
@@ -40,12 +51,17 @@ class Index extends React.Component {
       main,
       fontsLoaded
     } = this.props
+    const { isIntroVisible } = this.state
+
+    const firstSectionHash = main.fields.items[0].fields.hash
+
     return (
       <Box postion='relative' mgt={1}>
         <Box pdx={4}>
-          <Header
-            worksHash={main.fields.items[0].fields.hash}
-          />
+          <Header worksHash={firstSectionHash} />
+          {isIntroVisible === false && (
+            <SecondaryHeader worksHash={firstSectionHash} />
+          )}
           <Box
             position='relative'
             height={pxToRem(670)}
@@ -59,6 +75,7 @@ class Index extends React.Component {
                 velocity={velocity}
                 shift={INTRO_SHIFT}
                 padding={0}
+                setIsIntroVisible={this.setIsIntroVisible}
               />
             )}
           </Box>

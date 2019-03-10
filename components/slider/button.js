@@ -4,7 +4,7 @@ import styled from '@emotion/styled'
 import { pxToRem } from '../../constants'
 
 const Cursor = styled(Text)({
-  '-webkitTextStroke': `${pxToRem(1)} black`,
+  'WebkitTextStroke': `${pxToRem(1)} black`,
   transform: 'translateX(-50%)',
   willChange: 'left, top'
 }).withComponent(Box)

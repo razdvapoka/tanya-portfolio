@@ -124,9 +124,17 @@ const Intro = ({
   shift,
   innerRef,
   inViewport,
-  padding
+  padding,
+  setIsIntroVisible
 }) => {
   const [ letterBox, setLetterBox ] = useState(null)
+  useEffect(() => {
+    if (inViewport) {
+      setIsIntroVisible(true)
+    } else {
+      setIsIntroVisible(false)
+    }
+  }, [ inViewport ])
   return (
     <IntroBox>
       <Box
