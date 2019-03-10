@@ -20,6 +20,7 @@ const SliderContent = handleInViewport(({
     pdy={10}
     position='relative'
     ref={innerRef}
+    mgx={-6}
   >
     <InlineFlexBox
       alignItems='center'

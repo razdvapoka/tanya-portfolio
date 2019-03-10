@@ -1,3 +1,7 @@
+import { Box } from 'pss-components'
+import React from 'react'
+import anime from 'animejs'
+
 import {
   pxToRem,
   remToPx,
@@ -5,11 +9,8 @@ import {
   SLIDER_LAST_ITEM_PADDING,
   SLIDER_VELOCITY
 } from '../../constants'
-import React from 'react'
-import anime from 'animejs'
-import { FlexBox } from 'pss-components'
-import SliderContent from './content'
 import SliderButton from './button'
+import SliderContent from './content'
 
 class Slider extends React.Component {
   state = {
@@ -150,12 +151,7 @@ class Slider extends React.Component {
     const hasNextSlide = currentSlideIndex < items.length - 1
     const hasPrevSlide = currentSlideIndex > 0
     return (
-      <FlexBox
-        position='absolute'
-        left top width height
-        alignItems='center'
-        justifyContent='center'
-      >
+      <Box mgt={20}>
         <SliderContent
           items={items}
           onLeaveViewport={this.onLeaveViewport}
@@ -174,7 +170,7 @@ class Slider extends React.Component {
           disabled={!hasNextSlide}
           cursorText='Next'
         />
-      </FlexBox>
+      </Box>
     )
   }
 }
