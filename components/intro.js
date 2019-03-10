@@ -151,6 +151,12 @@ const Intro = ({
             inViewport={inViewport}
           />
         ))}
+        <g transform='translate(320 370)'>
+          <Text variant='introFixed' as='text'>tanya</Text>
+        </g>
+        <g transform='translate(760 370)'>
+          <Text variant='introFixed' as='text'>tanya</Text>
+        </g>
       </Svg>
     </IntroBox>
   )

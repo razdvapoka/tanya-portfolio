@@ -22,6 +22,14 @@ const COLOR_RED = '#ff0000'
 const COLOR_GREEN = '#55e1a4'
 const COLOR_YELLOW = '#ffff00'
 
+const TEXT_INTRO_FIXED = {
+  fontWeight: 'normal',
+  fontFamily: 'Suisse',
+  fontSize: 100,
+  lineHeight: 1,
+  textTransform: 'uppercase'
+}
+
 export const THEME = {
   media: {
     M: '(max-width: 600px)'
@@ -102,12 +110,10 @@ export const THEME = {
       textTransform: 'uppercase',
       letterSpacing: pxToRem(1.67)
     },
+    introFixed: TEXT_INTRO_FIXED,
     intro: {
-      fontWeight: 'normal',
-      fontFamily: 'Suisse',
-      fontSize: pxToRem(100),
-      lineHeight: 1,
-      textTransform: 'uppercase'
+      ...TEXT_INTRO_FIXED,
+      fontSize: pxToRem(TEXT_INTRO_FIXED.fontSize)
     },
     body: {
       fontWeight: 'normal',
