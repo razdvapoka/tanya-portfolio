@@ -1,5 +1,3 @@
-/* eslint react/jsx-no-bind: 0 */
-
 import { Box, Text } from 'pss-components'
 import { KEY_SPACE } from 'keycode-js'
 import React, { useState, useEffect } from 'react'
@@ -125,17 +123,9 @@ const Intro = ({
   shift,
   innerRef,
   inViewport,
-  padding,
-  setIsIntroVisible
+  padding
 }) => {
   const [ letterBox, setLetterBox ] = useState(null)
-  useEffect(() => {
-    if (inViewport) {
-      setIsIntroVisible(true)
-    } else {
-      setIsIntroVisible(false)
-    }
-  }, [ inViewport ])
   return (
     <IntroBox>
       <Box

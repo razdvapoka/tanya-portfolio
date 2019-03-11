@@ -30,6 +30,7 @@
     "react-in-viewport": "0.0.37",
     "react-lazyload": "^2.5.0",
     "react-markdown": "^4.0.6",
+    "react-transition-group": "^2.6.0",
     "recompose": "^0.30.0"
   },
   "devDependencies": {

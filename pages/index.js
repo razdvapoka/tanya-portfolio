@@ -4,6 +4,7 @@ import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import hoistNonReactStatic from 'hoist-non-react-statics'
 import withFonts from '../hoc/with-fonts'
+import Transition from 'react-transition-group/Transition'
 
 import {
   INTRO_HEIGHT,
@@ -15,12 +16,19 @@ import {
 
 import {
   Header,
-  // SecondaryHeader,
-  Intro
-  // Section
+  SecondaryHeader,
+  Intro,
+  Section
 } from '../components'
 
 const { publicRuntimeConfig } = getConfig()
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 }
+}
 
 class Index extends React.Component {
   static defaultProps = {
@@ -38,10 +46,12 @@ class Index extends React.Component {
     isIntroVisible: null
   }
 
-  setIsIntroVisible = (isIntroVisible) => {
-    if (this.state.isIntroVisible != null || isIntroVisible) {
-      this.setState({ isIntroVisible })
-    }
+  setIntroVisible = () => {
+    this.setState({ isIntroVisible: true })
+  }
+
+  setIntroHidden = () => {
+    this.setState({ isIntroVisible: false })
   }
 
   render () {
@@ -51,45 +61,49 @@ class Index extends React.Component {
       main,
       fontsLoaded
     } = this.props
-    // const { isIntroVisible } = this.state
+    const { isIntroVisible } = this.state
 
     const firstSectionHash = main.fields.items[0].fields.hash
 
     return (
       <Box postion='relative' mgt={1}>
-        {fontsLoaded && (
-          <Box pdx={4}>
-            <Header worksHash={firstSectionHash} />
-            {/*
-            isIntroVisible === false && (
-              <SecondaryHeader worksHash={firstSectionHash} />
-            )
-            */}
-            <Box
-              position='relative'
-              height={pxToRem(670)}
-              mgt={2}
-            >
-              <Intro
-                width={INTRO_WIDTH}
-                height={INTRO_HEIGHT}
-                loops={loops}
-                velocity={velocity}
-                shift={INTRO_SHIFT}
-                padding={0}
-                setIsIntroVisible={this.setIsIntroVisible}
-              />
-            </Box>
-            {/* <Box height='marqueeHeight' /> */}
-          </Box>
-        )}
-        {/*
+        <Box pdx={4} minHeight={fontsLoaded ? 'auto' : '100vh'}>
+          {fontsLoaded && (
+            <>
+              <Header worksHash={firstSectionHash} />
+              <Transition in={isIntroVisible === false} timeout={300}>
+                {state => (
+                  <SecondaryHeader
+                    worksHash={firstSectionHash}
+                    {...transitionStyles[state]}
+                  />
+                )}
+              </Transition>
+              <Box
+                position='relative'
+                height={pxToRem(670)}
+                mgt={2}
+              >
+                <Intro
+                  width={INTRO_WIDTH}
+                  height={INTRO_HEIGHT}
+                  loops={loops}
+                  velocity={velocity}
+                  shift={INTRO_SHIFT}
+                  padding={0}
+                  onEnterViewport={this.setIntroVisible}
+                  onLeaveViewport={this.setIntroHidden}
+                />
+              </Box>
+              <Box height='marqueeHeight' />
+            </>
+          )}
+        </Box>
         <main>
           {main.fields.items.map(({ sys: { id }, fields }) => (
             <Section key={id} sections={main.fields.items} {...fields} />
           ))}
         </main>
-        */}
       </Box>
     )
   }

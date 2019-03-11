@@ -5,7 +5,8 @@ import { ps } from 'pss'
 import HashLink from './hashlink'
 
 const SecondaryHeader = ({
-  worksHash
+  worksHash,
+  ...rest
 }) => (
   <Text
     as={FlexBox}
@@ -20,6 +21,8 @@ const SecondaryHeader = ({
     zIndex={10}
     fg='secondary'
     mgl={ps('& > * + *', 10)}
+    transition='opacity 0.3s ease'
+    {...rest}
   >
     <FlexBox.Item mgr='auto'>
       <a href='/'>Tanya E.</a>
