@@ -20,7 +20,7 @@ const letterStyle = {
 const Letter = styled(Text)(letterStyle)
 const Spacer = styled(Box)(letterStyle)
 const Tanya = styled.g({
-  transition: 'opacity 1s ease'
+  transition: 'opacity 1s ease 0.1s'
 })
 
 class Letters extends React.Component {
