@@ -66,7 +66,7 @@ const Footer = ({ sections }) => {
               variant='header'
               cursor='pointer'
             >
-              {section.fields.title}
+              {section.fields.footerTitle || section.fields.title}
             </HashLink>
           </FlexBox.Item>
         ))}
