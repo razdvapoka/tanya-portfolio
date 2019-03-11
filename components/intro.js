@@ -14,11 +14,14 @@ const letterStyle = {
   position: 'absolute',
   opacity: 0,
   transformOrigin: 'bottom left',
-  transition: 'opacity 0.3s ease'
+  transition: 'opacity 1s ease'
 }
 
 const Letter = styled(Text)(letterStyle)
 const Spacer = styled(Box)(letterStyle)
+const Tanya = styled.g({
+  transition: 'opacity 1s ease'
+})
 
 class Letters extends React.Component {
   render () {
@@ -50,7 +53,8 @@ const Loop = ({
   padding,
   letterBox,
   velocity,
-  inViewport
+  inViewport,
+  onAnimationStarted
 }) => {
   const [ path, setPath ] = useState(null)
   const [ timeline, setTimeline ] = useState(null)
@@ -75,6 +79,7 @@ const Loop = ({
         0
       )
       newTimeline.play()
+      onAnimationStarted()
       setTimeline(newTimeline)
     }
   }, [ path ])
@@ -126,6 +131,8 @@ const Intro = ({
   padding
 }) => {
   const [ letterBox, setLetterBox ] = useState(null)
+  const [ isAnimationStarted, setIsAnimationStarted ] = useState(false)
+  const onAnimationStarted = () => isAnimationStarted || setIsAnimationStarted(true)
   return (
     <IntroBox>
       <Box
@@ -148,14 +155,15 @@ const Intro = ({
             letterBox={letterBox}
             velocity={velocity}
             inViewport={inViewport}
+            onAnimationStarted={onAnimationStarted}
           />
         ))}
-        <g transform='translate(320 370)'>
+        <Tanya transform='translate(320 370)' opacity={isAnimationStarted ? 1 : 0}>
           <Text variant='introFixed' as='text'>tanya</Text>
-        </g>
-        <g transform='translate(760 370)'>
+        </Tanya>
+        <Tanya transform='translate(760 370)' opacity={isAnimationStarted ? 1 : 0}>
           <Text variant='introFixed' as='text'>tanya</Text>
-        </g>
+        </Tanya>
       </Svg>
     </IntroBox>
   )
