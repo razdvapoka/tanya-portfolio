@@ -158,10 +158,10 @@ const Intro = ({
             onAnimationStarted={onAnimationStarted}
           />
         ))}
-        <Tanya transform='translate(320 370)' opacity={isAnimationStarted ? 1 : 0}>
+        <Tanya transform='translate(320 376)' opacity={isAnimationStarted ? 1 : 0}>
           <Text variant='introFixed' as='text'>tanya</Text>
         </Tanya>
-        <Tanya transform='translate(760 370)' opacity={isAnimationStarted ? 1 : 0}>
+        <Tanya transform='translate(760 376)' opacity={isAnimationStarted ? 1 : 0}>
           <Text variant='introFixed' as='text'>tanya</Text>
         </Tanya>
       </Svg>
