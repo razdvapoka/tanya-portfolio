@@ -6,7 +6,8 @@ import StyledText from '../styled-text'
 const SectionHeader = ({
   title,
   description,
-  headerColumns
+  headerColumns,
+  palette
 }) => (
   <FlexGrid space={4} zIndex={1}>
     <FlexGrid.Item col={6}>
@@ -24,6 +25,7 @@ const SectionHeader = ({
             variant='body'
             linkTarget='_blank'
             fg='secondary'
+            palette={palette}
           >
             {col.fields.content}
           </StyledText>

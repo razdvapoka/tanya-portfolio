@@ -55,6 +55,7 @@ const Section = ({
         <SectionHeader
           title={title}
           headerColumns={headerColumns}
+          palette={palette}
         />
         <SectionContent
           items={items}
