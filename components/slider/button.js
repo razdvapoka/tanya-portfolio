@@ -22,6 +22,7 @@ const Button = styled(Box)(({ disabled }) => ({
 
 const SliderButton = ({
   cursorText,
+  onClick,
   ...rest
 }) => {
   const [ cursorPos, setCursorPos ] = useState(null)
@@ -29,6 +30,11 @@ const SliderButton = ({
     setCursorPos({ left: e.clientX, top: e.clientY })
   }
   const handleMouseLeave = () => {
+    setCursorPos(null)
+  }
+
+  const handleClick = () => {
+    onClick()
     setCursorPos(null)
   }
 
@@ -47,6 +53,7 @@ const SliderButton = ({
       <Button
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
         {...rest}
       />
     </>
