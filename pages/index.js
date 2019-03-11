@@ -15,9 +15,9 @@ import {
 
 import {
   Header,
-  SecondaryHeader,
-  Intro,
-  Section
+  // SecondaryHeader,
+  Intro
+  // Section
 } from '../components'
 
 const { publicRuntimeConfig } = getConfig()
@@ -51,23 +51,25 @@ class Index extends React.Component {
       main,
       fontsLoaded
     } = this.props
-    const { isIntroVisible } = this.state
+    // const { isIntroVisible } = this.state
 
     const firstSectionHash = main.fields.items[0].fields.hash
 
     return (
       <Box postion='relative' mgt={1}>
-        <Box pdx={4}>
-          <Header worksHash={firstSectionHash} />
-          {isIntroVisible === false && (
-            <SecondaryHeader worksHash={firstSectionHash} />
-          )}
-          <Box
-            position='relative'
-            height={pxToRem(670)}
-            mgt={2}
-          >
-            {fontsLoaded && (
+        {fontsLoaded && (
+          <Box pdx={4}>
+            <Header worksHash={firstSectionHash} />
+            {/*
+            isIntroVisible === false && (
+              <SecondaryHeader worksHash={firstSectionHash} />
+            )
+            */}
+            <Box
+              position='relative'
+              height={pxToRem(670)}
+              mgt={2}
+            >
               <Intro
                 width={INTRO_WIDTH}
                 height={INTRO_HEIGHT}
@@ -77,15 +79,17 @@ class Index extends React.Component {
                 padding={0}
                 setIsIntroVisible={this.setIsIntroVisible}
               />
-            )}
+            </Box>
+            {/* <Box height='marqueeHeight' /> */}
           </Box>
-          <Box height='marqueeHeight' />
-        </Box>
+        )}
+        {/*
         <main>
           {main.fields.items.map(({ sys: { id }, fields }) => (
             <Section key={id} sections={main.fields.items} {...fields} />
           ))}
         </main>
+        */}
       </Box>
     )
   }

@@ -15,7 +15,8 @@ import { textLoopTimeline } from '../utils'
 const letterStyle = {
   position: 'absolute',
   opacity: 0,
-  transformOrigin: 'bottom left'
+  transformOrigin: 'bottom left',
+  transition: 'opacity 0.3s ease'
 }
 
 const Letter = styled(Text)(letterStyle)
