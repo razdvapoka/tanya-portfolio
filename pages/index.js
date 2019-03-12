@@ -37,7 +37,7 @@ class Index extends React.Component {
   }
 
   static async getInitialProps () {
-    const res = await fetch(publicRuntimeConfig.siteUrl + '/api/section/main')
+    const res = await fetch(publicRuntimeConfig.siteUrl + '/api/page/main')
     const main = await res.json()
     return { main }
   }

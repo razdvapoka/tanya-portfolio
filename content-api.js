@@ -9,21 +9,21 @@ const client = createClient({
   accessToken: TOKEN
 })
 
-const getSection = async (section) => {
-  console.log('> Starting section import:', section)
+const getPage = async (page) => {
+  console.log('> Starting pages import:', page)
   try {
     const entries = await client.getEntries({
-      content_type: 'sections',
-      'fields.title': section,
+      content_type: 'page',
+      'fields.title': page,
       include: 4
     })
-    console.log('> Content recieved for section:', section)
+    console.log('> Content recieved for page:', page)
     return entries.items[0]
   } catch (err) {
-    console.error('> Failed to get content for section:', section, err)
+    console.error('> Failed to get content for page:', page, err)
   }
 }
 
 module.exports = {
-  getSection
+  getPage
 }

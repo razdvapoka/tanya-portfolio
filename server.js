@@ -11,6 +11,11 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
+  server.get('/api/page/:id', async (req, res) => {
+    const data = await contentApi.getPage(req.params.id)
+    res.json(data)
+  })
+
   server.get('/api/section/:id', async (req, res) => {
     const data = await contentApi.getSection(req.params.id)
     res.json(data)
