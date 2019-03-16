@@ -10,9 +10,11 @@ const Header = ({ worksHash, isHome, ...rest }) => (
     justifyContent='space-between'
     {...rest}
   >
-    <a href='/'>
-      <Text variant='header' fg='blue'>Tanya E.</Text>
-    </a>
+    <Link href={isHome ? '/about' : '/'}>
+      <a>
+        <Text variant='header' fg='blue'>Tanya E.</Text>
+      </a>
+    </Link>
     {isHome ? (
       <HashLink
         hash={worksHash}
