@@ -36,7 +36,7 @@ const Footer = ({ sections }) => {
   return (
     <FooterBox flexDirection='column'>
       <FlexGrid space={4}>
-        <FlexGrid.Item col={12} mgt={5}>
+        <FlexGrid.Item col={12} mgt={10}>
           <HugeLink href='mailto:hello@ermolaeva.co' tm='red'>
             hello@ermolaeva.co
           </HugeLink>
@@ -54,23 +54,23 @@ const Footer = ({ sections }) => {
           </HugeLink>
         </FlexGrid.Item>
       </FlexGrid>
-      <FlexBox mgt='auto' flexWrap>
-        {listedSections.map((section, sectionIndex) => (
-          <FlexBox.Item
-            key={sectionIndex}
-            flex={1 / 2}
-            mgt={4}
-          >
-            <HashLink
-              hash={section.fields.hash}
-              variant='header'
-              cursor='pointer'
-            >
-              {section.fields.footerTitle || section.fields.title}
-            </HashLink>
-          </FlexBox.Item>
-        ))}
-      </FlexBox>
+      <FlexGrid space={4} zIndex={1}>
+        <FlexGrid.Item col={6} />
+        <FlexGrid.Item col={6}>
+          <FlexGrid.Content mgt={10}>
+            {listedSections.map((section, sectionIndex) => (
+              <HashLink key={sectionIndex} hash={section.fields.hash}>
+                <Text
+                  variant='body'
+                  fg='secondary'
+                >
+                  {section.fields.title}
+                </Text>
+              </HashLink>
+            ))}
+          </FlexGrid.Content>
+        </FlexGrid.Item>
+      </FlexGrid>
     </FooterBox>
   )
 }

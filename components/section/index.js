@@ -3,6 +3,7 @@ import React from 'react'
 
 import { PaletteProvider } from '..'
 import { pxToRem } from '../../constants'
+import About from '../about'
 import Footer from '../footer'
 import Gallery from '../gallery'
 import SectionHeader from './header'
@@ -17,9 +18,14 @@ const getSectionProps = (sectionType) => {
     case 'slider': return { component: Slider }
     case 'footer': return {
       component: Footer,
-      minHeight: pxToRem(1260),
+      minHeight: pxToRem(880),
       as: 'footer',
       pdb: 6
+    }
+    case 'about': return {
+      component: About,
+      minHeight: pxToRem(800),
+      pdt: 2
     }
     default: return { component: Box }
   }
@@ -33,7 +39,9 @@ const Section = ({
   palette,
   type,
   bottom,
-  sections
+  sections,
+  description,
+  descriptionAlt
 }) => {
   const {
     component: SectionContent,
@@ -60,6 +68,9 @@ const Section = ({
         <SectionContent
           items={items}
           sections={sections}
+          description={description}
+          descriptionAlt={descriptionAlt}
+          palette={palette}
         />
       </FlexBox>
     </PaletteProvider>

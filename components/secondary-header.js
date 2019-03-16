@@ -1,15 +1,22 @@
 import { FlexBox, Text } from 'pss-components'
-import React from 'react'
 import { ps } from 'pss'
+import React from 'react'
+import Link from 'next/link'
+import styled from '@emotion/styled'
 
 import HashLink from './hashlink'
 
+const HeaderBox = styled(FlexBox)(({ isVisible }) => ({
+  pointerEvents: isVisible ? 'auto' : 'none'
+}))
+
 const SecondaryHeader = ({
   worksHash,
+  isVisible,
   ...rest
 }) => (
   <Text
-    as={FlexBox}
+    as={HeaderBox}
     variant='body'
     position='fixed' top left
     width height='headerHeight'
@@ -21,13 +28,18 @@ const SecondaryHeader = ({
     fg='secondary'
     mgl={ps('& > * + *', 10)}
     transition='opacity 0.3s ease'
+    isVisible={isVisible}
     {...rest}
   >
     <FlexBox.Item mgr='auto'>
       <a href='/'>Tanya E.</a>
     </FlexBox.Item>
     <FlexBox.Item>
-      About
+      <Link href='/about'>
+        <a>
+          About
+        </a>
+      </Link>
     </FlexBox.Item>
     <FlexBox.Item>
       <a

@@ -30,7 +30,7 @@
     "react-in-viewport": "0.0.37",
     "react-lazyload": "^2.5.0",
     "react-markdown": "^4.0.6",
-    "react-transition-group": "^2.6.0",
+    "react-transition-group": "^2.6.1",
     "recompose": "^0.30.0"
   },
   "devDependencies": {
@@ -39,9 +39,9 @@
     "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-plugin-inline-import": "^3.0.0",
-    "contentful": "^7.3.0",
+    "contentful": "^7.4.3",
     "dotenv": "^6.2.0",
-    "eslint": "^5.15.1",
+    "eslint": "^5.15.2",
     "eslint-config-standard": "^12.0.0",
     "eslint-config-standard-jsx": "^6.0.2",
     "eslint-config-strelka": "^2.6.0",

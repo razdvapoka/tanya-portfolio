@@ -6,7 +6,7 @@ import StyledText from '../styled-text'
 const SectionHeader = ({
   title,
   description,
-  headerColumns,
+  headerColumns = [],
   palette
 }) => (
   <FlexGrid space={4} zIndex={1}>

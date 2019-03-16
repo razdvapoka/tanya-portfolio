@@ -42,6 +42,11 @@ class Index extends React.Component {
     return { main }
   }
 
+  constructor (props) {
+    super(props)
+    this.introRef = React.createRef()
+  }
+
   state = {
     isIntroVisible: null
   }
@@ -62,6 +67,7 @@ class Index extends React.Component {
       fontsLoaded
     } = this.props
     const { isIntroVisible } = this.state
+    const isSecondaryHeaderVisible = isIntroVisible != null && !isIntroVisible
 
     const firstSectionHash = main.fields.items[0].fields.hash
 
@@ -70,11 +76,12 @@ class Index extends React.Component {
         <Box pdx={4} minHeight={fontsLoaded ? 'auto' : '100vh'}>
           {fontsLoaded && (
             <>
-              <Header worksHash={firstSectionHash} />
-              <Transition in={isIntroVisible === false} timeout={300}>
+              <Header pdx={2} worksHash={firstSectionHash} isHome />
+              <Transition in={isSecondaryHeaderVisible} timeout={300} mountOnEnter>
                 {state => (
                   <SecondaryHeader
                     worksHash={firstSectionHash}
+                    isVisible={isSecondaryHeaderVisible}
                     {...transitionStyles[state]}
                   />
                 )}
@@ -83,8 +90,10 @@ class Index extends React.Component {
                 position='relative'
                 height={pxToRem(670)}
                 mgt={2}
+                className='intro-box'
               >
                 <Intro
+                  ref={this.introRef}
                   width={INTRO_WIDTH}
                   height={INTRO_HEIGHT}
                   loops={loops}
@@ -93,6 +102,8 @@ class Index extends React.Component {
                   padding={0}
                   onEnterViewport={this.setIntroVisible}
                   onLeaveViewport={this.setIntroHidden}
+                  setIntroVisible={this.setIntroVisible}
+                  setIntroHidden={this.setIntroHidden}
                 />
               </Box>
               <Box height='marqueeHeight' />

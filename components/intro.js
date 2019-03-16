@@ -120,53 +120,94 @@ const IntroBox = styled(Box)({
   overflow: 'hidden'
 })
 
-const Intro = ({
-  width,
-  height,
-  loops,
-  velocity,
-  shift,
-  innerRef,
-  inViewport,
-  padding
-}) => {
-  const [ letterBox, setLetterBox ] = useState(null)
-  const [ isAnimationStarted, setIsAnimationStarted ] = useState(false)
-  const onAnimationStarted = () => isAnimationStarted || setIsAnimationStarted(true)
-  return (
-    <IntroBox>
-      <Box
-        ref={setLetterBox}
-        transform={`translateY(-${THEME.textStyle.intro.fontSize})`}
-      />
-      <Svg
-        viewBox={`0 0 ${width} ${height}`}
-        ref={innerRef}
-      >
-        {loops.map((loop, loopIndex) => letterBox && (
-          <Loop
-            key={loopIndex}
-            index={loopIndex}
-            loop={loop}
-            width={width}
-            height={height}
-            shift={shift}
-            padding={padding}
-            letterBox={letterBox}
-            velocity={velocity}
-            inViewport={inViewport}
-            onAnimationStarted={onAnimationStarted}
-          />
-        ))}
-        <Tanya transform='translate(320 376)' opacity={isAnimationStarted ? 1 : 0}>
-          <Text variant='introFixed' as='text'>tanya</Text>
-        </Tanya>
-        <Tanya transform='translate(760 376)' opacity={isAnimationStarted ? 1 : 0}>
-          <Text variant='introFixed' as='text'>tanya</Text>
-        </Tanya>
-      </Svg>
-    </IntroBox>
-  )
+class Intro extends React.Component {
+  constructor (props) {
+    super(props)
+    this.introRef = React.createRef()
+  }
+
+  state = {
+    letterBox: null,
+    isAnimationStarted: false
+  }
+
+  setLetterBox = (letterBox) => {
+    this.setState({ letterBox })
+  }
+
+  setIsAnimationStarted = (isAnimationStarted) => {
+    this.setState({ isAnimationStarted })
+  }
+
+  onAnimationStarted = () => {
+    const { isAnimationStarted } = this.state
+    if (!isAnimationStarted) {
+      this.setIsAnimationStarted(true)
+    }
+  }
+
+  componentDidMount () {
+    const { setIntroVisible, setIntroHidden } = this.props
+    const target = this.introRef.current
+    const observer = new window.IntersectionObserver(function (entries) {
+      if (entries[0].intersectionRatio === 0) {
+        setIntroHidden()
+      } else {
+        setIntroVisible()
+      }
+      this.unobserve(target)
+    })
+    observer.observe(target)
+  }
+
+  render () {
+    const {
+      width,
+      height,
+      loops,
+      velocity,
+      shift,
+      innerRef,
+      inViewport,
+      padding
+    } = this.props
+
+    const { letterBox, isAnimationStarted } = this.state
+    return (
+      <IntroBox ref={this.introRef}>
+        <Box
+          ref={this.setLetterBox}
+          transform={`translateY(-${THEME.textStyle.intro.fontSize})`}
+        />
+        <Svg
+          viewBox={`0 0 ${width} ${height}`}
+          ref={innerRef}
+        >
+          {loops.map((loop, loopIndex) => letterBox && (
+            <Loop
+              key={loopIndex}
+              index={loopIndex}
+              loop={loop}
+              width={width}
+              height={height}
+              shift={shift}
+              padding={padding}
+              letterBox={letterBox}
+              velocity={velocity}
+              inViewport={inViewport}
+              onAnimationStarted={this.onAnimationStarted}
+            />
+          ))}
+          <Tanya transform='translate(320 376)' opacity={isAnimationStarted ? 1 : 0}>
+            <Text variant='introFixed' as='text'>tanya</Text>
+          </Tanya>
+          <Tanya transform='translate(760 376)' opacity={isAnimationStarted ? 1 : 0}>
+            <Text variant='introFixed' as='text'>tanya</Text>
+          </Tanya>
+        </Svg>
+      </IntroBox>
+    )
+  }
 }
 
 export default handleInViewport(Intro)
