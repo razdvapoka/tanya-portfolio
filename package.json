@@ -27,6 +27,7 @@
     "pss-components": "^4.3.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-hook-inview": "^1.0.2",
     "react-in-viewport": "0.0.37",
     "react-lazyload": "^2.5.0",
     "react-markdown": "^4.0.6",
