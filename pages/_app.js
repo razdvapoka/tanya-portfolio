@@ -23,8 +23,8 @@ const globalStyles = css`
     font-style: 'normal';
     font-weight: 'normal';
     src:
-      url(/static/fonts/suisse-intl-book.woff),
-      url(/static/fonts/suisse-intl-book.woff2);
+      url(/static/fonts/SuisseIntl-Book.woff),
+      url(/static/fonts/SuisseIntl-Book.woff2);
   }
 `
 

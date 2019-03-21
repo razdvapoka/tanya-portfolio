@@ -17,7 +17,17 @@ const letterStyle = {
   transition: 'opacity 1s ease'
 }
 
-const Letter = styled(Text)(letterStyle)
+const LetterBox = styled(Text)(letterStyle)
+const LetterText = styled(Box)({
+  transform: `translateY(-${pxToRem(8)})`
+})
+
+const Letter = ({ children, ...rest }) => (
+  <LetterBox {...rest}>
+    <LetterText>{children}</LetterText>
+  </LetterBox>
+)
+
 const Spacer = styled(Box)(letterStyle)
 
 class Letters extends React.Component {
