@@ -1,11 +1,12 @@
-import { Box, FlexGrid, Image } from 'pss-components'
+import { Box, FlexGrid, Image, Text } from 'pss-components'
 import { ps } from 'pss'
+import Markdown from 'react-markdown'
 import React, { useState, useRef, useEffect } from 'react'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import styled from '@emotion/styled'
+
 import useInView from 'react-hook-inview'
-import Markdown from 'react-markdown'
 
 import StyledText from '../components/styled-text'
 
@@ -65,8 +66,15 @@ const VideoItem = ({ video, image, inViewport }) => {
   )
 }
 
-const ImageItem = ({ image }) => (
-  <Image src={image.fields.file.url} />
+const ImageItem = ({ image, text }) => (
+  <Box position='relative'>
+    <Image width src={image.fields.file.url} />
+    {text && (
+      <Box position='absolute' left='50%' top='100%' maxWidth={1 / 3} opacity={0.6}>
+        <Text variant='caption' mgt={1}>{text}</Text>
+      </Box>
+    )}
+  </Box>
 )
 
 const TextItem = ({ text, palette }) => (
@@ -108,23 +116,25 @@ class Project extends React.Component {
     const { project, palette = 'dark' } = this.props
     const contentRows = project.fields.content
     return (
-      <Box height='500vh' postion='relative' mgt={1} pdx={4} tm={palette}>
+      <Box postion='relative' mgt={1} pdx={4} pdb={40} tm={palette}>
         <main>
           {contentRows.map((row, rowIndex) => {
             return (
-              <FlexGrid mgt={ps('& + &', 20)} key={rowIndex} space={4}>
-                {row.fields.columns.map((column, columnIndex) => {
-                  return (
-                    <FlexGrid.Item
-                      key={columnIndex}
-                      col={column.fields.width}
-                      offset={column.fields.offset ? column.fields.offset : 0}
-                    >
-                      <ProjectItem {...column.fields.items.fields} palette={palette} />
-                    </FlexGrid.Item>
-                  )
-                })}
-              </FlexGrid>
+              <Box key={rowIndex} mgt={ps('&:not(:first-child)', 20)} {...row.fields.props}>
+                <FlexGrid space={4}>
+                  {row.fields.columns.map((column, columnIndex) => {
+                    return (
+                      <FlexGrid.Item
+                        key={columnIndex}
+                        col={column.fields.width}
+                        offset={column.fields.offset ? column.fields.offset : 0}
+                      >
+                        <ProjectItem {...column.fields.items.fields} palette={palette} />
+                      </FlexGrid.Item>
+                    )
+                  })}
+                </FlexGrid>
+              </Box>
             )
           })}
         </main>
