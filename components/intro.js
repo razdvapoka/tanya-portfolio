@@ -19,9 +19,6 @@ const letterStyle = {
 
 const Letter = styled(Text)(letterStyle)
 const Spacer = styled(Box)(letterStyle)
-const Tanya = styled.g({
-  transition: 'opacity 1s ease 0.1s'
-})
 
 class Letters extends React.Component {
   render () {
@@ -53,8 +50,7 @@ const Loop = ({
   padding,
   letterBox,
   velocity,
-  inViewport,
-  onAnimationStarted
+  inViewport
 }) => {
   const [ path, setPath ] = useState(null)
   const [ timeline, setTimeline ] = useState(null)
@@ -79,7 +75,6 @@ const Loop = ({
         0
       )
       newTimeline.play()
-      onAnimationStarted()
       setTimeline(newTimeline)
     }
   }, [ path ])
@@ -127,23 +122,11 @@ class Intro extends React.Component {
   }
 
   state = {
-    letterBox: null,
-    isAnimationStarted: false
+    letterBox: null
   }
 
   setLetterBox = (letterBox) => {
     this.setState({ letterBox })
-  }
-
-  setIsAnimationStarted = (isAnimationStarted) => {
-    this.setState({ isAnimationStarted })
-  }
-
-  onAnimationStarted = () => {
-    const { isAnimationStarted } = this.state
-    if (!isAnimationStarted) {
-      this.setIsAnimationStarted(true)
-    }
   }
 
   componentDidMount () {
@@ -172,7 +155,7 @@ class Intro extends React.Component {
       padding
     } = this.props
 
-    const { letterBox, isAnimationStarted } = this.state
+    const { letterBox } = this.state
     return (
       <IntroBox ref={this.introRef}>
         <Box
@@ -195,15 +178,14 @@ class Intro extends React.Component {
               letterBox={letterBox}
               velocity={velocity}
               inViewport={inViewport}
-              onAnimationStarted={this.onAnimationStarted}
             />
           ))}
-          <Tanya transform='translate(320 376)' opacity={isAnimationStarted ? 1 : 0}>
+          <g transform='translate(320 376)'>
             <Text variant='introFixed' as='text'>tanya</Text>
-          </Tanya>
-          <Tanya transform='translate(760 376)' opacity={isAnimationStarted ? 1 : 0}>
+          </g>
+          <g transform='translate(760 376)'>
             <Text variant='introFixed' as='text'>tanya</Text>
-          </Tanya>
+          </g>
         </Svg>
       </IntroBox>
     )
