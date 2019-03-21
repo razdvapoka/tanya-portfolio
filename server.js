@@ -11,13 +11,17 @@ const handle = app.getRequestHandler()
 app.prepare().then(() => {
   const server = express()
 
-  server.get('/api/page/:id', async (req, res) => {
-    const data = await contentApi.getPage(req.params.id)
+  server.get('/project/:id', (req, res) => {
+    return app.render(req, res, '/project', { id: req.params.id })
+  })
+
+  server.get('/api/project/:id', async (req, res) => {
+    const data = await contentApi.getProject(req.params.id)
     res.json(data)
   })
 
-  server.get('/api/section/:id', async (req, res) => {
-    const data = await contentApi.getSection(req.params.id)
+  server.get('/api/page/:id', async (req, res) => {
+    const data = await contentApi.getPage(req.params.id)
     res.json(data)
   })
 

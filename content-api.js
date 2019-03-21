@@ -9,21 +9,25 @@ const client = createClient({
   accessToken: TOKEN
 })
 
-const getPage = async (page) => {
-  console.log('> Starting pages import:', page)
+const getEntityByField = async (type, field, value) => {
+  console.log(`> Starting ${type} import:`, value)
   try {
     const entries = await client.getEntries({
-      content_type: 'page',
-      'fields.title': page,
-      include: 4
+      content_type: type,
+      [`fields.${field}`]: value,
+      include: 5
     })
-    console.log('> Content recieved for page:', page)
+    console.log(`> Content recieved for ${type}:`, value)
     return entries.items[0]
   } catch (err) {
-    console.error('> Failed to get content for page:', page, err)
+    console.error(`> Failed to get content for ${type}:`, value, err)
   }
 }
 
+const getProject = async (id) => getEntityByField('project', 'id', id)
+const getPage = async (title) => getEntityByField('page', 'title', title)
+
 module.exports = {
-  getPage
+  getPage,
+  getProject
 }

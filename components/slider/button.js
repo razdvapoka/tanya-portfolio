@@ -1,13 +1,7 @@
-import { Box, Text } from 'pss-components'
+import { Box } from 'pss-components'
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
-import { pxToRem } from '../../constants'
-
-const Cursor = styled(Text)({
-  'WebkitTextStroke': `${pxToRem(1)} black`,
-  transform: 'translateX(-50%)',
-  willChange: 'left, top'
-}).withComponent(Box)
+import { Cursor } from '..'
 
 const Button = styled(Box)(({ disabled }) => ({
   pointerEvents: disabled ? 'none' : 'auto',

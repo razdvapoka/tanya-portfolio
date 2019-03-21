@@ -138,6 +138,12 @@ export const THEME = {
       fontFamily: 'Suisse',
       fontSize: pxToRem(30),
       lineHeight: 1
+    },
+    large: {
+      fontWeight: 'normal',
+      fontFamily: 'Suisse',
+      fontSize: pxToRem(35),
+      lineHeight: 47 / 35
     }
   }
 }
