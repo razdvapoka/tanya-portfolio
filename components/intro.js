@@ -17,11 +17,18 @@ const letterStyle = {
   transition: 'opacity 1s ease'
 }
 
-const Letter = styled(Text)(letterStyle)
-const Spacer = styled(Box)(letterStyle)
-const Tanya = styled.g({
-  transition: 'opacity 1s ease 0.1s'
+const LetterBox = styled(Text)(letterStyle)
+const LetterText = styled(Box)({
+  transform: `translateY(-${pxToRem(8)})`
 })
+
+const Letter = ({ children, ...rest }) => (
+  <LetterBox {...rest}>
+    <LetterText>{children}</LetterText>
+  </LetterBox>
+)
+
+const Spacer = styled(Box)(letterStyle)
 
 class Letters extends React.Component {
   render () {
@@ -198,12 +205,12 @@ class Intro extends React.Component {
               onAnimationStarted={this.onAnimationStarted}
             />
           ))}
-          <Tanya transform='translate(320 376)' opacity={isAnimationStarted ? 1 : 0}>
+          <g transform='translate(320 376)'>
             <Text variant='introFixed' as='text'>tanya</Text>
-          </Tanya>
-          <Tanya transform='translate(760 376)' opacity={isAnimationStarted ? 1 : 0}>
+          </g>
+          <g transform='translate(760 376)'>
             <Text variant='introFixed' as='text'>tanya</Text>
-          </Tanya>
+          </g>
         </Svg>
       </IntroBox>
     )
