@@ -25,6 +25,11 @@ app.prepare().then(() => {
     res.json(data)
   })
 
+  server.get('/api/section/:id', async (req, res) => {
+    const data = await contentApi.getSection(req.params.id)
+    res.json(data)
+  })
+
   server.get('*', (req, res) => {
     return handle(req, res)
   })

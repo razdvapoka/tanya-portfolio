@@ -86,6 +86,7 @@ const TextItem = ({ text, palette, fg, style, variant }) => (
     as={Markdown}
     palette={palette}
     variant={variant}
+    linkTarget='_blank'
   >
     {text}
   </StyledText>

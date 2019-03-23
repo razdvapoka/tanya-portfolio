@@ -26,8 +26,10 @@ const getEntityByField = async (type, field, value) => {
 
 const getProject = async (id) => getEntityByField('project', 'id', id)
 const getPage = async (title) => getEntityByField('page', 'title', title)
+const getSection = async (hash) => getEntityByField('section', 'hash', hash)
 
 module.exports = {
   getPage,
-  getProject
+  getProject,
+  getSection
 }

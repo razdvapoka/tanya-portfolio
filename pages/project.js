@@ -5,6 +5,8 @@ import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import styled from '@emotion/styled'
 
+import { Section } from '../components'
+import Footer from '../components/footer'
 import ProjectHeader from '../components/project/header'
 import ProjectItem from '../components/project/item'
 
@@ -19,18 +21,26 @@ const Column = styled(FlexGrid.Item)(({ bgImage }) => bgImage && ({
 class Project extends React.Component {
   static async getInitialProps (props) {
     const projectId = props.query.id
-    const res = await fetch(publicRuntimeConfig.siteUrl + '/api/project/' + projectId)
-    const project = await res.json()
-    return { project }
+    const [ projectResponse, footerResponse ] = await Promise.all([
+      fetch(publicRuntimeConfig.siteUrl + '/api/project/' + projectId),
+      fetch(publicRuntimeConfig.siteUrl + '/api/section/footer')
+    ])
+
+    const [ project, footer ] = await Promise.all([
+      projectResponse.json(),
+      footerResponse.json()
+    ])
+
+    return { project, footer }
   }
 
   render () {
-    const { project, palette = 'dark' } = this.props
+    const { project, footer, palette = 'dark' } = this.props
     const contentRows = project.fields.content
     return (
       <Box
         pdx={4}
-        pdt={5} pdb={40}
+        pdt={5}
         tm={palette}
         minHeight='100vh'
       >
@@ -61,6 +71,7 @@ class Project extends React.Component {
             )
           })}
         </Text>
+        <Section as='footer' mgt={40} pdb={10} {...footer.fields} />
       </Box>
     )
   }

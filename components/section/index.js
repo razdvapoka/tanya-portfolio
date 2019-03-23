@@ -41,7 +41,8 @@ const Section = ({
   bottom,
   sections,
   description,
-  descriptionAlt
+  descriptionAlt,
+  ...sectionRest
 }) => {
   const {
     component: SectionContent,
@@ -58,6 +59,7 @@ const Section = ({
         minHeight={pxToRem(1190)}
         position='relative'
         tm
+        {...sectionRest}
         {...rest}
       >
         <SectionHeader
