@@ -144,6 +144,15 @@ export const THEME = {
       fontFamily: 'Suisse',
       fontSize: pxToRem(35),
       lineHeight: 47 / 35
+    },
+    linkName: {
+      fontWeight: 'normal',
+      fontFamily: 'Suisse',
+      fontSize: pxToRem(14),
+      lineHeight: 28 / 14,
+      textTransform: 'none',
+      letterSpacing: 0,
+      verticalAlign: 'top'
     }
   }
 }

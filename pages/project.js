@@ -1,108 +1,20 @@
-import { Box, FlexGrid, Image, Text } from 'pss-components'
+import { Box, FlexGrid, Text } from 'pss-components'
 import { ps } from 'pss'
-import Markdown from 'react-markdown'
-import React, { useState, useRef, useEffect } from 'react'
+import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import styled from '@emotion/styled'
 
-import useInView from 'react-hook-inview'
-
-import StyledText from '../components/styled-text'
+import ProjectHeader from '../components/project/header'
+import ProjectItem from '../components/project/item'
 
 const { publicRuntimeConfig } = getConfig()
 
-const Video = styled(Box)().withComponent('video')
-
-const VideoItem = ({ video, image, inViewport }) => {
-  const videoRef = useRef(null)
-  const [ isPlaying, setIsPlaying ] = useState(false)
-  useEffect(() => {
-    videoRef.current.addEventListener('ended', handleComplete)
-    return () => {
-      videoRef.current.removeEventListener('ended', handleComplete)
-    }
-  }, [ videoRef ])
-
-  const play = () => {
-    videoRef.current.play()
-    setIsPlaying(true)
-  }
-
-  const pause = () => {
-    videoRef.current.pause()
-    setIsPlaying(false)
-  }
-
-  const handleComplete = () => {
-    console.log('COMPLETE')
-    pause()
-    videoRef.current.currentTime = 0
-    play()
-  }
-
-  const handleClick = () => {
-    if (isPlaying) {
-      pause()
-    } else {
-      play()
-    }
-  }
-
-  useInView({
-    target: videoRef,
-    onEnter: play,
-    onLeave: pause
-  })
-
-  return (
-    <Video
-      src={video.fields.file.url}
-      poster={image.fields.file.url}
-      width='100%'
-      ref={videoRef}
-      onClick={handleClick}
-    />
-  )
-}
-
-const ImageItem = ({ image, text }) => (
-  <Box position='relative'>
-    <Image width src={image.fields.file.url} />
-    {text && (
-      <Box position='absolute' left='50%' top='100%' maxWidth={1 / 3} opacity={0.6}>
-        <Text variant='caption' mgt={1}>{text}</Text>
-      </Box>
-    )}
-  </Box>
-)
-
-const TextItem = ({ text, palette }) => (
-  <StyledText
-    variant='large'
-    as={Markdown}
-    palette={palette}
-    fg='secondary'
-  >
-    {text}
-  </StyledText>
-)
-
-const getItemComponent = (type) => {
-  switch (type) {
-    case 'video': return VideoItem
-    case 'image': return ImageItem
-    case 'text': return TextItem
-    default: return Box
-  }
-}
-
-const ProjectItem = ({ type, ...rest }) => {
-  const ItemComponent = getItemComponent(type)
-  return (
-    <ItemComponent {...rest} />
-  )
-}
+const Column = styled(FlexGrid.Item)(({ bgImage }) => bgImage && ({
+  backgroundImage: `url(${bgImage.fields.file.url})`,
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat'
+}))
 
 class Project extends React.Component {
   static async getInitialProps (props) {
@@ -116,28 +28,39 @@ class Project extends React.Component {
     const { project, palette = 'dark' } = this.props
     const contentRows = project.fields.content
     return (
-      <Box postion='relative' mgt={1} pdx={4} pdb={40} tm={palette}>
-        <main>
+      <Box
+        pdx={4}
+        pdt={5} pdb={40}
+        tm={palette}
+        minHeight='100vh'
+      >
+        <ProjectHeader project={project} palette={palette} />
+        <Text as='main' fg='lightGrey' variant='large' mgt={15}>
           {contentRows.map((row, rowIndex) => {
             return (
-              <Box key={rowIndex} mgt={ps('&:not(:first-child)', 20)} {...row.fields.props}>
-                <FlexGrid space={4}>
+              <Box key={rowIndex} mgt={ps('&:not(:first-child)', 40)} {...row.fields.props}>
+                <FlexGrid space={4} {...row.fields.props}>
                   {row.fields.columns.map((column, columnIndex) => {
                     return (
-                      <FlexGrid.Item
+                      <Column
                         key={columnIndex}
                         col={column.fields.width}
                         offset={column.fields.offset ? column.fields.offset : 0}
+                        bgImage={column.fields.bgImage}
+                        {...column.fields.props}
                       >
-                        <ProjectItem {...column.fields.items.fields} palette={palette} />
-                      </FlexGrid.Item>
+                        <ProjectItem
+                          {...column.fields.items.fields}
+                          palette={palette}
+                        />
+                      </Column>
                     )
                   })}
                 </FlexGrid>
               </Box>
             )
           })}
-        </main>
+        </Text>
       </Box>
     )
   }

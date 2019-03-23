@@ -4,6 +4,9 @@ import styled from '@emotion/styled'
 import { pxToRem } from '../constants'
 
 const StyledText = styled(Text)`
+  & strong {
+     color: white;
+  }
   & a {
     border-bottom: solid ${pxToRem(2)};
   }
