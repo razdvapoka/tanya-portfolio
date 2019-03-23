@@ -36,7 +36,7 @@ class Project extends React.Component {
 
   render () {
     const { project, footer, palette = 'dark' } = this.props
-    const contentRows = project.fields.content
+    const contentRows = project.fields.content || []
     return (
       <Box
         pdx={4}

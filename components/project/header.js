@@ -83,6 +83,7 @@ const ProjectHeader = ({
               key={columnIndex}
               col={column.fields.width}
               offset={column.fields.offset ? column.fields.offset : 0}
+              {...column.fields.props}
             >
               <ProjectItem {...column.fields.items.fields} palette={palette} />
             </FlexGrid.Item>
