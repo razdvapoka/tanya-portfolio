@@ -1,5 +1,5 @@
-import { Box, FlexGrid, Text } from 'pss-components'
-import { ps } from 'pss'
+import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
+import { cs, ps } from 'pss'
 import Link from 'next/link'
 import React from 'react'
 import styled from '@emotion/styled'
@@ -22,33 +22,53 @@ const ProjectHeader = ({
       <Text variant='header'>
         {project.fields.title}
       </Text>
-      <TitleText
-        as='a'
-        href={project.fields.url}
-        target='_blank'
-        rel='noopener noreferrer'
-        variant='header'
-        fg={ps('&:hover', 'blue')}
-      >
-        link
-        <Box
-          display='inline-block'
-          width={pxToRem(75)}
-          height={pxToRem(75)}
-          transform={`translateY(-${pxToRem(8)})`}
-          mgl={2}
+      <FlexBox>
+        <TitleText
+          as='a'
+          href={project.fields.url}
+          target='_blank'
+          rel='noopener noreferrer'
+          variant='header'
+          fg={ps('&:hover', 'blue')}
         >
-          <ArrowTopRight />
+          link
+          <Box
+            display='inline-block'
+            width={pxToRem(75)}
+            height={pxToRem(75)}
+            transform={`translateY(-${pxToRem(8)})`}
+            mgl={2}
+          >
+            <ArrowTopRight />
+          </Box>
+        </TitleText>
+        <Box mgl={6}>
+          <TitleText
+            as='a'
+            href={project.fields.url}
+            target='_blank'
+            rel='noopener noreferrer'
+            variant='linkName'
+            fg={cs('white', ps('&:hover', 'blue'))}
+          >
+            {project.fields.urlName}
+          </TitleText>
+          {project.fields.secondUrl && (
+            <Box>
+              <TitleText
+                as='a'
+                href={project.fields.secondUrl}
+                target='_blank'
+                rel='noopener noreferrer'
+                variant='linkName'
+                fg={cs('white', ps('&:hover', 'blue'))}
+              >
+                {project.fields.secondUrlName}
+              </TitleText>
+            </Box>
+          )}
         </Box>
-        <Text
-          as='span'
-          variant='linkName'
-          fg='white'
-          mgl={6}
-        >
-          {project.fields.urlName}
-        </Text>
-      </TitleText>
+      </FlexBox>
     </FlexGrid.Item>
   )
   const works = (
@@ -73,9 +93,10 @@ const ProjectHeader = ({
     </FlexGrid.Item>
   )
   const columns = [ title, works ]
+  const headerRows = project.fields.header || []
   return (
     <Text as='header' fg='lightGrey' variant='body'>
-      {project.fields.header.map((row, rowIndex) => (
+      {headerRows.map((row, rowIndex) => (
         <FlexGrid key={rowIndex} width='100%' {...row.fields.props}>
           {columns[rowIndex] || null}
           {row.fields.columns.map((column, columnIndex) => (
