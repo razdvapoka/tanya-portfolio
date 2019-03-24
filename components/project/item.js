@@ -7,7 +7,13 @@ import VideoItem from '../video-item'
 
 const ImageItem = ({ image, text }) => (
   <Box position='relative'>
-    <Image width src={image.fields.file.url} />
+    <Box
+      width
+      ratio={image.fields.file.details.image.width / image.fields.file.details.image.height}
+      bg='lightGrey'
+    >
+      <Image width src={image.fields.file.url} />
+    </Box>
     {text && (
       <Box position='absolute' left='50%' top='100%' maxWidth={1 / 3}>
         <Text mgt={1}>{text}</Text>
