@@ -5,6 +5,7 @@ import handleInViewport from 'react-in-viewport'
 
 import { SLIDER_LAST_ITEM_PADDING, pxToRem } from '../../constants'
 import InlineFlexBox from '../inline-flexbox'
+import VideoItem from '../video-item'
 
 const SliderContent = handleInViewport(({
   setSlidesRef,
@@ -28,17 +29,27 @@ const SliderContent = handleInViewport(({
       ref={setSlidesRef}
     >
       {items.map(item => {
-        const image = item.fields.image.fields.file
+        const video = item.fields.video
+        const image = item.fields.image
         return (
           <Box
             key={item.sys.id}
             pdr={ps('&:last-child', SLIDER_LAST_ITEM_PADDING)}
             mgx={12}
           >
-            <Image
-              src={image.url}
-              minWidth={pxToRem(image.details.image.width / 2)}
-            />
+            {video ? (
+              <Box width={pxToRem(image.fields.file.details.image.width / 2)}>
+                <VideoItem
+                  video={video}
+                  image={item.fields.image}
+                />
+              </Box>
+            ) : (
+              <Image
+                src={image.fields.file.url}
+                minWidth={pxToRem(image.fields.file.details.image.width / 2)}
+              />
+            )}
           </Box>
         )
       })}
