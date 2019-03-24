@@ -44,7 +44,7 @@ class Project extends React.Component {
         minHeight='100vh'
       >
         <ProjectHeader project={project} palette={palette} />
-        <Text as='main' fg='lightGrey' variant='large' mgt={15}>
+        <Text as='main' fg='lightGrey' variant='large' mgt={45}>
           {contentRows.map((row, rowIndex) => {
             return (
               <Box key={rowIndex} mgt={ps('&:not(:first-child)', 40)} {...row.fields.props}>
