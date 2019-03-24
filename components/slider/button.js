@@ -29,7 +29,6 @@ const SliderButton = ({
 
   const handleClick = () => {
     onClick()
-    setCursorPos(null)
   }
 
   return (

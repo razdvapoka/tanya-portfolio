@@ -6,7 +6,6 @@ import getConfig from 'next/config'
 import styled from '@emotion/styled'
 
 import { Section } from '../components'
-import Footer from '../components/footer'
 import ProjectHeader from '../components/project/header'
 import ProjectItem from '../components/project/item'
 
