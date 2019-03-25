@@ -46,7 +46,7 @@ const getItemComponent = (type) => {
 const ProjectItem = ({ type, ...rest }) => {
   const ItemComponent = getItemComponent(type)
   return (
-    <ItemComponent {...rest} />
+    <ItemComponent withCursor {...rest} />
   )
 }
 

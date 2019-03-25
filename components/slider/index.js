@@ -44,7 +44,6 @@ class Slider extends React.Component {
       loop: true,
       update: this.updateCurrentSlideIndex
     })
-    console.log('DISTANCE:', slidesBoxRect.width, distance)
     timeline.add({
       targets: this.slides,
       translateX: -distance
@@ -56,14 +55,12 @@ class Slider extends React.Component {
 
   pauseAnimation = () => {
     const { animationTimeline } = this.state
-    console.log('pauSe')
     animationTimeline.pause()
   }
 
   onEnterViewport = () => {
     const { animationTimeline, isInManualMode } = this.state
     if (!isInManualMode) {
-      console.log('PLAY')
       animationTimeline.play()
     }
   }
@@ -71,7 +68,6 @@ class Slider extends React.Component {
   onLeaveViewport = () => {
     const { animationTimeline, isInManualMode } = this.state
     if (!isInManualMode) {
-      console.log('pauSe')
       animationTimeline.pause()
     }
   }

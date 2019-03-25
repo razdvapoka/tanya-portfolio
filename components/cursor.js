@@ -6,7 +6,8 @@ import { pxToRem } from '../constants'
 const Cursor = styled(Text)({
   'WebkitTextStroke': `${pxToRem(1)} black`,
   transform: 'translateX(-50%)',
-  willChange: 'left, top'
+  willChange: 'left, top',
+  pointerEvents: 'none'
 }).withComponent(Box)
 
 export default Cursor
