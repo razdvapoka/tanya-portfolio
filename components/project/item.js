@@ -28,6 +28,7 @@ const TextItem = ({ text, palette, fg, style, variant }) => (
     palette={palette}
     variant={variant}
     linkTarget='_blank'
+    iconSide={20}
   >
     {text}
   </StyledText>

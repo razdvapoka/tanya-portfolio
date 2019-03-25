@@ -1,6 +1,7 @@
 import { Box, FlexBox } from 'pss-components'
 import React from 'react'
 
+import { ContentText } from '../styled-text'
 import { PaletteProvider } from '..'
 import { pxToRem } from '../../constants'
 import About from '../about'
@@ -18,6 +19,7 @@ const getSectionProps = (sectionType) => {
     case 'slider': return { component: Slider }
     case 'footer': return {
       component: Footer,
+      textComponent: ContentText,
       minHeight: pxToRem(880),
       as: 'footer',
       pdb: 6
@@ -46,6 +48,7 @@ const Section = ({
 }) => {
   const {
     component: SectionContent,
+    textComponent,
     ...rest
   } = getSectionProps(type)
   return (
@@ -66,6 +69,7 @@ const Section = ({
           title={title}
           headerColumns={headerColumns}
           palette={palette}
+          textComponent={textComponent}
         />
         <SectionContent
           items={items}

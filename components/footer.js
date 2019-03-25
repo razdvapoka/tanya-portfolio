@@ -3,6 +3,7 @@ import { cs, ps } from 'pss'
 import React, { useMemo } from 'react'
 import styled from '@emotion/styled'
 
+import { ContentText } from './styled-text'
 import { pxToRem } from '../constants'
 import HashLink from './hashlink'
 
@@ -74,12 +75,12 @@ const Footer = ({ sections = [], ...rest }) => {
             <FlexGrid.Content mgt={10}>
               {listedSections.map((section, sectionIndex) => (
                 <HashLink key={sectionIndex} hash={section.fields.hash}>
-                  <Text
+                  <ContentText
                     variant='body'
                     fg='secondary'
                   >
-                    {section.fields.title}
-                  </Text>
+                    <a>{section.fields.title}</a>
+                  </ContentText>
                 </HashLink>
               ))}
             </FlexGrid.Content>

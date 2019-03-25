@@ -1,13 +1,14 @@
 import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
-import { cs, ps } from 'pss'
+import { ps } from 'pss'
 import Link from 'next/link'
+import Markdown from 'react-markdown'
 import React from 'react'
 import styled from '@emotion/styled'
 
+import { ContentText } from '../styled-text'
 import { pxToRem } from '../../constants'
 import ArrowCenterLeft from '../arrow-center-left'
 import ArrowTopRight from '../arrow-top-right'
-import ProjectItem from './item'
 
 const TitleText = styled(Text)({
   transition: 'color 0.1s ease'
@@ -105,7 +106,12 @@ const ProjectHeader = ({
               offset={column.fields.offset ? column.fields.offset : 0}
               {...column.fields.props}
             >
-              <ProjectItem {...column.fields.items.fields} palette={palette} />
+              <ContentText
+                as={Markdown}
+                linkTarget='_blank'
+              >
+                {column.fields.items.fields.text}
+              </ContentText>
             </FlexGrid.Item>
           ))}
         </FlexGrid>
