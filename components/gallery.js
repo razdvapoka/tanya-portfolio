@@ -1,4 +1,5 @@
 import { Box, FlexGrid, Text } from 'pss-components'
+import { cs, ps } from 'pss'
 import LazyLoad from 'react-lazyload'
 import Link from 'next/link'
 import React from 'react'
@@ -14,7 +15,7 @@ const Gallery = ({ items }) => (
         key={item.sys.id}
         id={item.fields.hash}
       >
-        <FlexGrid.Content>
+        <FlexGrid.Content className='gallery-item'>
           <LazyLoad
             placeholder={<Box height={pxToRem(385)} />}
             offset={100}
@@ -35,7 +36,11 @@ const Gallery = ({ items }) => (
               </Link>
             </Box>
           </LazyLoad>
-          <Box opacity={0.6} mgt={1}>
+          <Box
+            opacity={cs(0, ps('.gallery-item: hover &', 0.6))}
+            mgt={1}
+            transition='opacity 0.2s ease'
+          >
             <Text variant='caption'>
               {item.fields.caption}
             </Text>
