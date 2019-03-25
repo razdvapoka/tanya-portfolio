@@ -1,12 +1,11 @@
-import { FlexBox, Text } from 'pss-components'
-import { ps } from 'pss'
-import React from 'react'
+import { FlexGrid, Text } from 'pss-components'
 import Link from 'next/link'
+import React from 'react'
 import styled from '@emotion/styled'
 
 import HashLink from './hashlink'
 
-const HeaderBox = styled(FlexBox)(({ isVisible }) => ({
+const HeaderBox = styled(FlexGrid)(({ isVisible }) => ({
   pointerEvents: isVisible ? 'auto' : 'none'
 }))
 
@@ -21,36 +20,28 @@ const SecondaryHeader = ({
     position='fixed' top left
     width height='headerHeight'
     pdx={6}
+    mgx={0}
     alignItems='center'
     justifyContent='flex-end'
     tm='dark'
     zIndex={10}
     fg='secondary'
-    mgl={ps('& > * + *', 10)}
     transition='opacity 0.3s ease'
     isVisible={isVisible}
+    spacex={4}
     {...rest}
   >
-    <FlexBox.Item mgr='auto'>
+    <FlexGrid.Item col={6}>
       <a href='/'>Tanya E.</a>
-    </FlexBox.Item>
-    <FlexBox.Item>
+    </FlexGrid.Item>
+    <FlexGrid.Item col={3}>
       <Link href='/about'>
         <a>
           About
         </a>
       </Link>
-    </FlexBox.Item>
-    <FlexBox.Item>
-      <a
-        href='http://criticism.online'
-        target='_blank'
-        rel='noopener noreferrer'
-      >
-        Criticism.online
-      </a>
-    </FlexBox.Item>
-    <FlexBox.Item>
+    </FlexGrid.Item>
+    <FlexGrid.Item col={2}>
       <a
         href='https://instagram.com/ermlvaa'
         target='_blank'
@@ -58,23 +49,15 @@ const SecondaryHeader = ({
       >
         Instagram
       </a>
-    </FlexBox.Item>
-    <FlexBox.Item>
-      <HashLink
-        hash={worksHash}
-        modifyUrl={false}
-      >
-        Works
-      </HashLink>
-    </FlexBox.Item>
-    <FlexBox.Item>
+    </FlexGrid.Item>
+    <FlexGrid.Item col={1}>
       <HashLink
         hash='footer'
         modifyUrl={false}
       >
         Contacts
       </HashLink>
-    </FlexBox.Item>
+    </FlexGrid.Item>
   </Text>
 )
 
