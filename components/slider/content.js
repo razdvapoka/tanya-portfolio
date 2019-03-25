@@ -5,6 +5,7 @@ import handleInViewport from 'react-in-viewport'
 
 import { SLIDER_LAST_ITEM_PADDING, pxToRem } from '../../constants'
 import InlineFlexBox from '../inline-flexbox'
+import LazyMount from '../lazy-mount'
 import VideoItem from '../video-item'
 
 const SliderContent = handleInViewport(({
@@ -32,13 +33,14 @@ const SliderContent = handleInViewport(({
         const video = item.fields.video
         const image = item.fields.image
         return (
-          <Box
+          <LazyMount
             key={item.sys.id}
             pdr={ps('&:last-child', SLIDER_LAST_ITEM_PADDING)}
             mgx={12}
+            width={pxToRem(image.fields.file.details.image.width / 2)}
           >
             {video ? (
-              <Box width={pxToRem(image.fields.file.details.image.width / 2)}>
+              <Box width>
                 <VideoItem
                   video={video}
                   image={item.fields.image}
@@ -47,10 +49,10 @@ const SliderContent = handleInViewport(({
             ) : (
               <Image
                 src={image.fields.file.url}
-                minWidth={pxToRem(image.fields.file.details.image.width / 2)}
+                width
               />
             )}
-          </Box>
+          </LazyMount>
         )
       })}
     </InlineFlexBox>
