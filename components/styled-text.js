@@ -5,6 +5,7 @@ import { pxToRem } from '../constants'
 
 const StyledText = styled(Text)`
   & strong {
+     font-weight: normal;
      color: white;
   }
   & a {

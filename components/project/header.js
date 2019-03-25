@@ -22,14 +22,15 @@ const ProjectHeader = ({
       <Text variant='header'>
         {project.fields.title}
       </Text>
-      <FlexBox>
+      <FlexBox
+        fg={ps('&:hover', 'blue')}
+      >
         <TitleText
           as='a'
           href={project.fields.url}
           target='_blank'
           rel='noopener noreferrer'
           variant='header'
-          fg={ps('&:hover', 'blue')}
         >
           link
           <Box
@@ -49,7 +50,6 @@ const ProjectHeader = ({
             target='_blank'
             rel='noopener noreferrer'
             variant='linkName'
-            fg={cs('white', ps('&:hover', 'blue'))}
           >
             {project.fields.urlName}
           </TitleText>
@@ -61,7 +61,6 @@ const ProjectHeader = ({
                 target='_blank'
                 rel='noopener noreferrer'
                 variant='linkName'
-                fg={cs('white', ps('&:hover', 'blue'))}
               >
                 {project.fields.secondUrlName}
               </TitleText>
