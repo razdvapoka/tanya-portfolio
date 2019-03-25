@@ -17,7 +17,9 @@ const letterStyle = {
   transition: 'opacity 1s ease'
 }
 
-const LetterBox = styled(Text)(letterStyle)
+const LetterBox = styled(Text)({
+  willChange: 'transform'
+}, letterStyle)
 const LetterText = styled(Box)({
   transform: `translateY(-${pxToRem(8)})`
 })
