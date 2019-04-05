@@ -6,7 +6,13 @@ import styled from '@emotion/styled'
 import HashLink from './hashlink'
 
 const HeaderBox = styled(FlexGrid)(({ isVisible }) => ({
-  pointerEvents: isVisible ? 'auto' : 'none'
+  pointerEvents: isVisible ? 'auto' : 'none',
+  '& a': {
+    transition: 'color 0.5s ease-out'
+  },
+  '& a:hover': {
+    color: 'white'
+  }
 }))
 
 const SecondaryHeader = ({
@@ -55,7 +61,9 @@ const SecondaryHeader = ({
         hash='footer'
         modifyUrl={false}
       >
-        Contacts
+        <a>
+          Contacts
+        </a>
       </HashLink>
     </FlexGrid.Item>
   </Text>

@@ -39,7 +39,7 @@ export const THEME = {
   },
   size: {
     site: '1440px',
-    headerHeight: pxToRem(50),
+    headerHeight: pxToRem(35),
     marqueeHeight: pxToRem(64)
   },
   color: {

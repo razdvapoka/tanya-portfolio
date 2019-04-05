@@ -4,7 +4,13 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 const HeaderBox = styled(FlexGrid)(({ isVisible }) => ({
-  pointerEvents: isVisible ? 'auto' : 'none'
+  pointerEvents: isVisible ? 'auto' : 'none',
+  '& a': {
+    transition: 'color 0.5s ease-out'
+  },
+  '& a:hover': {
+    color: 'white'
+  }
 }))
 
 const SecondaryHeader = ({
@@ -30,7 +36,7 @@ const SecondaryHeader = ({
     spacex={0}
     {...rest}
   >
-    <FlexGrid.Item col={6} fg='white'>
+    <FlexGrid.Item col={6}>
       <Link href='/#digital-design'>
         <a>
           Back to works
