@@ -91,11 +91,6 @@ export const THEME = {
       secondary: COLOR_BLACK
     }
   },
-  textStyleFlag: {
-    caps: {
-      textTransform: 'uppercase'
-    }
-  },
   textStyle: {
     root: {
       fontWeight: 'normal',

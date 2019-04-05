@@ -30,10 +30,10 @@ const SecondaryHeader = ({
     spacex={0}
     {...rest}
   >
-    <FlexGrid.Item col={6}>
+    <FlexGrid.Item col={6} fg='white'>
       <Link href='/#digital-design'>
         <a>
-          back to works
+          Back to works
         </a>
       </Link>
     </FlexGrid.Item>
@@ -45,7 +45,7 @@ const SecondaryHeader = ({
         {nextProjectId && (
           <Link href={`/project/${nextProjectId}`}>
             <a>
-              next project
+              Next project
             </a>
           </Link>
         )}

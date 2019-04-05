@@ -72,7 +72,7 @@ class Project extends React.Component {
           {state => (
             <ProjectSecondaryHeader
               isVisible={isSecondaryHeaderVisible}
-              projectName={project.fields.title}
+              projectName={project.fields.name}
               nextProjectId={project.fields.nextProjectId}
               {...transitionStyles[state]}
             />
