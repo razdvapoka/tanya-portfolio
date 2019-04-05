@@ -2,8 +2,9 @@ import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
 import { ps } from 'pss'
 import Link from 'next/link'
 import Markdown from 'react-markdown'
-import React from 'react'
+import React, { useRef } from 'react'
 import styled from '@emotion/styled'
+import useInView from 'react-hook-inview'
 
 import { ContentText } from '../styled-text'
 import { pxToRem } from '../../constants'
@@ -16,8 +17,26 @@ const TitleText = styled(Text)({
 
 const ProjectHeader = ({
   project,
-  palette
+  palette,
+  setIsHeaderVisible
 }) => {
+  const elementRef = useRef(null)
+
+  const handleEnter = () => {
+    setIsHeaderVisible(true)
+  }
+
+  const handleLeave = () => {
+    setIsHeaderVisible(false)
+  }
+
+  useInView({
+    target: elementRef,
+    onEnter: handleEnter,
+    onLeave: handleLeave,
+    unobserveOnEnter: false
+  })
+
   const title = (
     <FlexGrid.Item col={6} fg='white'>
       <Text variant='header'>
@@ -95,7 +114,7 @@ const ProjectHeader = ({
   const columns = [ title, works ]
   const headerRows = project.fields.header || []
   return (
-    <Text as='header' fg='lightGrey' variant='body'>
+    <Text as='header' fg='lightGrey' variant='body' ref={elementRef}>
       {headerRows.map((row, rowIndex) => (
         <FlexGrid key={rowIndex} width='100%' {...row.fields.props}>
           {columns[rowIndex] || null}

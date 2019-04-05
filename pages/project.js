@@ -4,9 +4,11 @@ import React from 'react'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import styled from '@emotion/styled'
+import Transition from 'react-transition-group/Transition'
 
 import { Section } from '../components'
 import ProjectHeader from '../components/project/header'
+import ProjectSecondaryHeader from '../components/project/secondary-header'
 import ProjectItem from '../components/project/item'
 
 const { publicRuntimeConfig } = getConfig()
@@ -16,6 +18,13 @@ const Column = styled(FlexGrid.Item)(({ bgImage }) => bgImage && ({
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat'
 }))
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 }
+}
 
 class Project extends React.Component {
   static async getInitialProps (props) {
@@ -33,8 +42,19 @@ class Project extends React.Component {
     return { project, footer }
   }
 
+  state = {
+    isHeaderVisible: true
+  }
+
+  setIsHeaderVisible = (isHeaderVisible) => {
+    console.log(isHeaderVisible)
+    this.setState({ isHeaderVisible })
+  }
+
   render () {
     const { project, footer, palette = 'dark' } = this.props
+    const { isHeaderVisible } = this.state
+    const isSecondaryHeaderVisible = !isHeaderVisible
     const contentRows = project.fields.content || []
     return (
       <Box
@@ -43,7 +63,21 @@ class Project extends React.Component {
         tm={palette}
         minHeight='100vh'
       >
-        <ProjectHeader project={project} palette={palette} />
+        <ProjectHeader
+          project={project}
+          palette={palette}
+          setIsHeaderVisible={this.setIsHeaderVisible}
+        />
+        <Transition in={isSecondaryHeaderVisible} timeout={300} mountOnEnter>
+          {state => (
+            <ProjectSecondaryHeader
+              isVisible={isSecondaryHeaderVisible}
+              projectName={project.fields.title}
+              nextProjectId={project.fields.nextProjectId}
+              {...transitionStyles[state]}
+            />
+          )}
+        </Transition>
         <Text as='main' fg='lightGrey' variant='large' mgt={45}>
           {contentRows.map((row, rowIndex) => {
             return (
