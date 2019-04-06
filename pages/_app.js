@@ -18,6 +18,12 @@ const globalStyles = css`
     ${THEME.textStyle.root}
   }
 
+  @media ${THEME.media.M} {
+    :root {
+      ${THEME.textStyle.rootMobile}
+    }
+  }
+
   @font-face {
     font-family: 'Suisse';
     font-style: 'normal';
@@ -47,6 +53,7 @@ export default class MyApp extends App {
           <Head>
             <title>Tanya</title>
             <link rel='icon' href='/static/favicon.ico' />
+            <meta name='viewport' content='width=device-width, initial-scale=1' />
             <style dangerouslySetInnerHTML={{ __html: defaults }} />
           </Head>
           <Global styles={globalStyles} />

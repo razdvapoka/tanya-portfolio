@@ -1,4 +1,5 @@
 export const CANONIC_SCREEN_WIDTH = 1440
+export const CANONIC_SCREEN_WIDTH_M = 375
 export const ROOT_FONT_SIZE = 18
 export const SPACE_STEP = 6
 
@@ -10,7 +11,7 @@ export const remToPx = rem => typeof window !== 'undefined' ? (
   window.innerWidth
 ) : 0
 
-const sequence = (length, step, initial = 0) =>
+export const sequence = (length, step = 1, initial = 0) =>
   [ ...Array(length) ].map((_, i) => initial + i * step)
 
 const COLOR_BLACK = '#000'
@@ -97,13 +98,25 @@ export const THEME = {
       fontFamily: 'Helvetica Neue, Helvetica',
       fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH * 100}vw`
     },
-    header: {
+    rootMobile: {
       fontWeight: 'normal',
-      fontFamily: 'Suisse',
-      fontSize: pxToRem(100),
-      lineHeight: 84 / 100,
-      textTransform: 'uppercase',
-      letterSpacing: pxToRem(1.67)
+      fontFamily: 'Helvetica Neue, Helvetica',
+      fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH_M * 100}vw`
+    },
+    header: {
+      all: {
+        fontWeight: 'normal',
+        fontFamily: 'Suisse',
+        fontSize: pxToRem(100),
+        lineHeight: 84 / 100,
+        textTransform: 'uppercase',
+        letterSpacing: pxToRem(1.67)
+      },
+      M: {
+        fontSize: pxToRem(66),
+        lineHeight: 60 / 66,
+        letterSpacing: pxToRem(1.1)
+      }
     },
     introFixed: TEXT_INTRO_FIXED,
     intro: {

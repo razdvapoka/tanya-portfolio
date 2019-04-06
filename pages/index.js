@@ -1,11 +1,17 @@
 import { Box } from 'pss-components'
 import React from 'react'
+import Transition from 'react-transition-group/Transition'
 import fetch from 'isomorphic-unfetch'
 import getConfig from 'next/config'
 import hoistNonReactStatic from 'hoist-non-react-statics'
-import withFonts from '../hoc/with-fonts'
-import Transition from 'react-transition-group/Transition'
 
+import {
+  Header,
+  Intro,
+  MobileIntro,
+  SecondaryHeader,
+  Section
+} from '../components'
 import {
   INTRO_HEIGHT,
   INTRO_SHIFT,
@@ -13,13 +19,7 @@ import {
   WORD_SETS,
   pxToRem
 } from '../constants'
-
-import {
-  Header,
-  SecondaryHeader,
-  Intro,
-  Section
-} from '../components'
+import withFonts from '../hoc/with-fonts'
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -73,10 +73,10 @@ class Index extends React.Component {
 
     return (
       <Box postion='relative' mgt={1}>
-        <Box pdx={4} minHeight={fontsLoaded ? 'auto' : '100vh'}>
+        <Box pdx={{ all: 4, M: 2 }} minHeight={fontsLoaded ? 'auto' : '100vh'}>
           {fontsLoaded && (
             <>
-              <Header pdx={2} worksHash={firstSectionHash} isHome />
+              <Header pdx={{ all: 2, M: 0 }} worksHash={firstSectionHash} isHome />
               <Transition in={isSecondaryHeaderVisible} timeout={300} mountOnEnter>
                 {state => (
                   <SecondaryHeader
@@ -91,6 +91,7 @@ class Index extends React.Component {
                 height={pxToRem(670)}
                 mgt={2}
                 className='intro-box'
+                hideOn='M'
               >
                 <Intro
                   ref={this.introRef}
@@ -106,7 +107,13 @@ class Index extends React.Component {
                   setIntroHidden={this.setIntroHidden}
                 />
               </Box>
-              <Box height='marqueeHeight' />
+              <Box hideOn='M' height='marqueeHeight' />
+              <Box display={{ all: 'none', M: 'block' }}>
+                <MobileIntro
+                  setIntroVisible={this.setIntroVisible}
+                  setIntroHidden={this.setIntroHidden}
+                />
+              </Box>
             </>
           )}
         </Box>

@@ -14,3 +14,5 @@ export const INTRO_WIDTH = 1386
 export const INTRO_HEIGHT = 680
 export const INTRO_SHIFT = 100
 export const INTRO_SPACING = 25
+export const MOBILE_INTRO_LINE_COUNT = 9
+export const MOBILE_INTRO_DURATION = 500000

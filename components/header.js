@@ -8,6 +8,7 @@ const Header = ({ worksHash, isHome, ...rest }) => (
   <FlexBox
     as='header'
     justifyContent='space-between'
+    flexDirection={{ M: 'column' }}
     {...rest}
   >
     <Link href={isHome ? '/about' : '/'}>
