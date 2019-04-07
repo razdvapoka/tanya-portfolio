@@ -151,7 +151,7 @@ class Slider extends React.Component {
     const hasNextSlide = currentSlideIndex < items.length - 1
     const hasPrevSlide = currentSlideIndex > 0
     return (
-      <Box mgt={20}>
+      <Box mgt={{ all: 20, M: 0 }}>
         <SliderContent
           items={items}
           onLeaveViewport={this.onLeaveViewport}

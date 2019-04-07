@@ -1,3 +1,4 @@
+export const MOBILE_BP = 600
 export const CANONIC_SCREEN_WIDTH = 1440
 export const CANONIC_SCREEN_WIDTH_M = 375
 export const ROOT_FONT_SIZE = 18
@@ -10,6 +11,10 @@ export const remToPx = rem => typeof window !== 'undefined' ? (
   (ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH) *
   window.innerWidth
 ) : 0
+
+export const isMobile = () => typeof window !== 'undefined'
+  ? window.innerWidth < MOBILE_BP
+  : false
 
 export const sequence = (length, step = 1, initial = 0) =>
   [ ...Array(length) ].map((_, i) => initial + i * step)
@@ -33,7 +38,8 @@ const TEXT_INTRO_FIXED = {
 
 export const THEME = {
   media: {
-    M: '(max-width: 600px)'
+    D: `(min-width: ${MOBILE_BP}px)`,
+    M: `(max-width: ${MOBILE_BP}px)`
   },
   space: {
     all: sequence(100, SPACE_STEP).map(pxToRem)
@@ -113,9 +119,9 @@ export const THEME = {
         letterSpacing: pxToRem(1.67)
       },
       M: {
-        fontSize: pxToRem(66),
-        lineHeight: 60 / 66,
-        letterSpacing: pxToRem(1.1)
+        fontSize: pxToRem(61),
+        lineHeight: 54 / 61,
+        letterSpacing: pxToRem(1.02)
       }
     },
     introFixed: TEXT_INTRO_FIXED,
@@ -124,16 +130,29 @@ export const THEME = {
       fontSize: pxToRem(TEXT_INTRO_FIXED.fontSize)
     },
     body: {
-      fontWeight: 'normal',
-      fontFamily: 'Suisse',
-      fontSize: pxToRem(20),
-      lineHeight: 28 / 20
+      all: {
+        fontWeight: 'normal',
+        fontFamily: 'Suisse',
+        fontSize: pxToRem(20),
+        lineHeight: 28 / 20
+      },
+      M: {
+        fontSize: pxToRem(14),
+        lineHeight: 20 / 14
+      }
     },
     caption: {
-      fontWeight: 'normal',
-      fontFamily: 'Helvetica Neue, Helvetica',
-      fontSize: pxToRem(20),
-      lineHeight: 23 / 20
+      all: {
+        fontWeight: 'normal',
+        fontFamily: 'Helvetica Neue, Helvetica',
+        fontSize: pxToRem(20),
+        lineHeight: 23 / 20
+      },
+      M: {
+        fontSize: pxToRem(14),
+        lineHeight: 16 / 14,
+        letterSpacing: pxToRem(0.3)
+      }
     },
     menuItem: {
       fontWeight: 'normal',

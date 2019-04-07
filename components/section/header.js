@@ -10,8 +10,8 @@ const SectionHeader = ({
   palette,
   textComponent: TextComponent = StyledText
 }) => (
-  <FlexGrid space={4} zIndex={1}>
-    <FlexGrid.Item col={6}>
+  <FlexGrid space={4} zIndex={1} flexWrap='wrap' mgb={{ M: 6 }}>
+    <FlexGrid.Item col={{ all: 6, M: 12 }} mgb={{ M: 6 }}>
       <FlexGrid.Content>
         <Text variant='header'>
           {title}
@@ -19,7 +19,13 @@ const SectionHeader = ({
       </FlexGrid.Content>
     </FlexGrid.Item>
     {headerColumns.map((col, colIndex) => (
-      <FlexGrid.Item key={colIndex} col={6 / headerColumns.length}>
+      <FlexGrid.Item
+        key={colIndex}
+        col={{
+          all: 6 / headerColumns.length,
+          M: 12 / headerColumns.length
+        }}
+      >
         <FlexGrid.Content>
           <TextComponent
             as={Markdown}

@@ -3,7 +3,11 @@ import { ps } from 'pss'
 import React from 'react'
 import handleInViewport from 'react-in-viewport'
 
-import { SLIDER_LAST_ITEM_PADDING, pxToRem } from '../../constants'
+import {
+  SLIDER_LAST_ITEM_PADDING,
+  SLIDER_LAST_ITEM_PADDING_M,
+  pxToRem
+} from '../../constants'
 import InlineFlexBox from '../inline-flexbox'
 import LazyMount from '../lazy-mount'
 import VideoItem from '../video-item'
@@ -22,7 +26,7 @@ const SliderContent = handleInViewport(({
     pdy={10}
     position='relative'
     ref={innerRef}
-    mgx={-6}
+    mgx={{ all: -6, M: -2 }}
   >
     <InlineFlexBox
       alignItems='center'
@@ -35,9 +39,12 @@ const SliderContent = handleInViewport(({
         return (
           <LazyMount
             key={item.sys.id}
-            pdr={ps('&:last-child', SLIDER_LAST_ITEM_PADDING)}
-            mgx={12}
-            width={pxToRem(image.fields.file.details.image.width / 2)}
+            pdr={{
+              all: ps('&:last-child', SLIDER_LAST_ITEM_PADDING),
+              M: ps('&:last-child', SLIDER_LAST_ITEM_PADDING_M)
+            }}
+            mgx={{ all: 12, M: 4 }}
+            width={{ all: pxToRem(image.fields.file.details.image.width / 2), M: '85vw' }}
           >
             {video ? (
               <Box width>

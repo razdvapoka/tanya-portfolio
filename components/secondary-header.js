@@ -25,7 +25,7 @@ const SecondaryHeader = ({
     variant='body'
     position='fixed' top left
     width height='headerHeight'
-    pdx={6}
+    pdx={{ all: 6, M: 0 }}
     mgx={0}
     alignItems='center'
     justifyContent='flex-end'
@@ -37,7 +37,7 @@ const SecondaryHeader = ({
     spacex={4}
     {...rest}
   >
-    <FlexGrid.Item col={6}>
+    <FlexGrid.Item col={{ all: 6, M: 3 }}>
       <a href='/'>Tanya E.</a>
     </FlexGrid.Item>
     <FlexGrid.Item col={3}>
@@ -47,7 +47,7 @@ const SecondaryHeader = ({
         </a>
       </Link>
     </FlexGrid.Item>
-    <FlexGrid.Item col={2}>
+    <FlexGrid.Item col={{ all: 2, M: 3 }}>
       <a
         href='https://instagram.com/ermlvaa'
         target='_blank'
@@ -56,7 +56,7 @@ const SecondaryHeader = ({
         Instagram
       </a>
     </FlexGrid.Item>
-    <FlexGrid.Item col={1}>
+    <FlexGrid.Item col={{ all: 1, M: 3 }}>
       <HashLink
         hash='footer'
         modifyUrl={false}

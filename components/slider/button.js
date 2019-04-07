@@ -38,6 +38,7 @@ const SliderButton = ({
           position='fixed'
           variant='sliderButton'
           fg='button'
+          hideOn='M'
           {...cursorPos}
         >
           {cursorText}

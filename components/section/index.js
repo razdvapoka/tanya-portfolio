@@ -20,7 +20,7 @@ const getSectionProps = (sectionType) => {
     case 'footer': return {
       component: Footer,
       textComponent: ContentText,
-      minHeight: pxToRem(880),
+      minHeight: { all: pxToRem(880), M: pxToRem(435) },
       as: 'footer',
       pdb: 6
     }
@@ -56,10 +56,10 @@ const Section = ({
       <FlexBox
         id={hash}
         flexDirection='column'
-        pdy={12}
-        pdx={6}
+        pdy={{ all: 12, M: 7 }}
+        pdx={{ all: 6, M: 2 }}
         as='section'
-        minHeight={pxToRem(1190)}
+        minHeight={{ all: pxToRem(1190), M: pxToRem(600) }}
         position='relative'
         tm
         {...sectionRest}

@@ -3,22 +3,42 @@ import styled from '@emotion/styled'
 
 import { pxToRem } from '../constants'
 
-const StyledText = styled(Text)`
-  & a {
-    border-bottom: solid ${pxToRem(2)};
+const StyledText = styled(Text)(({ theme, palette = 'default' }) => ({
+  '& a': {
+    borderBottom: `solid ${pxToRem(0.5)}`
+  },
+  '& a:after': {
+    color: 'inherit',
+    display: 'inline-block',
+    content: '" "',
+    width: `${pxToRem(11)}`,
+    height: `${pxToRem(11)}`,
+    marginLeft: `${pxToRem(7)}`,
+    backgroundImage: `url('data:image/svg+xml;utf8,
+      <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12">
+        <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">
+          <path stroke-linecap="square" d="M-8.52651283e-14,10.5 L10.111627,0.388373029"/>
+          <polyline points=".5 0 10.5 0 10.5 10"/>
+        </g>
+      </svg>'
+    )`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    [`@media ${theme.media.M}`]: {
+      width: `${pxToRem(8)}`,
+      height: `${pxToRem(7)}`,
+      marginLeft: `${pxToRem(4)}`,
+      backgroundImage: `url('data:image/svg+xml;utf8,
+        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" viewBox="0 0 12 12">
+          <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">
+            <path stroke-linecap="square" d="M-8.52651283e-14,10.5 L10.111627,0.388373029"/>
+            <polyline points=".5 0 10.5 0 10.5 10"/>
+          </g>
+        </svg>'
+      )`
+    }
   }
-  & a:after {
-    color: inherit;
-    display: inline-block;
-    content: ' ';
-    width: ${({ iconSide = 13 }) => pxToRem(iconSide)};
-    height: ${({ iconSide = 13 }) => pxToRem(iconSide)};
-    margin-left: ${pxToRem(7)};
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13"><polygon fill="${({ theme, palette }) => theme.palette[palette].secondary.replace('#', '%23')}" points="1242.5 5283.18 1250.82 5283.18 1250.82 5291.5 1249.18 5291.5 1249.18 5286 1239.5 5295.68 1238.32 5294.5 1248 5284.82 1242.5 5284.82" transform="translate(-1238 -5283)"/></svg>');
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-`
+}))
 
 export const ContentText = styled(Text)`
   & strong {

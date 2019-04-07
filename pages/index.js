@@ -19,6 +19,7 @@ import {
   WORD_SETS,
   pxToRem
 } from '../constants'
+import { isMobile as checkIfMobile } from '../constants/theme'
 import withFonts from '../hoc/with-fonts'
 
 const { publicRuntimeConfig } = getConfig()
@@ -48,7 +49,8 @@ class Index extends React.Component {
   }
 
   state = {
-    isIntroVisible: null
+    isIntroVisible: null,
+    isMobile: null
   }
 
   setIntroVisible = () => {
@@ -59,6 +61,19 @@ class Index extends React.Component {
     this.setState({ isIntroVisible: false })
   }
 
+  updateIsMobile = () => {
+    this.setState({ isMobile: checkIfMobile() })
+  }
+
+  componentDidMount () {
+    this.updateIsMobile()
+    window.addEventListener('resize', this.updateIsMobile)
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener('resize', this.updateIsMobile)
+  }
+
   render () {
     const {
       loops,
@@ -66,7 +81,7 @@ class Index extends React.Component {
       main,
       fontsLoaded
     } = this.props
-    const { isIntroVisible } = this.state
+    const { isIntroVisible, isMobile } = this.state
     const isSecondaryHeaderVisible = isIntroVisible != null && !isIntroVisible
 
     const firstSectionHash = main.fields.items[0].fields.hash
@@ -86,42 +101,46 @@ class Index extends React.Component {
                   />
                 )}
               </Transition>
-              <Box
-                position='relative'
-                height={pxToRem(670)}
-                mgt={2}
-                className='intro-box'
-                hideOn='M'
-              >
-                <Intro
-                  ref={this.introRef}
-                  width={INTRO_WIDTH}
-                  height={INTRO_HEIGHT}
-                  loops={loops}
-                  velocity={velocity}
-                  shift={INTRO_SHIFT}
-                  padding={0}
-                  onEnterViewport={this.setIntroVisible}
-                  onLeaveViewport={this.setIntroHidden}
-                  setIntroVisible={this.setIntroVisible}
-                  setIntroHidden={this.setIntroHidden}
-                />
-              </Box>
+              {!isMobile && (
+                <Box
+                  position='relative'
+                  height={pxToRem(670)}
+                  mgt={2}
+                  className='intro-box'
+                  hideOn='M'
+                >
+                  <Intro
+                    ref={this.introRef}
+                    width={INTRO_WIDTH}
+                    height={INTRO_HEIGHT}
+                    loops={loops}
+                    velocity={velocity}
+                    shift={INTRO_SHIFT}
+                    padding={0}
+                    onEnterViewport={this.setIntroVisible}
+                    onLeaveViewport={this.setIntroHidden}
+                    setIntroVisible={this.setIntroVisible}
+                    setIntroHidden={this.setIntroHidden}
+                  />
+                </Box>
+              )}
               <Box hideOn='M' height='marqueeHeight' />
-              <Box display={{ all: 'none', M: 'block' }}>
-                <MobileIntro
-                  setIntroVisible={this.setIntroVisible}
-                  setIntroHidden={this.setIntroHidden}
-                />
-              </Box>
+              {isMobile && (
+                <Box display={{ all: 'none', M: 'block' }}>
+                  <MobileIntro
+                    setIntroVisible={this.setIntroVisible}
+                    setIntroHidden={this.setIntroHidden}
+                  />
+                </Box>
+              )}
             </>
           )}
         </Box>
-        <main>
+        <Box as='main'>
           {main.fields.items.map(({ sys: { id }, fields }) => (
             <Section key={id} sections={main.fields.items} {...fields} />
           ))}
-        </main>
+        </Box>
       </Box>
     )
   }
