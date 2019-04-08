@@ -1,12 +1,8 @@
-import { Box } from 'pss-components'
-import React, { useRef, useEffect, useState } from 'react'
-import styled from '@emotion/styled'
+import React, { useRef, useState } from 'react'
 import useInView from 'react-hook-inview'
 
 import Cursor from './cursor'
 import StyledText from './styled-text'
-
-const Video = styled(Box)().withComponent('video')
 
 const VideoItem = ({
   video,
@@ -29,14 +25,11 @@ const VideoItem = ({
 
   const videoRef = useRef(null)
   const [ isPlaying, setIsPlaying ] = useState(false)
-  useEffect(() => {
-    videoRef.current.addEventListener('ended', handleComplete)
-    return () => {
-      videoRef.current.removeEventListener('ended', handleComplete)
-    }
-  }, [ videoRef ])
 
   const play = () => {
+    if (!videoRef.current.hasAttribute('muted')) {
+      videoRef.current.setAttribute('muted', '')
+    }
     videoRef.current.play()
     setIsPlaying(true)
   }
@@ -44,12 +37,6 @@ const VideoItem = ({
   const pause = () => {
     videoRef.current.pause()
     setIsPlaying(false)
-  }
-
-  const handleComplete = () => {
-    pause()
-    videoRef.current.currentTime = 0
-    play()
   }
 
   const handleClick = () => {
@@ -78,7 +65,7 @@ const VideoItem = ({
           {isPlaying ? 'pause' : 'play'}
         </Cursor>
       )}
-      <Video
+      <video
         src={video.fields.file.url}
         poster={image.fields.file.url}
         width='100%'
@@ -87,6 +74,8 @@ const VideoItem = ({
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         cursor={withCursor ? 'none' : 'default'}
+        playsInline
+        loop
       />
       {text && (
         <StyledText palette={palette}>{text}</StyledText>
