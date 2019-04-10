@@ -100,14 +100,16 @@ export const THEME = {
   },
   textStyle: {
     root: {
-      fontWeight: 'normal',
-      fontFamily: 'Helvetica Neue, Helvetica',
-      fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH * 100}vw`
-    },
-    rootMobile: {
-      fontWeight: 'normal',
-      fontFamily: 'Helvetica Neue, Helvetica',
-      fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH_M * 100}vw`
+      all: {
+        fontWeight: 'normal',
+        fontFamily: 'Helvetica Neue, Helvetica',
+        fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH * 100}vw`
+      },
+      M: {
+        fontWeight: 'normal',
+        fontFamily: 'Helvetica Neue, Helvetica',
+        fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH_M * 100}vw`
+      }
     },
     header: {
       all: {
@@ -167,10 +169,17 @@ export const THEME = {
       lineHeight: 1
     },
     large: {
-      fontWeight: 'normal',
-      fontFamily: 'Suisse',
-      fontSize: pxToRem(35),
-      lineHeight: 47 / 35
+      all: {
+        fontWeight: 'normal',
+        fontFamily: 'Suisse',
+        fontSize: pxToRem(35),
+        lineHeight: 47 / 35
+      },
+      M: {
+        fontSize: pxToRem(26),
+        lineHeight: 33 / 26,
+        letterSpacing: pxToRem(0.3)
+      }
     },
     linkName: {
       fontWeight: 'normal',
@@ -180,6 +189,13 @@ export const THEME = {
       textTransform: 'none',
       letterSpacing: 0,
       verticalAlign: 'top'
+    },
+    projectHeader: {
+      fontWeight: 'normal',
+      fontFamily: 'Suisse',
+      fontSize: pxToRem(20),
+      lineHeight: 26 / 20,
+      letterSpacing: pxToRem(0.3)
     }
   }
 }

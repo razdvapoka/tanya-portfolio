@@ -3,7 +3,16 @@ import styled from '@emotion/styled'
 
 import { pxToRem } from '../constants'
 
-const StyledText = styled(Text)(({ theme, palette = 'default' }) => ({
+const StyledText = styled(Text)(({
+  theme,
+  palette = 'default',
+  iconWidth = pxToRem(11),
+  iconHeight = pxToRem(11),
+  iconMgl = pxToRem(7),
+  iconWidthM = pxToRem(8),
+  iconHeightM = pxToRem(7),
+  iconMglM = pxToRem(4)
+}) => ({
   '& a': {
     borderBottom: `solid ${pxToRem(0.5)}`
   },
@@ -11,9 +20,9 @@ const StyledText = styled(Text)(({ theme, palette = 'default' }) => ({
     color: 'inherit',
     display: 'inline-block',
     content: '" "',
-    width: `${pxToRem(11)}`,
-    height: `${pxToRem(11)}`,
-    marginLeft: `${pxToRem(7)}`,
+    width: iconWidth,
+    height: iconHeight,
+    marginLeft: iconMgl,
     backgroundImage: `url('data:image/svg+xml;utf8,
       <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12">
         <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">
@@ -25,9 +34,9 @@ const StyledText = styled(Text)(({ theme, palette = 'default' }) => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     [`@media ${theme.media.M}`]: {
-      width: `${pxToRem(8)}`,
-      height: `${pxToRem(7)}`,
-      marginLeft: `${pxToRem(4)}`,
+      width: iconWidthM,
+      height: iconHeightM,
+      marginLeft: iconMglM,
       backgroundImage: `url('data:image/svg+xml;utf8,
         <svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" viewBox="0 0 12 12">
           <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">

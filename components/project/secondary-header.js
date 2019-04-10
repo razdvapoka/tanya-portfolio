@@ -24,7 +24,7 @@ const SecondaryHeader = ({
     variant='body'
     position='fixed' top left
     width height='headerHeight'
-    pdx={6}
+    pdx={{ all: 6, M: 2 }}
     mgx={0}
     alignItems='center'
     justifyContent='flex-end'
@@ -44,16 +44,25 @@ const SecondaryHeader = ({
       </Link>
     </FlexGrid.Item>
     <FlexGrid.Item col={6}>
-      <FlexBox justifyContent='space-between'>
-        <Text>
-          {projectName}
-        </Text>
+      <FlexBox
+        justifyContent={{
+          all: 'space-between',
+          M: 'flex-end'
+        }}
+      >
+        <FlexBox.Item hideOn='M'>
+          <Text>
+            {projectName}
+          </Text>
+        </FlexBox.Item>
         {nextProjectId && (
-          <Link href={`/project/${nextProjectId}`}>
-            <a>
-              Next project
-            </a>
-          </Link>
+          <FlexBox.Item>
+            <Link href={`/project/${nextProjectId}`}>
+              <a>
+                Next project
+              </a>
+            </Link>
+          </FlexBox.Item>
         )}
       </FlexBox>
     </FlexGrid.Item>

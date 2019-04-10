@@ -6,14 +6,20 @@ import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 import useInView from 'react-hook-inview'
 
-import { ContentText } from '../styled-text'
 import { pxToRem } from '../../constants'
 import ArrowCenterLeft from '../arrow-center-left'
 import ArrowTopRight from '../arrow-top-right'
+import StyledText from '../styled-text'
 
 const TitleText = styled(Text)({
   transition: 'color 0.1s ease'
 })
+
+const HeaderText = styled(Text)({
+  hyphens: 'auto'
+})
+
+const Header = styled(Box)().withComponent('header')
 
 const ProjectHeader = ({
   project,
@@ -38,12 +44,13 @@ const ProjectHeader = ({
   })
 
   const title = (
-    <FlexGrid.Item col={6} fg='white'>
-      <Text variant='header'>
+    <FlexGrid.Item col={{ all: 6, M: 12 }} fg='white'>
+      <HeaderText variant='header' lang='en'>
         {project.fields.title}
-      </Text>
+      </HeaderText>
       <FlexBox
         fg={ps('&:hover', 'blue')}
+        mgt={{ M: 2 }}
       >
         <TitleText
           as='a'
@@ -55,15 +62,18 @@ const ProjectHeader = ({
           link
           <Box
             display='inline-block'
-            width={pxToRem(75)}
-            height={pxToRem(75)}
-            transform={`translateY(-${pxToRem(8)})`}
+            width={{ all: pxToRem(75), M: pxToRem(42) }}
+            height={{ all: pxToRem(75), M: pxToRem(42) }}
+            transform={{
+              all: `translateY(-${pxToRem(8)})`,
+              M: `translateY(-${pxToRem(6)})`
+            }}
             mgl={2}
           >
             <ArrowTopRight />
           </Box>
         </TitleText>
-        <Box mgl={6}>
+        <Box mgl={6} hideOn='M'>
           <TitleText
             as='a'
             href={project.fields.url}
@@ -91,16 +101,16 @@ const ProjectHeader = ({
     </FlexGrid.Item>
   )
   const works = (
-    <FlexGrid.Item col={6} fg='white'>
+    <FlexGrid.Item col={{ all: 6, M: 12 }} fg='white' mgt={{ M: 2 }}>
       <Link href='/' scroll={false}>
         <Box as='a' display='inline-block' cursor='pointer'>
           <TitleText variant='header' fg={ps('&:hover', 'green')}>
             <Box
               display='inline-block'
-              width={pxToRem(100)}
-              height={pxToRem(75)}
+              width={{ all: pxToRem(100), M: pxToRem(55) }}
+              height={{ all: pxToRem(75), M: pxToRem(50) }}
               transform={`translateY(-${pxToRem(8)})`}
-              mgl={2}
+              mgl={{ all: 2, M: 0 }}
               mgr={2}
             >
               <ArrowCenterLeft />
@@ -114,28 +124,54 @@ const ProjectHeader = ({
   const columns = [ title, works ]
   const headerRows = project.fields.header || []
   return (
-    <Text as='header' fg='lightGrey' variant='body' ref={elementRef}>
-      {headerRows.map((row, rowIndex) => (
-        <FlexGrid key={rowIndex} width='100%' {...row.fields.props}>
-          {columns[rowIndex] || null}
-          {row.fields.columns.map((column, columnIndex) => (
-            <FlexGrid.Item
-              key={columnIndex}
-              col={column.fields.width}
-              offset={column.fields.offset ? column.fields.offset : 0}
-              {...column.fields.props}
-            >
-              <ContentText
+    <Box ref={elementRef}>
+      <Text as={Header} fg='lightGrey' variant='body' hideOn='M'>
+        {headerRows.map((row, rowIndex) => (
+          <FlexGrid key={rowIndex} width='100%' {...row.fields.props}>
+            {columns[rowIndex] || null}
+            {row.fields.columns.map((column, columnIndex) => (
+              <FlexGrid.Item
+                key={columnIndex}
+                col={column.fields.width}
+                offset={column.fields.offset ? column.fields.offset : 0}
+                {...column.fields.props}
+              >
+                <StyledText
+                  as={Markdown}
+                  linkTarget='_blank'
+                >
+                  {column.fields.items.fields.text}
+                </StyledText>
+              </FlexGrid.Item>
+            ))}
+          </FlexGrid>
+        ))}
+      </Text>
+      <Text
+        as={Header}
+        fg='lightGrey'
+        variant='projectHeader'
+        display={{ all: 'none', M: 'block' }}
+      >
+        {title}
+        {works}
+        {headerRows.map((row, rowIndex) =>
+          row.fields.columns.map((column, columnIndex) => (
+            <Box key={`${rowIndex}-${columnIndex}`} mgt={7}>
+              <StyledText
                 as={Markdown}
                 linkTarget='_blank'
+                textStyle='projectHeader'
+                iconWidthM={pxToRem(12)}
+                iconHeightM={pxToRem(10)}
               >
                 {column.fields.items.fields.text}
-              </ContentText>
-            </FlexGrid.Item>
-          ))}
-        </FlexGrid>
-      ))}
-    </Text>
+              </StyledText>
+            </Box>
+          ))
+        )}
+      </Text>
+    </Box>
   )
 }
 

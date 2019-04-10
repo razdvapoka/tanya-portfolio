@@ -47,7 +47,6 @@ class Project extends React.Component {
   }
 
   setIsHeaderVisible = (isHeaderVisible) => {
-    console.log(isHeaderVisible)
     this.setState({ isHeaderVisible })
   }
 
@@ -58,8 +57,8 @@ class Project extends React.Component {
     const contentRows = project.fields.content || []
     return (
       <Box
-        pdx={4}
-        pdt={5}
+        pdx={{ all: 4, M: 2 }}
+        pdt={{ all: 5, M: 2 }}
         tm={palette}
         minHeight='100vh'
       >
@@ -78,19 +77,41 @@ class Project extends React.Component {
             />
           )}
         </Transition>
-        <Text as='main' fg='lightGrey' variant='large' mgt={45}>
+        <Text
+          as='main'
+          fg='lightGrey'
+          variant='large'
+          mgt={{ all: 45, M: 20 }}
+          pdx={{ M: 0 }}
+          mgx={{ M: -2 }}
+        >
           {contentRows.map((row, rowIndex) => {
+            const { mgt, ...rest } = row.fields.props || {}
             return (
-              <Box key={rowIndex} mgt={ps('&:not(:first-child)', 40)} {...row.fields.props}>
-                <FlexGrid space={4} {...row.fields.props}>
+              <Box
+                key={rowIndex}
+                mgt={{
+                  all: ps('&:not(:first-child)', mgt || 40),
+                  M: ps('&:not(:first-child)', 20)
+                }}
+                {...rest}
+              >
+                <FlexGrid space={{ all: 4, M: 0 }} flexWrap={{ M: 'wrap' }}>
                   {row.fields.columns.map((column, columnIndex) => {
+                    const {
+                      pdx: colPdx = 0,
+                      pdy: colPdy = 0,
+                      ...colRest
+                    } = column.fields.props || {}
                     return (
                       <Column
                         key={columnIndex}
-                        col={column.fields.width}
-                        offset={column.fields.offset ? column.fields.offset : 0}
+                        col={{ all: column.fields.width, M: 12 }}
+                        offset={{ all: column.fields.offset ? column.fields.offset : 0, M: 0 }}
                         bgImage={column.fields.bgImage}
-                        {...column.fields.props}
+                        {...colRest}
+                        pdx={{ all: colPdx, M: 2 }}
+                        pdy={{ all: colPdy, M: 2 }}
                       >
                         <ProjectItem
                           {...column.fields.items.fields}
@@ -104,7 +125,7 @@ class Project extends React.Component {
             )
           })}
         </Text>
-        <Section as='footer' mgt={40} pdb={10} {...footer.fields} />
+        <Section as='footer' mgt={{ all: 40, M: 20 }} pdb={10} {...footer.fields} />
       </Box>
     )
   }

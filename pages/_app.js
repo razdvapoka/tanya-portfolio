@@ -15,12 +15,12 @@ const globalStyles = css`
   }
 
   :root {
-    ${THEME.textStyle.root}
+    ${THEME.textStyle.root.all}
   }
 
   @media ${THEME.media.M} {
     :root {
-      ${THEME.textStyle.rootMobile}
+      ${THEME.textStyle.root.M}
     }
   }
 
