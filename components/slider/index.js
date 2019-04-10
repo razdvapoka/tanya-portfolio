@@ -3,11 +3,12 @@ import React from 'react'
 import anime from 'animejs'
 
 import {
-  pxToRem,
-  remToPx,
-  SPACE_STEP,
+  SLIDER_HUMAN_DELTA_THRESHOLD,
   SLIDER_LAST_ITEM_PADDING,
-  SLIDER_VELOCITY
+  SLIDER_VELOCITY,
+  SPACE_STEP,
+  pxToRem,
+  remToPx
 } from '../../constants'
 import SliderButton from './button'
 import SliderContent from './content'
@@ -18,6 +19,8 @@ class Slider extends React.Component {
     currentSlideIndex: null,
     isInManualMode: false
   }
+
+  lastScrollLeft = 0
 
   setSlidesRef = (ref) => {
     this.slides = ref
@@ -41,12 +44,11 @@ class Slider extends React.Component {
       easing: 'linear',
       autoplay: false,
       direction: 'alternate',
-      loop: true,
-      update: this.updateCurrentSlideIndex
+      loop: true
     })
     timeline.add({
-      targets: this.slides,
-      translateX: -distance
+      targets: this.slides.parentNode,
+      scrollLeft: distance
     })
     this.setState({
       animationTimeline: timeline
@@ -88,7 +90,7 @@ class Slider extends React.Component {
       ? remToPx(pxToRem(SLIDER_LAST_ITEM_PADDING * SPACE_STEP))
       : 0
 
-    return (
+    return -(
       window.innerWidth / 2 -
       slide.offsetLeft -
       slideWidth / 2 +
@@ -132,8 +134,8 @@ class Slider extends React.Component {
     const isLastSlide = index === items.length - 1
     this.pauseAnimation()
     anime({
-      targets: this.slides,
-      translateX: this.getSlideCenterX(slide, isLastSlide),
+      targets: this.slides.parentNode,
+      scrollLeft: this.getSlideCenterX(slide, isLastSlide),
       duration: 200,
       easing: 'easeInQuad'
     })
@@ -145,18 +147,32 @@ class Slider extends React.Component {
     this.createAnimation()
   }
 
+  handleScroll = (e) => {
+    const delta = Math.abs(this.lastScrollLeft - this.slides.parentNode.scrollLeft)
+    if (delta > SLIDER_HUMAN_DELTA_THRESHOLD) {
+      this.pauseAnimation()
+    } else {
+      this.lastScrollLeft = this.slides.parentNode.scrollLeft
+    }
+    this.updateCurrentSlideIndex()
+  }
+
   render () {
     const { items } = this.props
     const { currentSlideIndex } = this.state
     const hasNextSlide = currentSlideIndex < items.length - 1
     const hasPrevSlide = currentSlideIndex > 0
     return (
-      <Box mgt={{ all: 20, M: 0 }}>
+      <Box
+        mgt={{ all: 20, M: 0 }}
+        onScroll={this.handleScroll}
+      >
         <SliderContent
           items={items}
           onLeaveViewport={this.onLeaveViewport}
           onEnterViewport={this.onEnterViewport}
           setSlidesRef={this.setSlidesRef}
+          pauseAnimation={this.pauseAnimation}
         />
         <SliderButton
           left

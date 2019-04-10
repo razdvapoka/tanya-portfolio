@@ -17,3 +17,4 @@ export const INTRO_SHIFT = 100
 export const INTRO_SPACING = 25
 export const MOBILE_INTRO_LINE_COUNT = 9
 export const MOBILE_INTRO_DURATION = 500000
+export const SLIDER_HUMAN_DELTA_THRESHOLD = 5
