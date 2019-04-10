@@ -36,9 +36,13 @@ class Slider extends React.Component {
     this.setState({ isInManualMode })
   }
 
-  createAnimation = () => {
+  getAnimationDistance = () => {
     const slidesBoxRect = this.slides.getBoundingClientRect()
-    const distance = slidesBoxRect.width - window.innerWidth
+    return slidesBoxRect.width - window.innerWidth
+  }
+
+  createAnimation = () => {
+    const distance = this.getAnimationDistance()
     const timeline = anime.timeline({
       duration: distance / SLIDER_VELOCITY,
       easing: 'linear',
@@ -148,13 +152,22 @@ class Slider extends React.Component {
   }
 
   handleScroll = (e) => {
+    const { animationTimeline } = this.state
     const delta = Math.abs(this.lastScrollLeft - this.slides.parentNode.scrollLeft)
-    if (delta > SLIDER_HUMAN_DELTA_THRESHOLD) {
+    if (!animationTimeline.paused && delta > SLIDER_HUMAN_DELTA_THRESHOLD) {
       this.pauseAnimation()
-    } else {
-      this.lastScrollLeft = this.slides.parentNode.scrollLeft
     }
+
     this.updateCurrentSlideIndex()
+
+    if (animationTimeline.paused) {
+      const distance = this.getAnimationDistance()
+      animationTimeline.seek(
+        this.slides.parentNode.scrollLeft / distance * animationTimeline.duration
+      )
+    }
+
+    this.lastScrollLeft = this.slides.parentNode.scrollLeft
   }
 
   render () {
