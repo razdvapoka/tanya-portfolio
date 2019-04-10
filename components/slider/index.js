@@ -16,8 +16,7 @@ import SliderContent from './content'
 class Slider extends React.Component {
   state = {
     animationTimeline: null,
-    currentSlideIndex: null,
-    isInManualMode: false
+    currentSlideIndex: null
   }
 
   lastScrollLeft = 0
@@ -30,10 +29,6 @@ class Slider extends React.Component {
     if (this.state.currentSlideIndex !== currentSlideIndex) {
       this.setState({ currentSlideIndex })
     }
-  }
-
-  setIsInManualMode = (isInManualMode) => {
-    this.setState({ isInManualMode })
   }
 
   getAnimationDistance = () => {
@@ -65,17 +60,12 @@ class Slider extends React.Component {
   }
 
   onEnterViewport = () => {
-    const { animationTimeline, isInManualMode } = this.state
-    if (!isInManualMode) {
-      animationTimeline.play()
-    }
+    const { animationTimeline } = this.state
+    animationTimeline.play()
   }
 
   onLeaveViewport = () => {
-    const { animationTimeline, isInManualMode } = this.state
-    if (!isInManualMode) {
-      animationTimeline.pause()
-    }
+    this.pauseAnimation()
   }
 
   nextSlide = () => {
@@ -144,7 +134,6 @@ class Slider extends React.Component {
       easing: 'easeInQuad'
     })
     this.setCurrenSlideIndex(index)
-    this.setIsInManualMode(true)
   }
 
   componentDidMount () {
