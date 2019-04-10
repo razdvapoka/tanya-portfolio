@@ -3,6 +3,15 @@ import styled from '@emotion/styled'
 
 import { pxToRem } from '../constants'
 
+const iconSvgString = (stroke) => `
+  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12">
+    <g fill="none" fill-rule="evenodd" stroke="${stroke}" transform="translate(0 1)">
+      <path stroke-linecap="square" d="M-8.52651283e-14,10.5 L10.111627,0.388373029"/>
+      <polyline points=".5 0 10.5 0 10.5 10"/>
+    </g>
+  </svg>
+`
+
 const StyledText = styled(Text)(({
   theme,
   palette = 'default',
@@ -11,12 +20,16 @@ const StyledText = styled(Text)(({
   iconMgl = pxToRem(7),
   iconWidthM = pxToRem(8),
   iconHeightM = pxToRem(7),
-  iconMglM = pxToRem(4)
+  iconMglM = pxToRem(4),
+  linkHoverFg
 }) => ({
   '& a': {
-    borderBottom: `solid ${pxToRem(0.5)}`
+    borderBottom: `solid ${pxToRem(0.5)} ${theme.palette[palette].fg}`
   },
-  '& a:after': {
+  '& a:hover': {
+    color: linkHoverFg || 'inherit'
+  },
+  '& a::after': {
     color: 'inherit',
     display: 'inline-block',
     content: '" "',
@@ -24,27 +37,14 @@ const StyledText = styled(Text)(({
     height: iconHeight,
     marginLeft: iconMgl,
     backgroundImage: `url('data:image/svg+xml;utf8,
-      <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 12 12">
-        <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">
-          <path stroke-linecap="square" d="M-8.52651283e-14,10.5 L10.111627,0.388373029"/>
-          <polyline points=".5 0 10.5 0 10.5 10"/>
-        </g>
-      </svg>'
-    )`,
+      ${iconSvgString(theme.palette[palette].secondary.replace('#', '%23'))}
+    ')`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     [`@media ${theme.media.M}`]: {
       width: iconWidthM,
       height: iconHeightM,
-      marginLeft: iconMglM,
-      backgroundImage: `url('data:image/svg+xml;utf8,
-        <svg xmlns="http://www.w3.org/2000/svg" width="8" height="7" viewBox="0 0 12 12">
-          <g fill="none" fill-rule="evenodd" stroke="${theme.palette[palette].secondary.replace('#', '%23')}" transform="translate(0 1)">
-            <path stroke-linecap="square" d="M-8.52651283e-14,10.5 L10.111627,0.388373029"/>
-            <polyline points=".5 0 10.5 0 10.5 10"/>
-          </g>
-        </svg>'
-      )`
+      marginLeft: iconMglM
     }
   }
 }))

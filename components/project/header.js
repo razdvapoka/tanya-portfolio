@@ -139,6 +139,7 @@ const ProjectHeader = ({
                 <StyledText
                   as={Markdown}
                   linkTarget='_blank'
+                  linkHoverFg='white'
                 >
                   {column.fields.items.fields.text}
                 </StyledText>
