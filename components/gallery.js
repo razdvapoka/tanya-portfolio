@@ -29,45 +29,45 @@ const Gallery = ({ items }) => (
         id={item.fields.hash}
       >
         <FlexGrid.Content className='gallery-item'>
-          <LazyLoad
-            placeholder={placeholder}
-            offset={100}
-            once
-          >
-            <Box
-              className='highlighter'
-              outline={`${pxToRem(5)} solid transparent`}
-            >
-              <Link href={`/project/${item.fields.hash}`}>
-                <a>
+          <Link href={`/project/${item.fields.hash}`}>
+            <a>
+              <LazyLoad
+                placeholder={placeholder}
+                offset={100}
+                once
+              >
+                <Box
+                  className='highlighter'
+                  outline={`${pxToRem(5)} solid transparent`}
+                >
                   <ImagePreload
                     height={{ all: pxToRem(385), M: pxToRem(200) }}
                     src={item.fields.image.fields.file.url}
                     bg='grey'
                   />
-                </a>
-              </Link>
-            </Box>
-          </LazyLoad>
-          <Box
-            mgt={1}
-            opacity={cs(0, ps('.gallery-item: hover &', 0.6))}
-            transition='opacity 0.2s ease'
-            hideOn='M'
-          >
-            <Text variant='caption'>
-              {item.fields.caption}
-            </Text>
-          </Box>
-          <Box
-            display={{ all: 'none', M: 'block' }}
-            mgt={1}
-            opacity={0.6}
-          >
-            <Text variant='caption'>
-              {item.fields.caption}
-            </Text>
-          </Box>
+                </Box>
+              </LazyLoad>
+              <Box
+                mgt={1}
+                fg={cs('grey', ps('.gallery-item: hover &', 'white'))}
+                transition='color 0.2s ease'
+                hideOn='M'
+              >
+                <Text variant='caption'>
+                  {item.fields.caption}
+                </Text>
+              </Box>
+              <Box
+                display={{ all: 'none', M: 'block' }}
+                mgt={1}
+                opacity={0.6}
+              >
+                <Text variant='caption'>
+                  {item.fields.caption}
+                </Text>
+              </Box>
+            </a>
+          </Link>
         </FlexGrid.Content>
       </FlexGrid.Item>
     ))}

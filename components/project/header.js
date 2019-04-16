@@ -102,7 +102,7 @@ const ProjectHeader = ({
   )
   const works = (
     <FlexGrid.Item col={{ all: 6, M: 12 }} fg='white' mgt={{ M: 2 }}>
-      <Link href='/' scroll={false}>
+      <Link href='/#digital-design' scroll={false}>
         <Box as='a' display='inline-block' cursor='pointer'>
           <TitleText variant='header' fg={ps('&:hover', 'green')}>
             <Box
