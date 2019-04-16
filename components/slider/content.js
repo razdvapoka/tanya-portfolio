@@ -11,14 +11,17 @@ import {
 import InlineFlexBox from '../inline-flexbox'
 import LazyMount from '../lazy-mount'
 import VideoItem from '../video-item'
+import styled from '@emotion/styled'
+
+const SliderContentBox = styled(Box)`
+  -webkit-overflow-scrolling: touch;
+`
 
 const SliderContent = ({
   setSlidesRef,
   items,
   nextSlide,
   prevSlide,
-  hasNextSlide,
-  hasPrevSlide,
   onEnterViewport,
   onLeaveViewport,
   pauseAnimation
@@ -32,8 +35,8 @@ const SliderContent = ({
   })
 
   return (
-    <Box
-      ov='auto'
+    <SliderContentBox
+      ov='scroll'
       pdy={10}
       position='relative'
       ref={boxRef}
@@ -74,7 +77,7 @@ const SliderContent = ({
           )
         })}
       </InlineFlexBox>
-    </Box>
+    </SliderContentBox>
   )
 }
 

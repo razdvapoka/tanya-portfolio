@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import useInView from 'react-hook-inview'
 
+import { isMobile } from '../constants'
 import Cursor from './cursor'
 import StyledText from './styled-text'
 
@@ -13,6 +14,9 @@ const VideoItem = ({
   withCursor
 }) => {
   const [ cursorPos, setCursorPos ] = useState(null)
+  const [ isHovered, setIsHovered ] = useState(null)
+  const [ isPlaying, setIsPlaying ] = useState(false)
+
   const handleMouseMove = (e) => {
     if (withCursor) {
       setCursorPos({ left: e.clientX, top: e.clientY })
@@ -21,10 +25,24 @@ const VideoItem = ({
 
   const handleMouseLeave = () => {
     setCursorPos(null)
+    setIsHovered(false)
+  }
+
+  const handleClick = () => {
+    if (isPlaying) {
+      pause()
+    } else {
+      play()
+    }
+  }
+
+  const handleMouseEnter = () => {
+    if (!isMobile()) {
+      setIsHovered(true)
+    }
   }
 
   const videoRef = useRef(null)
-  const [ isPlaying, setIsPlaying ] = useState(false)
 
   const play = () => {
     if (!videoRef.current.hasAttribute('muted')) {
@@ -39,19 +57,13 @@ const VideoItem = ({
     setIsPlaying(false)
   }
 
-  const handleClick = () => {
-    if (isPlaying) {
-      pause()
-    } else {
-      play()
-    }
+  if (!isMobile()) {
+    useInView({
+      target: videoRef,
+      onEnter: play,
+      onLeave: pause
+    })
   }
-
-  useInView({
-    target: videoRef,
-    onEnter: play,
-    onLeave: pause
-  })
 
   return (
     <>
@@ -73,7 +85,9 @@ const VideoItem = ({
         onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleMouseEnter}
         cursor={withCursor ? 'none' : 'default'}
+        controls={isMobile() || isHovered}
         playsInline
         loop
       />

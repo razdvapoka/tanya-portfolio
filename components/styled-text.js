@@ -23,6 +23,10 @@ const StyledText = styled(Text)(({
   iconMglM = pxToRem(4),
   linkHoverFg
 }) => ({
+  '& strong': {
+    fontWeight: 'normal',
+    color: 'white'
+  },
   '& a': {
     borderBottom: `solid ${pxToRem(0.5)} ${theme.palette[palette].fg}`
   },

@@ -48,6 +48,7 @@ const SliderButton = ({
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onClick={handleClick}
+        hideOn='M'
         {...rest}
       />
     </>
