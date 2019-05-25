@@ -93,7 +93,11 @@ const Footer = (props) => {
             col={{ all: 5, M: 6 }}
             mgt={7}
           >
-            <StyledText variant='caption' fg='lightGrey'>
+            <StyledText
+              variant='caption'
+              fg='lightGrey'
+              linkHoverFg='white'
+            >
               Web development by{' '}
               <a
                 href='https://sergeyzakharov.dev'
