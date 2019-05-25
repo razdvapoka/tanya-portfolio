@@ -1,6 +1,7 @@
 import { Box, Image, Text } from 'pss-components'
 import Markdown from 'react-markdown'
 import React from 'react'
+import { pxToRem } from '../../constants'
 
 import StyledText from '../styled-text'
 import VideoItem from '../video-item'
@@ -28,7 +29,10 @@ const TextItem = ({ text, palette, fg, style, variant }) => (
     palette={palette}
     variant={variant}
     linkTarget='_blank'
-    iconSide={20}
+    iconWidth={pxToRem(20)}
+    iconHeight={pxToRem(20)}
+    iconWidthM={pxToRem(15)}
+    iconHeightM={pxToRem(15)}
   >
     {text}
   </StyledText>
