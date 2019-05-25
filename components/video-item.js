@@ -4,6 +4,11 @@ import useInView from 'react-hook-inview'
 import { isMobile } from '../constants'
 import Cursor from './cursor'
 import StyledText from './styled-text'
+import styled from '@emotion/styled'
+
+const Video = styled.video(({ withCursor }) => ({
+  cursor: withCursor ? 'none' : 'default'
+}))
 
 const VideoItem = ({
   video,
@@ -16,6 +21,7 @@ const VideoItem = ({
   const [ cursorPos, setCursorPos ] = useState(null)
   const [ isHovered, setIsHovered ] = useState(null)
   const [ isPlaying, setIsPlaying ] = useState(false)
+  const [ hasListeners, setHasListeners ] = useState(false)
 
   const handleMouseMove = (e) => {
     if (withCursor) {
@@ -26,14 +32,6 @@ const VideoItem = ({
   const handleMouseLeave = () => {
     setCursorPos(null)
     setIsHovered(false)
-  }
-
-  const handleClick = () => {
-    if (isPlaying) {
-      pause()
-    } else {
-      play()
-    }
   }
 
   const handleMouseEnter = () => {
@@ -57,6 +55,16 @@ const VideoItem = ({
     setIsPlaying(false)
   }
 
+  if (videoRef.current && !hasListeners) {
+    videoRef.current.addEventListener('pause', () => {
+      setIsPlaying(false)
+    })
+    videoRef.current.addEventListener('play', () => {
+      setIsPlaying(true)
+    })
+    setHasListeners(true)
+  }
+
   if (!isMobile()) {
     useInView({
       target: videoRef,
@@ -77,17 +85,16 @@ const VideoItem = ({
           {isPlaying ? 'pause' : 'play'}
         </Cursor>
       )}
-      <video
+      <Video
         src={video.fields.file.url}
         poster={image.fields.file.url}
         width='100%'
         ref={videoRef}
-        onClick={handleClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         onMouseEnter={handleMouseEnter}
-        cursor={withCursor ? 'none' : 'default'}
         controls={isMobile() || isHovered}
+        withCursor={withCursor}
         playsInline
         loop
       />
