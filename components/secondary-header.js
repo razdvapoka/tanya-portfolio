@@ -38,7 +38,7 @@ const SecondaryHeader = ({
     {...rest}
   >
     <FlexGrid.Item col={{ all: 6, M: 3 }}>
-      <a href='/'>Tanya E.</a>
+      <a href='/'>Tanya Ermolaeva</a>
     </FlexGrid.Item>
     <FlexGrid.Item col={3}>
       <Link href='/about'>

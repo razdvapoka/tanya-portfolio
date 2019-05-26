@@ -1,8 +1,32 @@
 import { FlexBox, Text, Box } from 'pss-components'
 import React from 'react'
 import Link from 'next/link'
+import styled from '@emotion/styled'
 
 import HashLink from './hashlink'
+
+const Name = styled.span()
+const About = styled.span({
+  display: 'none',
+  position: 'absolute',
+  left: '50%',
+  top: 0,
+  height: '100%',
+  transform: 'translateX(-50%)'
+})
+
+const Tanya = styled(Text)(({ theme, isHome }) => ({
+  position: 'relative',
+  [`&:hover ${Name}`]: isHome ? {
+    opacity: 0
+  } : {},
+  [`&:hover ${About}`]: isHome ? {
+    display: 'block'
+  } : {}
+  [`@media ${theme.media.M}`]: {
+    pointerEvents: 'none'
+  },
+}))
 
 const Header = ({ worksHash, isHome, ...rest }) => (
   <FlexBox
@@ -13,7 +37,14 @@ const Header = ({ worksHash, isHome, ...rest }) => (
   >
     <Link href={isHome ? '/about' : '/'}>
       <a>
-        <Text variant='header' fg='blue'>Tanya E.</Text>
+        <Tanya
+          variant='header'
+          fg='blue'
+          isHome={isHome}
+        >
+          <Name>Tanya E.</Name>
+          <About>About</About>
+        </Tanya>
       </a>
     </Link>
     {isHome ? (
