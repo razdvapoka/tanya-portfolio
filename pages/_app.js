@@ -51,9 +51,14 @@ export default class MyApp extends App {
       <ThemeProvider theme={THEME}>
         <Container>
           <Head>
-            <title>Tanya</title>
+            <title>Tanya Ermolaeva</title>
             <link rel='icon' href='/static/favicon.ico' />
             <meta name='viewport' content='width=device-width, initial-scale=1' />
+            <meta property='og:type' content='website' />
+            <meta property='og:title' content='Tanya Ermolaeva — designer and art director' />
+            <meta property='og:description' content='I like working with virtual spaces — everything that deals with screens, time and interaction. I collaborate with clients from cultural institutions, fashion, art, music, and education.' />
+            <meta property='og:url' content='https://ermolaeva.co' />
+            <meta property='og:image' content='/static/images/meta.png' />
             <style dangerouslySetInnerHTML={{ __html: defaults }} />
           </Head>
           <Global styles={globalStyles} />
