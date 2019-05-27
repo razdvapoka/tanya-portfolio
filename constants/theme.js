@@ -78,7 +78,7 @@ export const THEME = {
     light: {
       bg: COLOR_WHITE,
       fg: COLOR_BLACK,
-      secondary: COLOR_LIGHT_GREY,
+      secondary: COLOR_BLACK,
       button: COLOR_RED
     },
     yellow: {
