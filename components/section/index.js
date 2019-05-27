@@ -27,7 +27,11 @@ const getSectionProps = (sectionType) => {
     case 'about': return {
       component: About,
       minHeight: pxToRem(800),
-      pdt: 2
+      headerProps: {
+        mgb: { all: 2, M: 0 }
+      },
+      pdt: { all: 2, M: 0 },
+      pdx: { all: 6 }
     }
     default: return { component: Box }
   }
@@ -49,6 +53,7 @@ const Section = ({
   const {
     component: SectionContent,
     textComponent,
+    headerProps,
     ...rest
   } = getSectionProps(type)
   return (
@@ -70,6 +75,7 @@ const Section = ({
           headerColumns={headerColumns}
           palette={palette}
           textComponent={textComponent}
+          {...headerProps}
         />
         <SectionContent
           items={items}

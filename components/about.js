@@ -7,7 +7,7 @@ const AboutColumn = ({
   palette,
   children
 }) => (
-  <FlexGrid.Item col={6}>
+  <FlexGrid.Item col={{ all: 6, M: 12 }}>
     <StyledText
       as={Markdown}
       palette={palette}
@@ -24,8 +24,8 @@ const About = ({
   palette,
   ...rest
 }) => (
-  <Box mgt={15}>
-    <FlexGrid space={4}>
+  <Box mgt={{ all: 15, M: 0 }}>
+    <FlexGrid space={4} flexDirection={{ M: 'column' }}>
       <AboutColumn palette={palette}>
         {description}
       </AboutColumn>
