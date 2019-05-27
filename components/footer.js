@@ -87,10 +87,10 @@ const Footer = (props) => {
         </FlexGrid.Item>
       </FlexGrid>
       <Box mgt='auto'>
-        <FlexGrid>
+        <FlexGrid spacex={4}>
           <FlexGrid.Item
-            offset={{ all: 7, M: 6 }}
-            col={{ all: 5, M: 6 }}
+            offset={6}
+            col={6}
             mgt={7}
           >
             <StyledText
