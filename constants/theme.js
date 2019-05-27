@@ -102,12 +102,12 @@ export const THEME = {
     root: {
       all: {
         fontWeight: 'normal',
-        fontFamily: 'Helvetica Neue, Helvetica',
+        fontFamily: 'Suisse, Helvetica',
         fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH * 100}vw`
       },
       M: {
         fontWeight: 'normal',
-        fontFamily: 'Helvetica Neue, Helvetica',
+        fontFamily: 'Suisse, Helvetica',
         fontSize: `${ROOT_FONT_SIZE / CANONIC_SCREEN_WIDTH_M * 100}vw`
       }
     },
@@ -146,7 +146,7 @@ export const THEME = {
     caption: {
       all: {
         fontWeight: 'normal',
-        fontFamily: 'Helvetica Neue, Helvetica',
+        fontFamily: 'Suisse',
         fontSize: pxToRem(20),
         lineHeight: 23 / 20
       },
@@ -158,7 +158,7 @@ export const THEME = {
     },
     menuItem: {
       fontWeight: 'normal',
-      fontFamily: 'Helvetica Neue, Helvetica',
+      fontFamily: 'Suisse',
       fontSize: pxToRem(20),
       lineHeight: 14 / 20
     },
