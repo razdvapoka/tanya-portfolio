@@ -22,10 +22,10 @@ const Tanya = styled(Text)(({ theme, isHome }) => ({
   } : {},
   [`&:hover ${About}`]: isHome ? {
     display: 'block'
-  } : {}
+  } : {},
   [`@media ${theme.media.M}`]: {
     pointerEvents: 'none'
-  },
+  }
 }))
 
 const Header = ({ worksHash, isHome, ...rest }) => (
