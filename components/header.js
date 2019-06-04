@@ -65,7 +65,7 @@ const Header = ({ worksHash, isHome, ...rest }) => (
         </Box>
       </Link>
     )}
-    <a href='mailto:hello@ermolaeva.co'>
+    <a href='mailto:hi@ermolaeva.co'>
       <Text variant='header' fg='green'>contact</Text>
     </a>
   </FlexBox>

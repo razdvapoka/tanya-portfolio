@@ -34,15 +34,15 @@ const Footer = (props) => {
       <FlexGrid space={4}>
         <FlexGrid.Item col={12} mgt={{ all: 10, M: 0 }}>
           <HugeLink
-            href='mailto:hello@ermolaeva.co'
+            href='mailto:hi@ermolaeva.co'
             tm={cs('inverted', ps('&:hover', 'red'))}
             hideOn='M'
           >
-            hello@ermolaeva.co
+            hi@ermolaeva.co
           </HugeLink>
           <Box display={{ all: 'none', M: 'block' }}>
             <HugeLink
-              href='mailto:hello@ermolaeva.co'
+              href='mailto:hi@ermolaeva.co'
               tm='red'
             >
               email
