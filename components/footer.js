@@ -78,7 +78,7 @@ const Footer = (props) => {
           </HugeLink>
           <Box display={{ all: 'none', M: 'block' }}>
             <HugeLink
-              href='https://instagram.com/ermlvaa/'
+              href='https://www.are.na/tanya-ermolaeva'
               tm='blue'
             >
               are.na
