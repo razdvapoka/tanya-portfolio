@@ -22,7 +22,7 @@
     "hoist-non-react-statics": "^3.3.0",
     "isomorphic-unfetch": "^3.0.0",
     "keycode-js": "^1.0.4",
-    "next": "^7.0.3",
+    "next": "^9.3.2",
     "pss": "^4.3.0",
     "pss-components": "^4.3.0",
     "react": "^16.8.4",
