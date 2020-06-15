@@ -21,3 +21,5 @@ yarn-error.log*
 session.vim
 
 /data
+
+.vercel
