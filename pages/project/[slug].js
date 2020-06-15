@@ -30,7 +30,7 @@ const transitionStyles = {
 
 class Project extends React.Component {
   static async getInitialProps(params) {
-    const projectId = params.slug;
+    const projectId = params.query.slug;
     const [project, footer] = await Promise.all([getProject(projectId), getSection("footer")]);
 
     return { project, footer };

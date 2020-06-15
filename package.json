@@ -51,6 +51,6 @@
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-standard": "^4.0.0",
     "eslint_d": "^7.3.0",
-    "npm-check": "^5.9.0"
+    "npm-check": "^5.9.2"
   }
 }
