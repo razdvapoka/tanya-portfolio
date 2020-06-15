@@ -1,94 +1,76 @@
-import { Box } from 'pss-components'
-import React from 'react'
-import Transition from 'react-transition-group/Transition'
-import fetch from 'isomorphic-unfetch'
-import getConfig from 'next/config'
-import hoistNonReactStatic from 'hoist-non-react-statics'
+import { Box } from "pss-components";
+import React from "react";
+import Transition from "react-transition-group/Transition";
+import fetch from "isomorphic-unfetch";
+import getConfig from "next/config";
+import hoistNonReactStatic from "hoist-non-react-statics";
 
-import {
-  Header,
-  Intro,
-  MobileIntro,
-  SecondaryHeader,
-  Section
-} from '../components'
-import {
-  INTRO_HEIGHT,
-  INTRO_SHIFT,
-  INTRO_WIDTH,
-  WORD_SETS,
-  pxToRem
-} from '../constants'
-import { isMobile as checkIfMobile } from '../constants/theme'
-import withFonts from '../hoc/with-fonts'
+import { getPage } from "../content-api.js";
 
-const { publicRuntimeConfig } = getConfig()
+import { Header, Intro, MobileIntro, SecondaryHeader, Section } from "../components";
+import { INTRO_HEIGHT, INTRO_SHIFT, INTRO_WIDTH, WORD_SETS, pxToRem } from "../constants";
+import { isMobile as checkIfMobile } from "../constants/theme";
+import withFonts from "../hoc/with-fonts";
 
 const transitionStyles = {
   entering: { opacity: 0 },
   entered: { opacity: 1 },
   exiting: { opacity: 0 },
   exited: { opacity: 0 }
-}
+};
 
 class Index extends React.Component {
   static defaultProps = {
     loops: WORD_SETS,
     velocity: 0.1
+  };
+
+  static async getInitialProps() {
+    const main = await getPage("main");
+    return { main };
   }
 
-  static async getInitialProps () {
-    const res = await fetch(publicRuntimeConfig.siteUrl + '/api/page/main')
-    const main = await res.json()
-    return { main }
-  }
-
-  constructor (props) {
-    super(props)
-    this.introRef = React.createRef()
+  constructor(props) {
+    super(props);
+    this.introRef = React.createRef();
   }
 
   state = {
     isIntroVisible: null,
     isMobile: null
-  }
+  };
 
   setIntroVisible = () => {
-    this.setState({ isIntroVisible: true })
-  }
+    this.setState({ isIntroVisible: true });
+  };
 
   setIntroHidden = () => {
-    this.setState({ isIntroVisible: false })
-  }
+    this.setState({ isIntroVisible: false });
+  };
 
   updateIsMobile = () => {
-    this.setState({ isMobile: checkIfMobile() })
+    this.setState({ isMobile: checkIfMobile() });
+  };
+
+  componentDidMount() {
+    this.updateIsMobile();
+    window.addEventListener("resize", this.updateIsMobile);
   }
 
-  componentDidMount () {
-    this.updateIsMobile()
-    window.addEventListener('resize', this.updateIsMobile)
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateIsMobile);
   }
 
-  componentWillUnmount () {
-    window.removeEventListener('resize', this.updateIsMobile)
-  }
+  render() {
+    const { loops, velocity, main, fontsLoaded } = this.props;
+    const { isIntroVisible, isMobile } = this.state;
+    const isSecondaryHeaderVisible = isIntroVisible != null && !isIntroVisible;
 
-  render () {
-    const {
-      loops,
-      velocity,
-      main,
-      fontsLoaded
-    } = this.props
-    const { isIntroVisible, isMobile } = this.state
-    const isSecondaryHeaderVisible = isIntroVisible != null && !isIntroVisible
-
-    const firstSectionHash = main.fields.items[0].fields.hash
+    const firstSectionHash = main.fields.items[0].fields.hash;
 
     return (
-      <Box postion='relative' mgt={1}>
-        <Box pdx={{ all: 4, M: 2 }} minHeight={fontsLoaded ? 'auto' : '100vh'}>
+      <Box postion="relative" mgt={1}>
+        <Box pdx={{ all: 4, M: 2 }} minHeight={fontsLoaded ? "auto" : "100vh"}>
           {fontsLoaded && (
             <>
               <Header pdx={{ all: 2, M: 0 }} worksHash={firstSectionHash} isHome />
@@ -103,11 +85,11 @@ class Index extends React.Component {
               </Transition>
               {!isMobile && (
                 <Box
-                  position='relative'
+                  position="relative"
                   height={pxToRem(670)}
                   mgt={2}
-                  className='intro-box'
-                  hideOn='M'
+                  className="intro-box"
+                  hideOn="M"
                 >
                   <Intro
                     ref={this.introRef}
@@ -124,9 +106,9 @@ class Index extends React.Component {
                   />
                 </Box>
               )}
-              <Box hideOn='M' height='marqueeHeight' />
+              <Box hideOn="M" height="marqueeHeight" />
               {isMobile && (
-                <Box display={{ all: 'none', M: 'block' }}>
+                <Box display={{ all: "none", M: "block" }}>
                   <MobileIntro
                     setIntroVisible={this.setIntroVisible}
                     setIntroHidden={this.setIntroHidden}
@@ -136,17 +118,17 @@ class Index extends React.Component {
             </>
           )}
         </Box>
-        <Box as='main'>
+        <Box as="main">
           {main.fields.items.map(({ sys: { id }, fields }) => (
             <Section key={id} sections={main.fields.items} {...fields} />
           ))}
         </Box>
       </Box>
-    )
+    );
   }
 }
 
-const IndexWithFonts = withFonts([ { family: 'Suisse' } ])(Index)
-hoistNonReactStatic(IndexWithFonts, Index)
+const IndexWithFonts = withFonts([{ family: "Suisse" }])(Index);
+hoistNonReactStatic(IndexWithFonts, Index);
 
-export default IndexWithFonts
+export default IndexWithFonts;
