@@ -1,67 +1,60 @@
-import { Box, FlexBox, FlexGrid, Text } from 'pss-components'
-import { ps } from 'pss'
-import Link from 'next/link'
-import Markdown from 'react-markdown'
-import React, { useRef } from 'react'
-import styled from '@emotion/styled'
-import useInView from 'react-hook-inview'
+import { Box, FlexBox, FlexGrid, Text } from "pss-components";
+import { ps } from "pss";
+import Link from "next/link";
+import Markdown from "react-markdown";
+import React, { useRef } from "react";
+import styled from "@emotion/styled";
+import { useInView } from "react-hook-inview";
 
-import { pxToRem } from '../../constants'
-import ArrowCenterLeft from '../arrow-center-left'
-import ArrowTopRight from '../arrow-top-right'
-import StyledText from '../styled-text'
+import { pxToRem } from "../../constants";
+import ArrowCenterLeft from "../arrow-center-left";
+import ArrowTopRight from "../arrow-top-right";
+import StyledText from "../styled-text";
 
 const TitleText = styled(Text)({
-  transition: 'color 0.1s ease'
-})
+  transition: "color 0.1s ease"
+});
 
 const HeaderText = styled(Text)({
-  hyphens: 'auto'
-})
+  hyphens: "auto"
+});
 
-const Header = styled(Box)().withComponent('header')
+const Header = styled(Box)().withComponent("header");
 
-const ProjectHeader = ({
-  project,
-  palette,
-  setIsHeaderVisible
-}) => {
-  const elementRef = useRef(null)
+const ProjectHeader = ({ project, palette, setIsHeaderVisible }) => {
+  const elementRef = useRef(null);
 
   const handleEnter = () => {
-    setIsHeaderVisible(true)
-  }
+    setIsHeaderVisible(true);
+  };
 
   const handleLeave = () => {
-    setIsHeaderVisible(false)
-  }
+    setIsHeaderVisible(false);
+  };
 
   useInView({
     target: elementRef,
     onEnter: handleEnter,
     onLeave: handleLeave,
     unobserveOnEnter: false
-  })
+  });
 
   const title = (
-    <FlexGrid.Item col={{ all: 6, M: 12 }} fg='white'>
-      <HeaderText variant='header' lang='en'>
+    <FlexGrid.Item col={{ all: 6, M: 12 }} fg="white">
+      <HeaderText variant="header" lang="en">
         {project.fields.title}
       </HeaderText>
-      <FlexBox
-        fg={ps('&:hover', 'blue')}
-        mgt={{ M: 2 }}
-      >
+      <FlexBox fg={ps("&:hover", "blue")} mgt={{ M: 2 }}>
         <TitleText
-          as='a'
+          as="a"
           href={project.fields.url}
-          target='_blank'
-          rel='noopener noreferrer'
-          variant='header'
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="header"
         >
           link
           <Box
-            display='inline-block'
+            display="inline-block"
             width={{ all: pxToRem(75), M: pxToRem(42) }}
             height={{ all: pxToRem(75), M: pxToRem(42) }}
             transform={{
@@ -73,24 +66,24 @@ const ProjectHeader = ({
             <ArrowTopRight />
           </Box>
         </TitleText>
-        <Box mgl={6} hideOn='M'>
+        <Box mgl={6} hideOn="M">
           <TitleText
-            as='a'
+            as="a"
             href={project.fields.url}
-            target='_blank'
-            rel='noopener noreferrer'
-            variant='linkName'
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="linkName"
           >
             {project.fields.urlName}
           </TitleText>
           {project.fields.secondUrl && (
             <Box>
               <TitleText
-                as='a'
+                as="a"
                 href={project.fields.secondUrl}
-                target='_blank'
-                rel='noopener noreferrer'
-                variant='linkName'
+                target="_blank"
+                rel="noopener noreferrer"
+                variant="linkName"
               >
                 {project.fields.secondUrlName}
               </TitleText>
@@ -99,14 +92,14 @@ const ProjectHeader = ({
         </Box>
       </FlexBox>
     </FlexGrid.Item>
-  )
+  );
   const works = (
-    <FlexGrid.Item col={{ all: 6, M: 12 }} fg='white' mgt={{ M: 2 }}>
-      <Link href='/#digital-design' scroll={false}>
-        <Box as='a' display='inline-block' cursor='pointer'>
-          <TitleText variant='header' fg={ps('&:hover', 'green')}>
+    <FlexGrid.Item col={{ all: 6, M: 12 }} fg="white" mgt={{ M: 2 }}>
+      <Link href="/#digital-design" scroll={false}>
+        <Box as="a" display="inline-block" cursor="pointer">
+          <TitleText variant="header" fg={ps("&:hover", "green")}>
             <Box
-              display='inline-block'
+              display="inline-block"
               width={{ all: pxToRem(100), M: pxToRem(55) }}
               height={{ all: pxToRem(75), M: pxToRem(50) }}
               transform={`translateY(-${pxToRem(8)})`}
@@ -120,14 +113,14 @@ const ProjectHeader = ({
         </Box>
       </Link>
     </FlexGrid.Item>
-  )
-  const columns = [ title, works ]
-  const headerRows = project.fields.header || []
+  );
+  const columns = [title, works];
+  const headerRows = project.fields.header || [];
   return (
     <Box ref={elementRef}>
-      <Text as={Header} fg='lightGrey' variant='body' hideOn='M'>
+      <Text as={Header} fg="lightGrey" variant="body" hideOn="M">
         {headerRows.map((row, rowIndex) => (
-          <FlexGrid key={rowIndex} width='100%' {...row.fields.props}>
+          <FlexGrid key={rowIndex} width="100%" {...row.fields.props}>
             {columns[rowIndex] || null}
             {row.fields.columns.map((column, columnIndex) => (
               <FlexGrid.Item
@@ -136,11 +129,7 @@ const ProjectHeader = ({
                 offset={column.fields.offset ? column.fields.offset : 0}
                 {...column.fields.props}
               >
-                <StyledText
-                  as={Markdown}
-                  linkTarget='_blank'
-                  linkHoverFg='white'
-                >
+                <StyledText as={Markdown} linkTarget="_blank" linkHoverFg="white">
                   {column.fields.items.fields.text}
                 </StyledText>
               </FlexGrid.Item>
@@ -150,9 +139,9 @@ const ProjectHeader = ({
       </Text>
       <Text
         as={Header}
-        fg='lightGrey'
-        variant='projectHeader'
-        display={{ all: 'none', M: 'block' }}
+        fg="lightGrey"
+        variant="projectHeader"
+        display={{ all: "none", M: "block" }}
       >
         {title}
         {works}
@@ -161,8 +150,8 @@ const ProjectHeader = ({
             <Box key={`${rowIndex}-${columnIndex}`} mgt={7}>
               <StyledText
                 as={Markdown}
-                linkTarget='_blank'
-                textStyle='projectHeader'
+                linkTarget="_blank"
+                textStyle="projectHeader"
                 iconWidthM={pxToRem(12)}
                 iconHeightM={pxToRem(10)}
               >
@@ -173,7 +162,7 @@ const ProjectHeader = ({
         )}
       </Text>
     </Box>
-  )
-}
+  );
+};
 
-export default ProjectHeader
+export default ProjectHeader;

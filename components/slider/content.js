@@ -1,21 +1,17 @@
-import { Box, Image } from 'pss-components'
-import { ps } from 'pss'
-import React, { useRef } from 'react'
-import useInView from 'react-hook-inview'
+import { Box, Image } from "pss-components";
+import { ps } from "pss";
+import React, { useRef } from "react";
+import { useInView } from "react-hook-inview";
 
-import {
-  SLIDER_LAST_ITEM_PADDING,
-  SLIDER_LAST_ITEM_PADDING_M,
-  pxToRem
-} from '../../constants'
-import InlineFlexBox from '../inline-flexbox'
-import LazyMount from '../lazy-mount'
-import VideoItem from '../video-item'
-import styled from '@emotion/styled'
+import { SLIDER_LAST_ITEM_PADDING, SLIDER_LAST_ITEM_PADDING_M, pxToRem } from "../../constants";
+import InlineFlexBox from "../inline-flexbox";
+import LazyMount from "../lazy-mount";
+import VideoItem from "../video-item";
+import styled from "@emotion/styled";
 
 const SliderContentBox = styled(Box)`
   -webkit-overflow-scrolling: touch;
-`
+`;
 
 const SliderContent = ({
   setSlidesRef,
@@ -26,59 +22,49 @@ const SliderContent = ({
   onLeaveViewport,
   pauseAnimation
 }) => {
-  const boxRef = useRef(null)
+  const boxRef = useRef(null);
 
   useInView({
     target: boxRef,
     onEnter: onEnterViewport,
     onLeave: onLeaveViewport
-  })
+  });
 
   return (
     <SliderContentBox
-      ov='scroll'
+      ov="scroll"
       pdy={10}
-      position='relative'
+      position="relative"
       ref={boxRef}
       mgx={{ all: -6, M: -2 }}
     >
-      <InlineFlexBox
-        alignItems='center'
-        flexWrap={false}
-        ref={setSlidesRef}
-      >
+      <InlineFlexBox alignItems="center" flexWrap={false} ref={setSlidesRef}>
         {items.map(item => {
-          const video = item.fields.video
-          const image = item.fields.image
+          const video = item.fields.video;
+          const image = item.fields.image;
           return (
             <LazyMount
               key={item.sys.id}
               pdr={{
-                all: ps('&:last-child', SLIDER_LAST_ITEM_PADDING),
-                M: ps('&:last-child', SLIDER_LAST_ITEM_PADDING_M)
+                all: ps("&:last-child", SLIDER_LAST_ITEM_PADDING),
+                M: ps("&:last-child", SLIDER_LAST_ITEM_PADDING_M)
               }}
               mgx={{ all: 12, M: 4 }}
-              width={{ all: pxToRem(image.fields.file.details.image.width / 2), M: '85vw' }}
+              width={{ all: pxToRem(image.fields.file.details.image.width / 2), M: "85vw" }}
             >
               {video ? (
                 <Box width>
-                  <VideoItem
-                    video={video}
-                    image={item.fields.image}
-                  />
+                  <VideoItem video={video} image={item.fields.image} />
                 </Box>
               ) : (
-                <Image
-                  src={image.fields.file.url}
-                  width
-                />
+                <Image src={image.fields.file.url} width />
               )}
             </LazyMount>
-          )
+          );
         })}
       </InlineFlexBox>
     </SliderContentBox>
-  )
-}
+  );
+};
 
-export default SliderContent
+export default SliderContent;
